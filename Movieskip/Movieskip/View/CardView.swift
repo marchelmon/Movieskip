@@ -17,7 +17,7 @@ class CardView: UIView {
     
     //MARK: - Properties
     
-    private let userView: UIImageView = {
+    private let imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         return iv
@@ -38,9 +38,9 @@ class CardView: UIView {
         clipsToBounds = true
         backgroundColor = .purple
         
-        addSubview(userView)
+        addSubview(imageView)
         
-        userView.fillSuperview()
+        imageView.fillSuperview()
         
         configureGestureRecognizers()
         
