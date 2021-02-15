@@ -34,6 +34,17 @@ class HomeController: UIViewController {
         cardView.fillSuperview()
         topCard = cardView
         
+        let filter = Filter()
+        TmdbService.fetchMovies(filter: filter, completion: { movies in
+            movies.forEach({ movie in
+                print(movie.title)
+            })
+        })
+        
+        TmdbService.fetchMovie(withId: "504949") { movie in
+            print(movie.rating)
+        }
+        
         configureUI()
         
         
