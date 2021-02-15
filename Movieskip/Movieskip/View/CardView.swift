@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 
 enum SwipeDirection: Int {
@@ -17,32 +18,54 @@ class CardView: UIView {
     
     //MARK: - Properties
     
+    var viewModel: CardViewModel
+    
+    private let gradientLayer = CAGradientLayer()
+    
     private let imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         return iv
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "Jag vill vara din margaretea"
+        label.attributedText = viewModel.movieInfoText
         return label
     } ()
     
+    private lazy var infoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "info_icon").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleShowMovieDetails), for: .touchUpInside)
+        return button
+    }()
+    
     //MARK: - Lifecycle
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(viewModel: CardViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
         
         layer.cornerRadius = 10
         clipsToBounds = true
-        backgroundColor = .purple
+        backgroundColor = .white
+        
+        imageView.sd_setImage(with: viewModel.poster)
         
         addSubview(imageView)
-        
         imageView.fillSuperview()
         
         configureGestureRecognizers()
+        configureGradientLayer()
+        
+        addSubview(infoLabel)
+        infoLabel.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 16, paddingRight: 16)
+        
+        addSubview(infoButton)
+        infoButton.setDimensions(height: 40, width: 40)
+        infoButton.centerY(inView: infoLabel)
+        infoButton.anchor(right: rightAnchor, paddingRight: 16)
         
     }
 
@@ -51,6 +74,10 @@ class CardView: UIView {
     }
     
     //MARK: - Actions
+    
+    @objc func handleShowMovieDetails() {
+        
+    }
     
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
         
@@ -107,6 +134,12 @@ class CardView: UIView {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleGoToMovieInfo))
         addGestureRecognizer(tap)
+    }
+    
+    func configureGradientLayer() {
+        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradientLayer.locations = [0.5, 1.1]
+        layer.addSublayer(gradientLayer)
     }
     
 }

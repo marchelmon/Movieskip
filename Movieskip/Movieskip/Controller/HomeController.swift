@@ -29,28 +29,34 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cardView = CardView()
-        deckView.addSubview(cardView)
-        cardView.fillSuperview()
-        topCard = cardView
+        configureUI()
+        fetchMovie()
         
+    }
+    
+    //MARK: - API
+    
+    func fetchMovie() {
+        TmdbService.fetchMovie(withId: "504949") { movie in
+            let viewModel = CardViewModel(movie: movie)
+            let cardView = CardView(viewModel: viewModel)
+            self.deckView.addSubview(cardView)
+            cardView.fillSuperview()
+            self.topCard = cardView
+        }
+    }
+    
+    func fetchMovies() {
         let filter = Filter()
         TmdbService.fetchMovies(filter: filter, completion: { movies in
             movies.forEach({ movie in
                 print(movie.title)
             })
         })
-        
-        TmdbService.fetchMovie(withId: "504949") { movie in
-            print(movie.rating)
-        }
-        
-        configureUI()
-        
-        
     }
     
-//MARK: - Helpers
+    
+    //MARK: - Helpers
     
     func configureUI() {
         view.backgroundColor = .white
