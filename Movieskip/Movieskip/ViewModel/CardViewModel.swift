@@ -33,7 +33,7 @@ struct CardViewModel {
         let attributedText = NSMutableAttributedString(
             string: movie.title,
             attributes: [
-                .font: UIFont.systemFont(ofSize: 28, weight: .heavy),
+                .font: UIFont.systemFont(ofSize: 18, weight: .heavy),
                 .foregroundColor: UIColor.white
             ]
         )
@@ -42,7 +42,7 @@ struct CardViewModel {
             NSAttributedString(
                 string: "  \(movie.rating)",
                 attributes: [
-                    .font: UIFont.systemFont(ofSize: 18),
+                    .font: UIFont.systemFont(ofSize: 12),
                     .foregroundColor: UIColor.white
                 ]
             )

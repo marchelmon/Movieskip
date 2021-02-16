@@ -12,6 +12,9 @@ class HomeController: UIViewController {
     //MARK: - Properties
     
     private var topCard: CardView?
+    private var viewModels = [CardViewModel]() {
+        didSet { configureCards() }
+    }
     
     private let topStack = HomeNavigationStackView()
     private let bottomStack = BottomControlsStackView()
@@ -29,10 +32,14 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bottomStack.delegate = self
+        
         configureUI()
-        fetchMovie()
+        //fetchMovie()
+        fetchMovies()
         
     }
+    
     
     //MARK: - API
     
@@ -47,35 +54,63 @@ class HomeController: UIViewController {
     }
     
     func fetchMovies() {
-        let filter = Filter()
-        TmdbService.fetchMovies(filter: filter, completion: { movies in
-            movies.forEach({ movie in
-                print(movie.title)
-            })
+        TmdbService.fetchMovies(filter: Filter(), completion: { movies in
+            self.viewModels = movies.map({ CardViewModel(movie: $0) })
         })
     }
     
     
     //MARK: - Helpers
     
+    func configureCards() {
+        for viewModel in viewModels {
+            let cardView = CardView(viewModel: viewModel)
+            deckView.addSubview(cardView)
+            cardView.fillSuperview()
+        }
+    }
+    
     func configureUI() {
         view.backgroundColor = .white
         
-        let stack = UIStackView(arrangedSubviews: [topStack, deckView, bottomStack])
-                
+        let stack = UIStackView(arrangedSubviews: [topStack, deckView , bottomStack])
+        
         view.addSubview(stack)
         
         stack.axis = .vertical
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
-        //KANSKE BEHÖVER ÄNDRAS, SÅ GJORDE HAN INTE I TUTORIAL: funkar det så funkar det....
-        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 30)
+        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 25)
         
         stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
+        stack.layoutMargins = .init(top: 0, left: 15, bottom: 0, right: 15)
         
         stack.bringSubviewToFront(deckView)
     }
+    
+}
 
+
+extension HomeController: BottomControlsStackViewDelegate {
+    func handleLike() {
+        print("Pressed like")
+    }
+    
+    func handleDislike() {
+        print("Pressed dislike")
+    }
+    
+    func handleShowFilter() {
+        let controller = FilterController()
+        //controller.delegate = self
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
+    func handleShowWatchlist() {
+        print("Pressed watchlist")
+    }
+    
     
 }

@@ -31,6 +31,7 @@ class CardView: UIView {
     private lazy var infoLabel: UILabel = {
         let label = UILabel()
         label.attributedText = viewModel.movieInfoText
+        label.numberOfLines = 2
         return label
     } ()
     
@@ -60,17 +61,20 @@ class CardView: UIView {
         configureGradientLayer()
         
         addSubview(infoLabel)
-        infoLabel.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 16, paddingRight: 16)
+        infoLabel.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 25, paddingRight: 16)
         
         addSubview(infoButton)
-        infoButton.setDimensions(height: 40, width: 40)
-        infoButton.centerY(inView: infoLabel)
-        infoButton.anchor(right: rightAnchor, paddingRight: 16)
+        infoButton.setDimensions(height: 35, width: 35)
+        infoButton.anchor(bottom: bottomAnchor, right: rightAnchor, paddingBottom: 12, paddingRight: 12)
         
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        gradientLayer.frame = self.frame
     }
     
     //MARK: - Actions

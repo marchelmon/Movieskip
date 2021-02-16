@@ -21,8 +21,11 @@ struct TmdbService {
             switch response.result {
             case .success(let value):
                 
-                let json = JSON(value)
-                //debugPrint(json["results"])
+                let data = JSON(value)["results"]
+                
+                movies = data.arrayValue.map({ Movie(data: $0) })
+                
+                completion(movies)
 
             case .failure(let error):
                 debugPrint(error)
