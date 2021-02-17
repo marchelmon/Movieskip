@@ -27,5 +27,8 @@ struct Filter {
         return requestString
     }
     
-    
 }
+
+
+
+

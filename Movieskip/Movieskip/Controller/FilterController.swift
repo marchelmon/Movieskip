@@ -10,7 +10,6 @@ import UIKit
 
 class FilterController: UIViewController {
     
-    private let numberOfSections = 3
     
     let dismissButton: UIButton = {
         let button = UIButton(type: .system)
@@ -21,7 +20,7 @@ class FilterController: UIViewController {
     } ()
     
     let releaseSliderView: UIView = {
-        let view = UIView(backgroundColor: .systemBlue)
+        let view = UIView(backgroundColor: .white)
         return view
     } ()
     
@@ -38,19 +37,9 @@ class FilterController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
 
-        let stack = UIStackView(arrangedSubviews: [releaseSliderView, ])
-        
-        view.addSubview(releaseSliderView)
-        
-        releaseSliderView.fillSuperview()
-        
-//        dismissButton.setDimensions(height: 100, width: 100)
-//        dismissButton.anchor(top: view.topAnchor, paddingTop: 100)
-        
-        
+        configureUI()
         
     }
     
@@ -59,6 +48,38 @@ class FilterController: UIViewController {
     
     @objc func handleDismiss() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func handleReleaseYearChanged(sender: UISlider) {
+        
+    }
+    
+    @objc func handleCancel() {
+        
+    }
+    
+    @objc func handleSave() {
+        
+    }
+    
+    //MARK: - Helpers
+    
+    func configureUI() {
+        navigationItem.title = "Filter"
+        navigationController?.navigationBar.tintColor = .black
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
+        
+        
+        let filterView = FilterView()
+        
+        let viewModel = FilterViewModel(filter: Filter())
+        filterView.viewModel = viewModel
+        
+        view.addSubview(filterView)
+        filterView.fillSuperview()
+        
     }
     
 }

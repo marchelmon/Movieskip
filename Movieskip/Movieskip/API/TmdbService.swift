@@ -54,7 +54,3 @@ struct TmdbService {
     }
 }
 
-struct MovieData: Codable {
-    let name: String
-}
-

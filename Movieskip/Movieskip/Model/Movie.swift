@@ -19,7 +19,6 @@ struct Movie {
     
     
     init(data: JSON) {
-        
         self.id = data["id"].int ?? 0
         self.title = data["title"].string ?? "No title found"
         self.posterPath = data["poster_path"].string ?? nil
