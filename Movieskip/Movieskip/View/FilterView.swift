@@ -34,24 +34,30 @@ class FilterView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+                
         
         addSubview(minYearLabel)
         minYearLabel.centerX(inView: self)
         minYearLabel.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 20)
-        
+
         addSubview(minYearSlider)
-        minYearSlider.anchor(top: minYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingLeft: 25, paddingRight: 25)
-        
+        minYearSlider.anchor(top: minYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 30, paddingRight: 25)
+
         addSubview(maxYearLabel)
-        maxYearLabel.anchor(top: minYearSlider.bottomAnchor, left: leftAnchor, paddingTop: 15, paddingLeft: 20)
-        
+        maxYearLabel.anchor(top: minYearSlider.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 20)
+
         addSubview(maxYearSlider)
-        maxYearSlider.anchor(top: maxYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingLeft: 25, paddingRight: 25)
+        maxYearSlider.anchor(top: maxYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 30, paddingRight: 25)
+
         
-        let genreTable = createGenreTable()
+        let popularStack = UIStackView(arrangedSubviews: [popularText, popularToggle])
         
-        let collection = UICollectionView()
-        collection.cell
+        addSubview(popularStack)
+        popularStack.anchor(top: maxYearSlider.bottomAnchor, paddingTop: 30)
+        
+        popularText.anchor(left: leftAnchor, paddingLeft: 15)
+        popularToggle.anchor(right: rightAnchor, paddingRight: 15)
+                
         
     }
     
@@ -61,19 +67,13 @@ class FilterView: UIView {
     
     //MARK: - Actions
     
-    @objc func handleTogglePopular() {
-        
+    @objc func handleTogglePopular(sender: UISwitch) {
+        print("TOGGLED POPULAR")
+        print(sender.isOn)
     }
     
     
     //MARK: - Helpers
-    
-    func createGenreTable() -> UITableView{
-        let table = UITableView()
-        table.allowsMultipleSelection = true
-        
-        return table
-    }
     
     func configure() {
                 
@@ -89,3 +89,6 @@ class FilterView: UIView {
     
     
 }
+
+
+

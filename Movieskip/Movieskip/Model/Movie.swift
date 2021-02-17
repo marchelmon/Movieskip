@@ -30,23 +30,13 @@ struct Movie {
             data["genres"].arrayValue.forEach({ value in
                 guard let id = value["id"].int else { return }
                 guard let name = value["name"].string else { return }
-                let genre = Genre(name: name, id: id)
+                let genre = Genre(id: id, name: name)
                 genres.append(genre)
             })
         }
         
     }
     
-}
-
-struct Genre {
-    let name: String
-    let id: Int
-    
-    init(name: String, id: Int) {
-        self.name = name
-        self.id = id
-    }
 }
 
 

@@ -7,33 +7,13 @@
 
 import UIKit
 
+private let cellIdentifier = "FilterCell"
 
-class FilterController: UIViewController {
+class FilterController: UITableViewController {
+        
+    var headerView = FilterView()
     
-    
-    let dismissButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Dismiss", for: .normal)
-        button.tintColor = #colorLiteral(red: 0.6176958476, green: 0.05836011096, blue: 0.1382402272, alpha: 1)
-        button.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
-        return button
-    } ()
-    
-    let releaseSliderView: UIView = {
-        let view = UIView(backgroundColor: .white)
-        return view
-    } ()
-    
-    let genreSelectView: UIView = {
-        let view = UIView(backgroundColor: .systemGreen)
-        return view
-    } ()
-    
-    let popularView: UIView = {
-        let view = UIView(backgroundColor: .systemPink)
-        return view
-    } ()
-    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,16 +26,12 @@ class FilterController: UIViewController {
     
     //MARK: - Actions
     
-    @objc func handleDismiss() {
-        dismiss(animated: true, completion: nil)
-    }
-    
     @objc func handleReleaseYearChanged(sender: UISlider) {
         
     }
     
     @objc func handleCancel() {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func handleSave() {
@@ -70,34 +46,54 @@ class FilterController: UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
+        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
+
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.tableHeaderView = headerView
         
-        
-        let filterView = FilterView()
-        
-        let viewModel = FilterViewModel(filter: Filter())
-        filterView.viewModel = viewModel
-        
-        view.addSubview(filterView)
-        filterView.fillSuperview()
+        headerView.viewModel = FilterViewModel(filter: Filter())
         
     }
     
 }
 
-//extension FilterController {
-//
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        return numberOfSections
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
-//    }
-//
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        print(indexPath.section)
-//        let cell = tableView.dequeueReusableCell(withIdentifier: resuseIdentifier, for: indexPath) as UITableViewCell
-//
-//        return cell
-//    }
-//}
+
+
+//MARK: - UITableViewDelegate
+
+extension FilterController {
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row != 0 {
+            if let cell = tableView.cellForRow(at: indexPath) {
+                cell.accessoryType = cell.accessoryType == .none ? .checkmark : .none
+            }
+        }
+    }
+    
+}
+
+//MARK: - UITableViewDataSource
+
+extension FilterController {
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return TMDB_GENRES.count + 1
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "Genres"
+        } else {
+            cell.textLabel?.text = TMDB_GENRES[indexPath.row - 1].name
+        }
+        return cell
+    }
+    
+}
