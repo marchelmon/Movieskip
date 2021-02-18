@@ -12,7 +12,6 @@ private let cellIdentifier = "FilterCell"
 class FilterController: UITableViewController {
         
     var headerView = FilterView()
-    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -35,7 +34,8 @@ class FilterController: UITableViewController {
     }
     
     @objc func handleSave() {
-        
+        let filter = headerView.viewModel.filter
+    
     }
     
     //MARK: - Helpers
@@ -55,6 +55,33 @@ class FilterController: UITableViewController {
         
     }
     
+    func setFilter() {
+        
+    }
+    
+    func addGenreToFilter(pressedGenre: String) -> Bool {
+        
+        let genreFromName = getGenreByName(genreName: pressedGenre)
+        let genresArray = headerView.viewModel.filter.genres
+
+        if genresArray.count == 0 {
+            headerView.viewModel.filter.genres.append(genreFromName)
+            return true
+        }
+        
+        for (index, genre) in genresArray.enumerated() {
+            if genre.name == pressedGenre {
+                headerView.viewModel.filter.genres.remove(at: index)
+                return false
+            }
+            if index == genresArray.endIndex - 1 {
+                headerView.viewModel.filter.genres.append(genreFromName)
+                return true
+            }
+        }
+        return false
+    }
+    
 }
 
 
@@ -66,7 +93,13 @@ extension FilterController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != 0 {
             if let cell = tableView.cellForRow(at: indexPath) {
-                cell.accessoryType = cell.accessoryType == .none ? .checkmark : .none
+                
+                guard let genreName = cell.textLabel?.text else { return }
+                
+                cell.accessoryType = addGenreToFilter(pressedGenre: genreName) ? .checkmark : .none
+                
+                print("Filter genre count: \(headerView.viewModel.filter.genres.count)")
+                
             }
         }
     }

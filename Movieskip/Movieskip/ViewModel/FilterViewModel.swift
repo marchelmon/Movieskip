@@ -11,11 +11,11 @@ struct FilterViewModel {
     var filter: Filter
     
     var minYearSliderValue: Float {
-        return Float(filter.minYear) ?? Float(2000)
+        return filter.minYear
     }
     
     var maxYearSliderValue: Float {
-        return Float(filter.maxYear) ?? Float(2021)
+        return filter.maxYear
     }
     
     var popular: Bool {

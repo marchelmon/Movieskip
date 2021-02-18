@@ -16,8 +16,8 @@ class FilterView: UIView {
     var minYearLabel = UILabel()
     var maxYearLabel = UILabel()
     
-    lazy var minYearSlider = UISlider()
-    lazy var maxYearSlider = UISlider()
+    lazy var minYearSlider = createYearRangeSlider(minimumYearSpan: 0)
+    lazy var maxYearSlider = createYearRangeSlider(minimumYearSpan: 5)
     
     let popularText: UILabel = {
         let label = UILabel()
@@ -35,7 +35,6 @@ class FilterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
                 
-        
         addSubview(minYearLabel)
         minYearLabel.centerX(inView: self)
         minYearLabel.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 20)
@@ -72,11 +71,19 @@ class FilterView: UIView {
         print(sender.isOn)
     }
     
+    @objc func handleSliderChanged(sender: UISlider) {
+        if sender == minYearSlider {
+            minYearLabel.text = viewModel.minYearText(forValue: sender.value)
+        } else {
+            maxYearLabel.text = viewModel.maxYearText(forValue: sender.value)
+        }
+    }
+    
     
     //MARK: - Helpers
     
     func configure() {
-                
+
         minYearLabel.text = viewModel.minYearText(forValue: viewModel.minYearSliderValue)
         maxYearLabel.text = viewModel.maxYearText(forValue: viewModel.maxYearSliderValue)
         
@@ -85,6 +92,14 @@ class FilterView: UIView {
     
         popularToggle.setOn(viewModel.popular, animated: true)
         
+    }
+    
+    func createYearRangeSlider(minimumYearSpan value: Float) -> UISlider  {
+        let slider = UISlider()
+        slider.minimumValue = 1950 + value
+        slider.maximumValue = 2016 + value
+        slider.addTarget(self, action: #selector(handleSliderChanged), for: .valueChanged)
+        return slider
     }
     
     

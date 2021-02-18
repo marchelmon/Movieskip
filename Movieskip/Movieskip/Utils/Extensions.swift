@@ -28,6 +28,20 @@ extension UIViewController {
     }
 }
 
+extension UIViewController {
+    
+    func getGenreByName(genreName: String) -> Genre {
+        
+        for (index, genre) in TMDB_GENRES.enumerated() {
+            if genreName == genre.name {
+                return TMDB_GENRES[index]
+            }
+        }
+        return TMDB_GENRES[0]
+    }
+    
+}
+
 extension UIView {
     
     func anchor(top: NSLayoutYAxisAnchor? = nil,

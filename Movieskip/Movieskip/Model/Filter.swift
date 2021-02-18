@@ -8,20 +8,30 @@
 import Foundation
 
 struct Filter {
-    var genres: [String] = []
-    var minYear: String = "1990-01-01"
-    var maxYear: String = "2022-01-01"
+    var genres = [Genre]()
+    var minYear: Float = 2010
+    var maxYear: Float = 2021
     var popular: Bool = true
     
+    var minYearString: String {
+        let string = "\(String(Int(minYear) + 1))-01-01"
+        return string
+    }
+    
+    var maxYearString: String {
+        let string = "\(String(Int(maxYear) + 1))-01-01"
+        return string
+    }
+    
     func prepareFilterString() -> String {
-        var requestString: String = "&language=en&release_date.gte=\(minYear)&release_date.lte=\(maxYear)"
+        var requestString: String = "&language=en&release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)"
         requestString.append(popular ? "&vote_average.gte=7" : "")
         requestString.append(popular ? "&vote_count.gte=1000" : "&vote_count.gte=100")
         
         if genres.count != 0 {
-            requestString.append("&with_genres")
+            requestString.append("&with_genres=")
             self.genres.forEach { genre in
-                requestString.append("\(genre),")
+                requestString.append("\(genre.id)|")
             }
         }
         return requestString
