@@ -11,6 +11,8 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
+    private var filter: Filter?
+    
     private var topCard: CardView?
     private var viewModels = [CardViewModel]() {
         didSet { configureCards() }
@@ -38,10 +40,16 @@ class HomeController: UIViewController {
         //fetchMovie()
         fetchMovies()
         
+        fetchFilterAndMovies()
+        
     }
     
     
     //MARK: - API
+    
+    func fetchFilterAndMovies() {
+        
+    }
     
     func fetchMovie() {
         TmdbService.fetchMovie(withId: "504949") { movie in
@@ -113,4 +121,12 @@ extension HomeController: BottomControlsStackViewDelegate {
     }
     
     
+}
+
+
+extension HomeController: FilterControllerDelegate {
+    func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter) {
+        self.filter = filter
+        controller.dismiss(animated: true, completion: nil)
+    }
 }

@@ -9,8 +9,14 @@ import UIKit
 
 private let cellIdentifier = "FilterCell"
 
+protocol FilterControllerDelegate: class {
+    func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter)
+}
+
 class FilterController: UITableViewController {
         
+    weak var delegate: FilterControllerDelegate?
+    
     var headerView = FilterView()
     //MARK: - Lifecycle
     
@@ -34,8 +40,11 @@ class FilterController: UITableViewController {
     }
     
     @objc func handleSave() {
-        let filter = headerView.viewModel.filter
-    
+        if headerView.viewModel.filter.minYear > headerView.viewModel.filter.maxYear {
+            headerView.viewModel.filter.minYear = 2010
+            headerView.viewModel.filter.maxYear = 2021
+        }
+        delegate?.filterController(controller: self, wantsToUpdateFilter: headerView.viewModel.filter)
     }
     
     //MARK: - Helpers
@@ -52,10 +61,6 @@ class FilterController: UITableViewController {
         tableView.tableHeaderView = headerView
         
         headerView.viewModel = FilterViewModel(filter: Filter())
-        
-    }
-    
-    func setFilter() {
         
     }
     
@@ -93,13 +98,8 @@ extension FilterController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != 0 {
             if let cell = tableView.cellForRow(at: indexPath) {
-                
                 guard let genreName = cell.textLabel?.text else { return }
-                
                 cell.accessoryType = addGenreToFilter(pressedGenre: genreName) ? .checkmark : .none
-                
-                print("Filter genre count: \(headerView.viewModel.filter.genres.count)")
-                
             }
         }
     }

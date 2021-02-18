@@ -55,7 +55,7 @@ class FilterView: UIView {
         popularStack.anchor(top: maxYearSlider.bottomAnchor, paddingTop: 30)
         
         popularText.anchor(left: leftAnchor, paddingLeft: 15)
-        popularToggle.anchor(right: rightAnchor, paddingRight: 15)
+        popularToggle.anchor(right: rightAnchor, paddingRight: 25)
                 
         
     }
@@ -67,15 +67,16 @@ class FilterView: UIView {
     //MARK: - Actions
     
     @objc func handleTogglePopular(sender: UISwitch) {
-        print("TOGGLED POPULAR")
-        print(sender.isOn)
+        viewModel.filter.popular = sender.isOn
     }
     
     @objc func handleSliderChanged(sender: UISlider) {
+        let newValue = sender.value
+        
         if sender == minYearSlider {
-            minYearLabel.text = viewModel.minYearText(forValue: sender.value)
+            minYearLabel.text = viewModel.minYearText(forValue: newValue)
         } else {
-            maxYearLabel.text = viewModel.maxYearText(forValue: sender.value)
+            maxYearLabel.text = viewModel.maxYearText(forValue: newValue)
         }
     }
     
