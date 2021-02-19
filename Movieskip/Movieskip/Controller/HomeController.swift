@@ -11,6 +11,7 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
+    
     private var filter: Filter?
     
     private var topCard: CardView?
@@ -40,6 +41,11 @@ class HomeController: UIViewController {
         //fetchMovie()
         fetchMovies()
         
+        
+        Service.fetchFilter { filter in
+            print("FILTER: \(filter)")
+        }
+        
         fetchFilterAndMovies()
         
     }
@@ -48,7 +54,7 @@ class HomeController: UIViewController {
     //MARK: - API
     
     func fetchFilterAndMovies() {
-        
+
     }
     
     func fetchMovie() {

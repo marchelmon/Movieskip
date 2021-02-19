@@ -10,6 +10,14 @@ import UIKit
 
 let MOVIESKIP_ICON: UIImage = #imageLiteral(resourceName: "app_icon").withRenderingMode(.alwaysOriginal)
 
+let USER_DEFAULTS_FILTER_KEY = "filter"
+
+let USER_DEFAULTS_GENRES_KEY = "genres"
+let USER_DEFAULTS_MINYEAR_KEY = "minYear"
+let USER_DEFAULTS_MAXYEAR_KEY = "maxYear"
+let USER_DEFAULTS_POPULAR_KEY = "popular"
+
+
 
 //MARK: - TMDB API 
 

@@ -328,7 +328,6 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.5.0)
-  - JGProgressHUD (2.0.4)
   - leveldb-library (1.22)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
@@ -347,7 +346,6 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Firestore
   - Firebase/Storage
-  - JGProgressHUD (~> 2.0.3)
   - SDWebImage (~> 4.4.2)
   - SwiftyJSON (~> 4.0)
 
@@ -370,7 +368,6 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
-    - JGProgressHUD
     - leveldb-library
     - nanopb
     - PromisesObjC
@@ -395,13 +392,12 @@ SPEC CHECKSUMS:
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  JGProgressHUD: 62658b14e72cccf179efc7a13bcb54d30b92fc22
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 64799ed4fed7adbe22eab85a3913cbfe64df935e
+PODFILE CHECKSUM: e2c772270e3dea0c73e8abb3d02b67dadac1eba0
 
 COCOAPODS: 1.10.0
