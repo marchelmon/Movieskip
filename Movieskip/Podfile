@@ -6,7 +6,7 @@ target 'Movieskip' do
   use_frameworks!
 
   # Pods for Movieskip
-
+  
     pod 'Firebase/Firestore'
     pod 'Firebase/Auth'
     pod 'Firebase/Storage'
@@ -15,4 +15,12 @@ target 'Movieskip' do
     pod 'SwiftyJSON', '~> 4.0'
     pod 'Alamofire', '~> 5.2'
 
+end
+
+post_install do |pi|
+    pi.pods_project.targets.each do |t|
+      t.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
+      end
+    end
 end
