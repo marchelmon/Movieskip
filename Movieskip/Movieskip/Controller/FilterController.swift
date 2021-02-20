@@ -17,13 +17,24 @@ class FilterController: UITableViewController {
         
     weak var delegate: FilterControllerDelegate?
     
-    var headerView = FilterView()
+    var filterView: FilterView
     //MARK: - Lifecycle
+    
+    init(filterView: FilterView) {
+        self.filterView = filterView
+        super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
+        
+    
+        
         configureUI()
         
     }
@@ -40,11 +51,11 @@ class FilterController: UITableViewController {
     }
     
     @objc func handleSave() {
-        if headerView.viewModel.filter.minYear > headerView.viewModel.filter.maxYear {
-            headerView.viewModel.filter.minYear = 2010
-            headerView.viewModel.filter.maxYear = 2021
+        if filterView.viewModel.filter.minYear > filterView.viewModel.filter.maxYear {
+            filterView.viewModel.filter.minYear = 2010
+            filterView.viewModel.filter.maxYear = 2021
         }
-        delegate?.filterController(controller: self, wantsToUpdateFilter: headerView.viewModel.filter)
+        delegate?.filterController(controller: self, wantsToUpdateFilter: filterView.viewModel.filter)
     }
     
     //MARK: - Helpers
@@ -55,32 +66,39 @@ class FilterController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
-        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
+        filterView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.tableHeaderView = headerView
-        
-        headerView.viewModel = FilterViewModel(filter: Filter())
-        
+        tableView.tableHeaderView = filterView
+                
     }
     
     func addGenreToFilter(pressedGenre: String) -> Bool {
         
         let genreFromName = getGenreByName(genreName: pressedGenre)
-        let genresArray = headerView.viewModel.filter.genres
+        let genresArray = filterView.viewModel.filter.genres
 
         if genresArray.count == 0 {
-            headerView.viewModel.filter.genres.append(genreFromName)
+            filterView.viewModel.filter.genres.append(genreFromName)
             return true
         }
         
         for (index, genre) in genresArray.enumerated() {
             if genre.name == pressedGenre {
-                headerView.viewModel.filter.genres.remove(at: index)
+                filterView.viewModel.filter.genres.remove(at: index)
                 return false
             }
             if index == genresArray.endIndex - 1 {
-                headerView.viewModel.filter.genres.append(genreFromName)
+                filterView.viewModel.filter.genres.append(genreFromName)
+                return true
+            }
+        }
+        return false
+    }
+    
+    func genreFoundInFilter(genreName: String) -> Bool {
+        for genre in filterView.viewModel.filter.genres {
+            if genre.name == genreName {
                 return true
             }
         }
@@ -124,7 +142,9 @@ extension FilterController {
         if indexPath.row == 0 {
             cell.textLabel?.text = "Genres"
         } else {
-            cell.textLabel?.text = TMDB_GENRES[indexPath.row - 1].name
+            let genreName = TMDB_GENRES[indexPath.row - 1].name
+            cell.textLabel?.text = genreName
+            cell.accessoryType = genreFoundInFilter(genreName: genreName) ? .checkmark : .none
         }
         return cell
     }

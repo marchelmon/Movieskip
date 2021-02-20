@@ -38,23 +38,17 @@ class HomeController: UIViewController {
         bottomStack.delegate = self
         
         configureUI()
-        //fetchMovie()
-        fetchMovies()
-        
-        
-        Service.fetchFilter { filter in
-            print("FILTER: \(filter)")
-        }
         
         fetchFilterAndMovies()
         
     }
     
-    
     //MARK: - API
     
     func fetchFilterAndMovies() {
-
+        Service.fetchFilter { filter in
+            self.fetchMovies(filter: filter)
+        }
     }
     
     func fetchMovie() {
@@ -67,12 +61,11 @@ class HomeController: UIViewController {
         }
     }
     
-    func fetchMovies() {
-        TmdbService.fetchMovies(filter: Filter(), completion: { movies in
+    func fetchMovies(filter: Filter) {
+        TmdbService.fetchMovies(filter: filter, completion: { movies in
             self.viewModels = movies.map({ CardViewModel(movie: $0) })
         })
     }
-    
     
     //MARK: - Helpers
     
@@ -115,8 +108,13 @@ extension HomeController: BottomControlsStackViewDelegate {
     }
     
     func handleShowFilter() {
-        let controller = FilterController()
-        //controller.delegate = self
+        
+        let currentFilter = self.filter ?? Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: true)
+        let filterView = FilterView()
+        filterView.viewModel = FilterViewModel(filter: currentFilter)
+        let controller = FilterController(filterView: filterView)
+        controller.delegate = self
+                
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
@@ -131,8 +129,12 @@ extension HomeController: BottomControlsStackViewDelegate {
 
 
 extension HomeController: FilterControllerDelegate {
+    
     func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter) {
         self.filter = filter
+        Service.saveFilter(filter: filter)
+        self.fetchMovies(filter: filter)
         controller.dismiss(animated: true, completion: nil)
     }
+    
 }

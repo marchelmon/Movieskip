@@ -19,18 +19,22 @@ struct Service  {
         UserDefaults.standard.set(filter.maxYear, forKey: USER_DEFAULTS_MAXYEAR_KEY)
         UserDefaults.standard.set(filter.popular, forKey: USER_DEFAULTS_POPULAR_KEY)
         
-        print("Filter should be saved")
     }
     
     static func fetchFilter(completion: @escaping(Filter) -> Void) {
         
-        let genresData = UserDefaults.standard.data(forKey: USER_DEFAULTS_GENRES_KEY)
-        let genres = try! JSONDecoder().decode([Genre].self, from: genresData!)
+        var genres: [Genre] = TMDB_GENRES
+        var minYear: Float = 2000
+        var maxYear: Float = 2021
+        var popular: Bool = false
         
-        let minYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MINYEAR_KEY)
-        let maxYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MAXYEAR_KEY)
-        let popular = UserDefaults.standard.bool(forKey: USER_DEFAULTS_POPULAR_KEY)
-        
+        if  let genresData = UserDefaults.standard.data(forKey: USER_DEFAULTS_GENRES_KEY) {
+            genres = try! JSONDecoder().decode([Genre].self, from: genresData)
+            minYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MINYEAR_KEY)
+            maxYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MAXYEAR_KEY)
+            popular = UserDefaults.standard.bool(forKey: USER_DEFAULTS_POPULAR_KEY)
+        }
+
         let filter = Filter(genres: genres, minYear: minYear, maxYear: maxYear, popular: popular)
         
         completion(filter)

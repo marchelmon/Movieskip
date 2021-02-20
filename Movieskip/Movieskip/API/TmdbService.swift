@@ -15,22 +15,27 @@ struct TmdbService {
     static func fetchMovies(filter: Filter, completion: @escaping([Movie]) -> Void) {
         var movies = [Movie]()
         
-        let url = "\(TMDB_DISCOVER_BASE)\(filter.prepareFilterString())"
+        let urlString = "\(TMDB_DISCOVER_BASE)\(filter.prepareFilterString())"
         
-        AF.request(url).responseJSON { (response) in
-            switch response.result {
-            case .success(let value):
-                
-                let data = JSON(value)["results"]
-                
-                movies = data.arrayValue.map({ Movie(data: $0) })
-                
-                completion(movies)
+        if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),let url = URL(string: encoded) {
 
-            case .failure(let error):
-                debugPrint(error)
+            AF.request(url).validate().responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    
+                    let data = JSON(value)["results"]
+                    
+                    movies = data.arrayValue.map({ Movie(data: $0) })
+                    
+                    completion(movies)
+
+                case .failure(let error):
+                    debugPrint(error)
+                }
             }
+            
         }
+        
             
     }
     

@@ -28,7 +28,6 @@ class FilterView: UIView {
     lazy var popularToggle: UISwitch = {
         let toggle = UISwitch()
         toggle.addTarget(self, action: #selector(handleTogglePopular), for: .touchUpInside)
-        
         return toggle
     }()
     
@@ -75,8 +74,10 @@ class FilterView: UIView {
         
         if sender == minYearSlider {
             minYearLabel.text = viewModel.minYearText(forValue: newValue)
+            viewModel.filter.minYear = sender.value
         } else {
             maxYearLabel.text = viewModel.maxYearText(forValue: newValue)
+            viewModel.filter.maxYear = sender.value
         }
     }
     

@@ -8,10 +8,10 @@
 import Foundation
 
 struct Filter {
-    var genres = [Genre]()
-    var minYear: Float = 2010
-    var maxYear: Float = 2021
-    var popular: Bool = false
+    var genres: [Genre]
+    var minYear: Float
+    var maxYear: Float
+    var popular: Bool
     
     var minYearString: String {
         let string = "\(String(Int(minYear) + 1))-01-01"
