@@ -47,6 +47,7 @@ class HomeController: UIViewController {
     
     func fetchFilterAndMovies() {
         Service.fetchFilter { filter in
+            self.filter = filter
             self.fetchMovies(filter: filter)
         }
     }
@@ -64,12 +65,16 @@ class HomeController: UIViewController {
     func fetchMovies(filter: Filter) {
         TmdbService.fetchMovies(filter: filter, completion: { movies in
             self.viewModels = movies.map({ CardViewModel(movie: $0) })
+            print("CARD COUNT: \(self.viewModels.count)")
         })
     }
     
     //MARK: - Helpers
     
     func configureCards() {
+        for view in deckView.subviews{
+            view.removeFromSuperview()
+        }
         for viewModel in viewModels {
             let cardView = CardView(viewModel: viewModel)
             deckView.addSubview(cardView)

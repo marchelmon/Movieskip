@@ -35,7 +35,7 @@ struct Service  {
             popular = UserDefaults.standard.bool(forKey: USER_DEFAULTS_POPULAR_KEY)
         }
 
-        let filter = Filter(genres: genres, minYear: minYear, maxYear: maxYear, popular: popular)
+        let filter = Filter(genres: genres, minYear: minYear, maxYear: maxYear, popular: popular)        
         
         completion(filter)
     }
