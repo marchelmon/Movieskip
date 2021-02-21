@@ -29,6 +29,8 @@
 		3C7DC87C25DABC6900FE7A61 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC87B25DABC6900FE7A61 /* CardViewModel.swift */; };
 		3C7DC87F25DBE12500FE7A61 /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC87E25DBE12500FE7A61 /* FilterController.swift */; };
 		3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B6B425DD8E00007A18B7 /* Genre.swift */; };
+		3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70825E15BA8007A18B7 /* DetailsController.swift */; };
+		3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70C25E16312007A18B7 /* Actor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +57,8 @@
 		3C7DC87B25DABC6900FE7A61 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		3C7DC87E25DBE12500FE7A61 /* FilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
 		3CF5B6B425DD8E00007A18B7 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		3CF5B70825E15BA8007A18B7 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
+		3CF5B70C25E16312007A18B7 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
 		502268EB0F1C64D984A3C228 /* Pods-Movieskip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.release.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.release.xcconfig"; sourceTree = "<group>"; };
 		6480692B5B29D739EAAB9C65 /* Pods-Movieskip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.debug.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.debug.xcconfig"; sourceTree = "<group>"; };
 		DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Movieskip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +143,7 @@
 			children = (
 				3C7DC7D125D67B5B00FE7A61 /* HomeController.swift */,
 				3C7DC87E25DBE12500FE7A61 /* FilterController.swift */,
+				3CF5B70825E15BA8007A18B7 /* DetailsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 				3C7DC80525D8237E00FE7A61 /* User.swift */,
 				3C7DC80925D825A500FE7A61 /* Filter.swift */,
 				3CF5B6B425DD8E00007A18B7 /* Genre.swift */,
+				3CF5B70C25E16312007A18B7 /* Actor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,11 +325,13 @@
 				3C7DC80D25D8273F00FE7A61 /* Service.swift in Sources */,
 				3C7DC7B325D6755B00FE7A61 /* SceneDelegate.swift in Sources */,
 				3C7DC80625D8237E00FE7A61 /* User.swift in Sources */,
+				3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */,
 				3C7DC7D225D67B5B00FE7A61 /* HomeController.swift in Sources */,
 				3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */,
 				3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */,
 				3C7DC7E625D6C27700FE7A61 /* CardView.swift in Sources */,
 				3C7DC7DE25D688AF00FE7A61 /* BottomControlsStackView.swift in Sources */,
+				3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

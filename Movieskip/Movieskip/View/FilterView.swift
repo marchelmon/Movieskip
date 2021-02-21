@@ -13,15 +13,28 @@ class FilterView: UIView {
         didSet { configure() }
     }
         
-    var minYearLabel = UILabel()
-    var maxYearLabel = UILabel()
+    var minYearLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Min year"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    var maxYearLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Max year"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    var minYearValueLabel = UILabel()
+    var maxYearValueLabel = UILabel()
     
     lazy var minYearSlider = createYearRangeSlider(minimumYearSpan: 0)
     lazy var maxYearSlider = createYearRangeSlider(minimumYearSpan: 5)
     
     let popularText: UILabel = {
         let label = UILabel()
-        label.text = "Popular movies only"
+        label.text = "Popular only"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     
@@ -34,18 +47,25 @@ class FilterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
                 
-        addSubview(minYearLabel)
-        minYearLabel.centerX(inView: self)
-        minYearLabel.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 20)
+        let minYearStack = UIStackView(arrangedSubviews: [minYearLabel, minYearValueLabel])
+        let maxYearStack = UIStackView(arrangedSubviews: [maxYearLabel, maxYearValueLabel])
+
+        
+        addSubview(minYearStack)
+        minYearStack.centerX(inView: self)
+        minYearStack.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
+        minYearValueLabel.anchor(right: minYearStack.rightAnchor)
 
         addSubview(minYearSlider)
-        minYearSlider.anchor(top: minYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 30, paddingRight: 25)
-
-        addSubview(maxYearLabel)
-        maxYearLabel.anchor(top: minYearSlider.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 20)
+        minYearSlider.anchor(top: minYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 7, paddingLeft: 30, paddingRight: 25)
+        
+        addSubview(maxYearStack)
+        maxYearStack.centerX(inView: self)
+        maxYearStack.anchor(top: minYearSlider.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
+        maxYearValueLabel.anchor(right: maxYearStack.rightAnchor)
 
         addSubview(maxYearSlider)
-        maxYearSlider.anchor(top: maxYearLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 30, paddingRight: 25)
+        maxYearSlider.anchor(top: maxYearStack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 7, paddingLeft: 30, paddingRight: 25)
 
         
         let popularStack = UIStackView(arrangedSubviews: [popularText, popularToggle])
@@ -53,7 +73,7 @@ class FilterView: UIView {
         addSubview(popularStack)
         popularStack.anchor(top: maxYearSlider.bottomAnchor, paddingTop: 30)
         
-        popularText.anchor(left: leftAnchor, paddingLeft: 15)
+        popularText.anchor(left: leftAnchor, paddingLeft: 20)
         popularToggle.anchor(right: rightAnchor, paddingRight: 25)
                 
         
@@ -73,10 +93,10 @@ class FilterView: UIView {
         let newValue = sender.value
         
         if sender == minYearSlider {
-            minYearLabel.text = viewModel.minYearText(forValue: newValue)
+            minYearValueLabel.text = viewModel.minYearText(forValue: newValue)
             viewModel.filter.minYear = sender.value
         } else {
-            maxYearLabel.text = viewModel.maxYearText(forValue: newValue)
+            maxYearValueLabel.text = viewModel.maxYearText(forValue: newValue)
             viewModel.filter.maxYear = sender.value
         }
     }
@@ -86,8 +106,9 @@ class FilterView: UIView {
     
     func configure() {
 
-        minYearLabel.text = viewModel.minYearText(forValue: viewModel.minYearSliderValue)
-        maxYearLabel.text = viewModel.maxYearText(forValue: viewModel.maxYearSliderValue)
+        minYearValueLabel.text = viewModel.minYearText(forValue: viewModel.minYearSliderValue)
+        maxYearValueLabel.text = viewModel.maxYearText(forValue: viewModel.maxYearSliderValue)
+
         
         minYearSlider.setValue(viewModel.minYearSliderValue, animated: true)
         maxYearSlider.setValue(viewModel.maxYearSliderValue, animated: true)

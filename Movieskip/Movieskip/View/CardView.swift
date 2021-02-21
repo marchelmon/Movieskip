@@ -14,11 +14,16 @@ enum SwipeDirection: Int {
     case right = 1
 }
 
+protocol CardViewDelegate: class {
+    func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie)
+}
+    
 class CardView: UIView {
     
     //MARK: - Properties
     
     var viewModel: CardViewModel
+    weak var delegate: CardViewDelegate?
     
     private let gradientLayer = CAGradientLayer()
     
@@ -79,9 +84,7 @@ class CardView: UIView {
     
     //MARK: - Actions
     
-    @objc func handleShowMovieDetails() {
-        
-    }
+
     
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
         
@@ -96,8 +99,11 @@ class CardView: UIView {
         }
     }
     
-    @objc func handleGoToMovieInfo() {
-        
+    @objc func handleShowMovieDetails() {
+        TmdbService.fetchMovieWithCast(withId: viewModel.movie.id) { movie in
+            //print("MOVIE WITH CAST: \(movie)")
+            //delegate?.cardView(self, wantsToShowDetailsFor: movie)
+        }
     }
     
     //MARK: - Helpers
@@ -136,7 +142,7 @@ class CardView: UIView {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture))
         addGestureRecognizer(pan)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleGoToMovieInfo))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleShowMovieDetails))
         addGestureRecognizer(tap)
     }
     

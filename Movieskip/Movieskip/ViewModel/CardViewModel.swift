@@ -5,23 +5,16 @@
 //  Created by marchelmon on 2021-02-15.
 //
 
-import Foundation
 import UIKit
 
 struct CardViewModel {
     
     let movie: Movie
-    let title: String
-    let relased: String
     let poster: URL?
-    let rating: String
     let movieInfoText: NSAttributedString
     
     init(movie: Movie) {
         self.movie = movie
-        self.title = movie.title
-        self.relased = movie.released
-        self.rating = String(movie.rating)
         
         if let posterPath = movie.posterPath {
             let posterString = TMDB_IMAGE_BASE + posterPath

@@ -16,6 +16,7 @@ struct Movie {
     let posterPath: String?
     let released: String
     var genres = [Genre]()
+    var actors = [Actor]()
     
     
     init(data: JSON) {
@@ -33,6 +34,16 @@ struct Movie {
                 let genre = Genre(id: id, name: name)
                 genres.append(genre)
             })
+        }
+        
+        let cast = data["credits"]["cast"].arrayValue
+        if !cast.isEmpty {
+            for index in 0...5 {
+                guard let name = cast[index]["name"].string else { return }
+                guard let photoPath = cast[index]["profile_path"].string else { return }
+                let actor = Actor(name: name, photoPath: photoPath)
+                actors.append(actor)
+            }
         }
         
     }

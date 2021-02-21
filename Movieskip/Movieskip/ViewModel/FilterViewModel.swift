@@ -23,11 +23,11 @@ struct FilterViewModel {
     }
     
     func minYearText(forValue value: Float) -> String {
-        return "Min year: \(Int(value))"
+        return "\(Int(value))"
     }
     
     func maxYearText(forValue value: Float) -> String {
-        return "Max year: \(Int(value))"
+        return "\(Int(value))"
     }
     
     

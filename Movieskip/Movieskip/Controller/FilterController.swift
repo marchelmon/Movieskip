@@ -66,7 +66,7 @@ class FilterController: UITableViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
-        filterView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
+        filterView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 270)
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.tableHeaderView = filterView
@@ -140,7 +140,8 @@ extension FilterController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         if indexPath.row == 0 {
-            cell.textLabel?.text = "Genres"
+            cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+            cell.textLabel?.text = "Genre"
         } else {
             let genreName = TMDB_GENRES[indexPath.row - 1].name
             cell.textLabel?.text = genreName

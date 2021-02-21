@@ -52,20 +52,19 @@ class HomeController: UIViewController {
         }
     }
     
-    func fetchMovie() {
-        TmdbService.fetchMovie(withId: "504949") { movie in
-            let viewModel = CardViewModel(movie: movie)
-            let cardView = CardView(viewModel: viewModel)
-            self.deckView.addSubview(cardView)
-            cardView.fillSuperview()
-            self.topCard = cardView
-        }
-    }
+//    func fetchMovie() {
+//        TmdbService.fetchMovie(withId: "504949") { movie in
+//            let viewModel = CardViewModel(movie: movie)
+//            let cardView = CardView(viewModel: viewModel)
+//            self.deckView.addSubview(cardView)
+//            cardView.fillSuperview()
+//            self.topCard = cardView
+//        }
+//    }
     
     func fetchMovies(filter: Filter) {
         TmdbService.fetchMovies(filter: filter, completion: { movies in
             self.viewModels = movies.map({ CardViewModel(movie: $0) })
-            print("CARD COUNT: \(self.viewModels.count)")
         })
     }
     
