@@ -33,29 +33,25 @@ struct TmdbService {
                     debugPrint(error)
                 }
             }
-            
         }
-        
-            
     }
     
-    static func fetchMovieWithCast(withId id: Int, completion: @escaping(Movie) -> Void) {
-        let url = "\(TMDB_MOVIE_BASE)\(id)?api_key=\(TMDB_API_KEY)&append_to_response=credits"
-                
+    static func fetchMovieWithDetails(withId id: Int, completion: @escaping(Movie) -> Void) {
+        let url = "\(TMDB_MOVIE_BASE)\(id)?api_key=\(TMDB_API_KEY)&append_to_response=credits,videos,images,reviews"
+                        
+        print("URL: \(url)")
+        
         AF.request(url).responseJSON { (response) in
             switch response.result {
             case .success(let value):
                 
                 
-                let movie = Movie(data: JSON(value))
-
-                print("ACTORS: \(movie.actors)")
                 
+                let movie = Movie(data: JSON(value))
                 completion(movie)
 
             case .failure(let error):
                 debugPrint(error)
-                
             }
         }
     }

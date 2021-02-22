@@ -100,9 +100,8 @@ class CardView: UIView {
     }
     
     @objc func handleShowMovieDetails() {
-        TmdbService.fetchMovieWithCast(withId: viewModel.movie.id) { movie in
-            //print("MOVIE WITH CAST: \(movie)")
-            //delegate?.cardView(self, wantsToShowDetailsFor: movie)
+        TmdbService.fetchMovieWithDetails(withId: viewModel.movie.id) { movie in
+            self.delegate?.cardView(self, wantsToShowDetailsFor: movie)
         }
     }
     

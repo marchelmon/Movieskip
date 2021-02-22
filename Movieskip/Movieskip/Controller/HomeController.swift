@@ -52,16 +52,6 @@ class HomeController: UIViewController {
         }
     }
     
-//    func fetchMovie() {
-//        TmdbService.fetchMovie(withId: "504949") { movie in
-//            let viewModel = CardViewModel(movie: movie)
-//            let cardView = CardView(viewModel: viewModel)
-//            self.deckView.addSubview(cardView)
-//            cardView.fillSuperview()
-//            self.topCard = cardView
-//        }
-//    }
-    
     func fetchMovies(filter: Filter) {
         TmdbService.fetchMovies(filter: filter, completion: { movies in
             self.viewModels = movies.map({ CardViewModel(movie: $0) })
@@ -76,6 +66,7 @@ class HomeController: UIViewController {
         }
         for viewModel in viewModels {
             let cardView = CardView(viewModel: viewModel)
+            cardView.delegate = self
             deckView.addSubview(cardView)
             cardView.fillSuperview()
         }
@@ -141,4 +132,12 @@ extension HomeController: FilterControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension HomeController: CardViewDelegate {
+    func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie) {
+        let controller = DetailsController(movie: movie)
+        controller.modalPresentationStyle = .fullScreen
+        present(controller, animated: true, completion: nil)
+    }
 }

@@ -11,7 +11,7 @@ class DetailsController: UIViewController {
     
     //MARK: - Properties
     
-    private var movie: Movie?
+    private var movie: Movie
     
     //MARK: - Lifecycle
     
@@ -26,5 +26,12 @@ class DetailsController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //print("ACTORS: \(movie.actors)")
+        
+        view.backgroundColor = .white
+        
     }
+    
+    
 }

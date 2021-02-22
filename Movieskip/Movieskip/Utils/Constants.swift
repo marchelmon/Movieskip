@@ -26,6 +26,8 @@ let TMDB_DISCOVER_BASE: String = "https://api.themoviedb.org/3/discover/movie?ap
 let TMDB_MOVIE_BASE: String = "https://api.themoviedb.org/3/movie/"  // + MovieId?api_key=TMDB_API_KEY
 let TMDB_IMAGE_BASE: String = "https://image.tmdb.org/t/p/w500" //Plus poster path
 
+let YOUTUBE_STARTING_PATH: String = "https://youtube.com/watch?v="
+
 let TMDB_GENRES: [Genre] = [
     Genre(id: 28, name: "Action"),
     Genre(id: 12, name: "Adventure"),
