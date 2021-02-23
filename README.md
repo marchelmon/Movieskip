@@ -1,2 +1,2 @@
 # Movieskip
-Works pretty much like tinder but for finding Movies to watch
+Swipe and find movies to put in your watchlist
