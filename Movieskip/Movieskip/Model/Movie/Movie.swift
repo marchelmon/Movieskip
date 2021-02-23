@@ -15,12 +15,12 @@ struct Movie {
     let overview: String
     let posterPath: String?
     let released: String
-    
+    var images = [String]()
+    var reviews = [String]()
     var trailer: String?
     var genres = [Genre]()
     var actors = [Actor]()
-    var images = [String]()     //Antagligen INTE med
-    var reviews = [String]()
+
         
     init(data: JSON) {
         self.id = data["id"].int ?? 0
@@ -29,20 +29,14 @@ struct Movie {
         self.rating = data["vote_average"].double ?? 5.0
         self.released = data["release_date"].string ?? "Not available"
         self.overview = data["overview"].string ?? "No description available"
-  
+        self.images = data["images"]["backdrops"].arrayValue.map({ $0["file_path"].string ?? "" })
+        self.reviews = data["reviews"]["results"].arrayValue.map({ $0["content"].stringValue })
         
         
         if let videos = data["videos"]["results"].array {
             trailer = videos[0]["key"].string
         }
         
-        if let vid = trailer {
-            print("TRAILER: \(YOUTUBE_STARTING_PATH)\(vid)")
-        }
-        
-        self.images = data["images"]["backdrops"].arrayValue.map({ $0["file_path"].string ?? "" })
-        self.reviews = data["reviews"]["results"].arrayValue.map({ $0["content"].stringValue })
-                
         if !data["genres"].arrayValue.isEmpty {
             data["genres"].arrayValue.forEach({ value in
                 guard let id = value["id"].int else { return }

@@ -137,7 +137,8 @@ extension HomeController: FilterControllerDelegate {
 extension HomeController: CardViewDelegate {
     func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie) {
         let controller = DetailsController(movie: movie)
-        controller.modalPresentationStyle = .fullScreen
-        present(controller, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
 }

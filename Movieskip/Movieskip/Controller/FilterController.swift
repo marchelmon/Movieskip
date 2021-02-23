@@ -18,6 +18,7 @@ class FilterController: UITableViewController {
     weak var delegate: FilterControllerDelegate?
     
     var filterView: FilterView
+    
     //MARK: - Lifecycle
     
     init(filterView: FilterView) {
@@ -32,8 +33,6 @@ class FilterController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-    
         
         configureUI()
         

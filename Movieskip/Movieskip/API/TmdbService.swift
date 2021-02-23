@@ -38,9 +38,7 @@ struct TmdbService {
     
     static func fetchMovieWithDetails(withId id: Int, completion: @escaping(Movie) -> Void) {
         let url = "\(TMDB_MOVIE_BASE)\(id)?api_key=\(TMDB_API_KEY)&append_to_response=credits,videos,images,reviews"
-                        
-        print("URL: \(url)")
-        
+                                
         AF.request(url).responseJSON { (response) in
             switch response.result {
             case .success(let value):
