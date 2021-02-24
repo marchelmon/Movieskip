@@ -13,7 +13,7 @@ struct Movie {
     let title: String
     let rating: Double
     let overview: String
-    let posterPath: String?
+    var posterPath: String?
     let released: String
     var images = [String]()
     var reviews = [String]()
@@ -31,11 +31,10 @@ struct Movie {
         self.overview = data["overview"].string ?? "No description available"
         self.images = data["images"]["backdrops"].arrayValue.map({ $0["file_path"].string ?? "" })
         self.reviews = data["reviews"]["results"].arrayValue.map({ $0["content"].stringValue })
+            
         
-        
-        if let videos = data["videos"]["results"].array {
-            trailer = videos[0]["key"].string
-        }
+        let videos = data["videos"]["results"].arrayValue
+        self.trailer = videos.count != 0 ? videos[0]["key"].string : nil
         
         if !data["genres"].arrayValue.isEmpty {
             data["genres"].arrayValue.forEach({ value in
@@ -49,13 +48,13 @@ struct Movie {
         let cast = data["credits"]["cast"].arrayValue
         if !cast.isEmpty {
             for index in 0...5 {
+                if cast.count == index { break }
                 guard let name = cast[index]["name"].string else { return }
                 guard let photoPath = cast[index]["profile_path"].string else { return }
                 let actor = Actor(name: name, photoPath: photoPath)
                 actors.append(actor)
             }
         }
-        
     }
     
 }

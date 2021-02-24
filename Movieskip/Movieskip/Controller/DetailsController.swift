@@ -7,23 +7,18 @@
 
 import UIKit
 
-protocol DetailsControllerDelegate: class {
-    
-}
-
-
-class DetailsController: UITableViewController {
+class DetailsController: UIViewController {
     
     //MARK: - Properties
     
     private var movie: Movie
-    private lazy var headerView = DetailsHeader(movie: movie)
+    private lazy var detailsView = DetailsHeader(movie: movie)
     
     //MARK: - Lifecycle
     
     init(movie: Movie) {
         self.movie = movie
-        super.init(style: .plain)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -34,15 +29,15 @@ class DetailsController: UITableViewController {
         super.viewDidLoad()
         
         configureUI()
+        loadDetails()
         
     }
     
-    @objc func handleSave() {
-        
-    }
     
-    @objc func handleCancel() {
-        
+    //MARK: - Actions
+    
+    @objc func handleDone() {
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Helpers
@@ -51,20 +46,18 @@ class DetailsController: UITableViewController {
         navigationItem.title = "Movie details"
         navigationController?.navigationBar.tintColor = .black
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleSave))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
        
-        tableView.separatorStyle = .none
-        tableView.tableHeaderView = headerView
-        tableView.backgroundColor = .systemGroupedBackground
-        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
-
-
+        view.addSubview(detailsView)
+        
+        detailsView.fillSuperview()
+        
+//        tableView.tableHeaderView = headerView
+//        tableView.backgroundColor = .systemGroupedBackground
+//        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 500)
     }
     
-}
-
-//MARK: - TABLE VIEW DATA SOURCE AND DELEGATE
-
-extension DetailsController {
-        
+    func loadDetails() {
+    }
+    
 }

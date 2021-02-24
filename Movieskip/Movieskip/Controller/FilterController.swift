@@ -62,6 +62,7 @@ class FilterController: UITableViewController {
     func configureUI() {
         navigationItem.title = "Filter"
         navigationController?.navigationBar.tintColor = .black
+        tableView.separatorStyle = .none
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
