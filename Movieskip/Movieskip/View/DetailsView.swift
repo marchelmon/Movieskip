@@ -8,11 +8,13 @@
 import UIKit
 
 
-class DetailsHeader: UIView {
+class DetailsView: UIView {
     
     //MARK: - Properties
     
-    let movie: Movie
+    private let movie: Movie
+    
+    private let actorCollection = ActorCollection()
     
     let posterImage: UIImageView = {
         let iv = UIImageView()
@@ -48,6 +50,7 @@ class DetailsHeader: UIView {
         button.layer.borderWidth = 1
         button.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(handleShowTrailer), for: .touchUpInside)
         return button
     } ()
     
@@ -63,7 +66,7 @@ class DetailsHeader: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = movie.title
-        label.font = UIFont.systemFont(ofSize: 20, weight: .heavy)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         label.numberOfLines = 2
         label.textAlignment = .center
         return label
@@ -72,7 +75,24 @@ class DetailsHeader: UIView {
     lazy var overviewText: UILabel = {
         let label = UILabel()
         label.text = movie.overview
-        label.numberOfLines = 5
+        label.numberOfLines = 8
+        return label
+    }()
+    
+    let actorsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Actors"
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    let actorsList: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -114,6 +134,13 @@ class DetailsHeader: UIView {
         
         titleLabel.anchor(top: posterImage.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 20, paddingRight: 20)
         overviewText.anchor(top: titleLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 20, paddingRight: 20)
+        
+        addSubview(actorsLabel)
+
+        actorsLabel.anchor(top: overviewText.bottomAnchor, left: leftAnchor, paddingTop: 10, paddingLeft: 10)
+        
+        addSubview(actorsList)
+        actorsList.anchor(top: actorsLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 10, paddingRight: 10)
 
         for (index, genre) in movie.genres.enumerated() {
             if movie.genres.count == index + 1 {
@@ -122,7 +149,20 @@ class DetailsHeader: UIView {
                 genresLabel.text?.append("\(genre.name), ")
             }
         }
-    
+        
+        for (index, actor) in movie.actors.enumerated() {
+            if movie.actors.count == index + 1 {
+                actorsList.text?.append("\(actor.name)")
+            } else {
+                actorsList.text?.append("\(actor.name), ")
+            }
+        }
+                
+//        addSubview(actorCollection)
+//
+//        actorCollection.anchor(top: overviewText.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10)
+//        actorCollection.actors = movie.actors
+
     }
     
     required init?(coder: NSCoder) {
@@ -134,6 +174,13 @@ class DetailsHeader: UIView {
     
     @objc func handleDismiss() {
         print("SHOULD DISMISS!")
+    }
+    
+    @objc func handleShowTrailer() {
+        guard let trailerKey = movie.trailer else { return }
+        if let url = URL(string: "\(YOUTUBE_STARTING_PATH)\(trailerKey)") {
+            UIApplication.shared.open(url)
+        }
     }
     
     //MARK: - Helpers

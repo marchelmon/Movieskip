@@ -5,10 +5,18 @@
 //  Created by marchelmon on 2021-02-12.
 //
 
-import Foundation
+import Firebase
 import UIKit
 
+//MARK: - APP Icon
+
 let MOVIESKIP_ICON: UIImage = #imageLiteral(resourceName: "app_icon").withRenderingMode(.alwaysOriginal)
+
+//MARK: - Firebase Collection
+
+let COLLECTION_USERS = Firestore.firestore().collection("users")
+
+//MARK: - User defaults
 
 let USER_DEFAULTS_FILTER_KEY = "filter"
 let USER_DEFAULTS_GENRES_KEY = "genres"
@@ -16,7 +24,6 @@ let USER_DEFAULTS_MINYEAR_KEY = "minYear"
 let USER_DEFAULTS_MAXYEAR_KEY = "maxYear"
 let USER_DEFAULTS_POPULAR_KEY = "popular"
 let USER_DEFAULTS_PAGE_KEY = "page"
-
 
 
 //MARK: - TMDB API 

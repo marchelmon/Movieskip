@@ -47,11 +47,11 @@ struct Movie {
         
         let cast = data["credits"]["cast"].arrayValue
         if !cast.isEmpty {
-            for index in 0...5 {
+            for index in 0...10 {
                 if cast.count == index { break }
                 guard let name = cast[index]["name"].string else { return }
                 guard let photoPath = cast[index]["profile_path"].string else { return }
-                let actor = Actor(name: name, photoPath: photoPath)
+                let actor = Actor(name: name, photoPath: URL(string: photoPath))
                 actors.append(actor)
             }
         }

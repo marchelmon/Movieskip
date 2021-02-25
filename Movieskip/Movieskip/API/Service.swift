@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 
 struct Service  {
@@ -39,5 +40,39 @@ struct Service  {
         
         completion(filter)
     }
+    
+}
+
+
+
+//MARK: - AuthService
+
+struct AuthService {
+    
+    static func logUserIn(withEmail email: String, withPassword password: String, completion: AuthDataResultCallback?) {
+        Auth.auth().signIn(withEmail: email, password: password, completion: completion)
+    }
+    
+    static func registerUser(email: String, fullname: String, password: String, completion: @escaping ((Error?) -> Void)) {
+    
+            Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                if let error = error {
+                    print("DEBUG: error register to firebase, \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let uid = result?.user.uid else { return }
+                
+                let data = ["email": email, "fullname": fullname, "uid": uid] as [String : Any]
+                
+                
+                COLLECTION_USERS.document(uid).setData(data, completion: completion)
+                
+            }
+            
+        
+        
+    }
+    
     
 }

@@ -31,7 +31,15 @@
 		3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B6B425DD8E00007A18B7 /* Genre.swift */; };
 		3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70825E15BA8007A18B7 /* DetailsController.swift */; };
 		3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70C25E16312007A18B7 /* Actor.swift */; };
-		3CF5B71625E40ED4007A18B7 /* DetailsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B71525E40ED4007A18B7 /* DetailsHeader.swift */; };
+		3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B71525E40ED4007A18B7 /* DetailsView.swift */; };
+		3CF5B71F25E6B775007A18B7 /* ActorCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B71E25E6B774007A18B7 /* ActorCollection.swift */; };
+		3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72125E6BA1A007A18B7 /* ActorCell.swift */; };
+		3CF5B72925E7DB06007A18B7 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */; };
+		3CF5B72C25E7DEDF007A18B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CF5B72B25E7DEDF007A18B7 /* GoogleService-Info.plist */; };
+		3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */; };
+		3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */; };
+		3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */; };
+		3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75125E81986007A18B7 /* LoginController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,7 +68,15 @@
 		3CF5B6B425DD8E00007A18B7 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		3CF5B70825E15BA8007A18B7 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
 		3CF5B70C25E16312007A18B7 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
-		3CF5B71525E40ED4007A18B7 /* DetailsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeader.swift; sourceTree = "<group>"; };
+		3CF5B71525E40ED4007A18B7 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		3CF5B71E25E6B774007A18B7 /* ActorCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCollection.swift; sourceTree = "<group>"; };
+		3CF5B72125E6BA1A007A18B7 /* ActorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCell.swift; sourceTree = "<group>"; };
+		3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		3CF5B72B25E7DEDF007A18B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
+		3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		3CF5B75125E81986007A18B7 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		502268EB0F1C64D984A3C228 /* Pods-Movieskip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.release.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.release.xcconfig"; sourceTree = "<group>"; };
 		6480692B5B29D739EAAB9C65 /* Pods-Movieskip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.debug.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.debug.xcconfig"; sourceTree = "<group>"; };
 		DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Movieskip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +132,7 @@
 				3C7DC7C925D677AE00FE7A61 /* API */,
 				3C7DC7CD25D67A5C00FE7A61 /* Xcode-Default */,
 				3C7DC7BE25D6755E00FE7A61 /* Info.plist */,
+				3CF5B72B25E7DEDF007A18B7 /* GoogleService-Info.plist */,
 			);
 			path = Movieskip;
 			sourceTree = "<group>";
@@ -127,7 +144,9 @@
 				3C7DC7DD25D688AF00FE7A61 /* BottomControlsStackView.swift */,
 				3C7DC7E525D6C27700FE7A61 /* CardView.swift */,
 				3C49BA5F25DC2CA60069782B /* FilterView.swift */,
-				3CF5B71525E40ED4007A18B7 /* DetailsHeader.swift */,
+				3CF5B71525E40ED4007A18B7 /* DetailsView.swift */,
+				3CF5B71E25E6B774007A18B7 /* ActorCollection.swift */,
+				3CF5B72125E6BA1A007A18B7 /* ActorCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -137,6 +156,7 @@
 			children = (
 				3C7DC87B25DABC6900FE7A61 /* CardViewModel.swift */,
 				3C49BA6225DC2FC60069782B /* FilterViewModel.swift */,
+				3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -147,6 +167,8 @@
 				3C7DC7D125D67B5B00FE7A61 /* HomeController.swift */,
 				3C7DC87E25DBE12500FE7A61 /* FilterController.swift */,
 				3CF5B70825E15BA8007A18B7 /* DetailsController.swift */,
+				3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */,
+				3CF5B75125E81986007A18B7 /* LoginController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -165,6 +187,8 @@
 			children = (
 				3C7DC7D725D6826700FE7A61 /* Constants.swift */,
 				3C7DC7DA25D684A700FE7A61 /* Extensions.swift */,
+				3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */,
+				3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -269,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C7DC7BD25D6755E00FE7A61 /* LaunchScreen.storyboard in Resources */,
+				3CF5B72C25E7DEDF007A18B7 /* GoogleService-Info.plist in Resources */,
 				3C7DC7BA25D6755E00FE7A61 /* Assets.xcassets in Resources */,
 				3C7DC7B825D6755B00FE7A61 /* Main.storyboard in Resources */,
 			);
@@ -324,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C49BA6325DC2FC60069782B /* FilterViewModel.swift in Sources */,
+				3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */,
 				3C7DC87F25DBE12500FE7A61 /* FilterController.swift in Sources */,
 				3C7DC7D825D6826700FE7A61 /* Constants.swift in Sources */,
 				3C7DC7DB25D684A700FE7A61 /* Extensions.swift in Sources */,
@@ -332,16 +358,22 @@
 				3C7DC7B125D6755B00FE7A61 /* AppDelegate.swift in Sources */,
 				3C7DC81025D8336800FE7A61 /* TmdbService.swift in Sources */,
 				3C7DC87C25DABC6900FE7A61 /* CardViewModel.swift in Sources */,
+				3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */,
+				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
+				3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */,
+				3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */,
 				3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */,
 				3C7DC80D25D8273F00FE7A61 /* Service.swift in Sources */,
 				3C7DC7B325D6755B00FE7A61 /* SceneDelegate.swift in Sources */,
 				3C7DC80625D8237E00FE7A61 /* User.swift in Sources */,
+				3CF5B71F25E6B775007A18B7 /* ActorCollection.swift in Sources */,
 				3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */,
 				3C7DC7D225D67B5B00FE7A61 /* HomeController.swift in Sources */,
 				3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */,
 				3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */,
 				3C7DC7E625D6C27700FE7A61 /* CardView.swift in Sources */,
-				3CF5B71625E40ED4007A18B7 /* DetailsHeader.swift in Sources */,
+				3CF5B72925E7DB06007A18B7 /* RegistrationController.swift in Sources */,
+				3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */,
 				3C7DC7DE25D688AF00FE7A61 /* BottomControlsStackView.swift in Sources */,
 				3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */,
 			);

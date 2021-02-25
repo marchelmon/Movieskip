@@ -13,6 +13,7 @@ struct User {
     var username: String
     var watchlist: [Movie]
     var excluded: [Movie]
+    var skipped: [Movie]
     var friends: [User]
     var profileImage: String
 

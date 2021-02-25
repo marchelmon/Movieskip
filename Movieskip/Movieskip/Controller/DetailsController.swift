@@ -12,7 +12,7 @@ class DetailsController: UIViewController {
     //MARK: - Properties
     
     private var movie: Movie
-    private lazy var detailsView = DetailsHeader(movie: movie)
+    private lazy var detailsView = DetailsView(movie: movie)
     
     //MARK: - Lifecycle
     
@@ -49,12 +49,8 @@ class DetailsController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
        
         view.addSubview(detailsView)
-        
         detailsView.fillSuperview()
         
-//        tableView.tableHeaderView = headerView
-//        tableView.backgroundColor = .systemGroupedBackground
-//        headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 500)
     }
     
     func loadDetails() {

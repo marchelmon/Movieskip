@@ -4,7 +4,7 @@
 //
 //  Created by marchelmon on 2021-02-12.
 //
-
+import Firebase
 import UIKit
 
 class HomeController: UIViewController {
@@ -36,14 +36,24 @@ class HomeController: UIViewController {
         super.viewDidLoad()
         
         bottomStack.delegate = self
-        
         configureUI()
-        
         fetchFilterAndMovies()
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        checkIfUserIsLoggedIn()
+    }
+    
     //MARK: - API
+    
+    func checkIfUserIsLoggedIn() {
+        if Auth.auth().currentUser == nil {
+            presentRegisterController()
+        } else {
+            print("USER IS LOGGED IN ALREADY")
+        }
+    }
     
     func fetchFilterAndMovies() {
         Service.fetchFilter { filter in
@@ -90,8 +100,18 @@ class HomeController: UIViewController {
         stack.bringSubviewToFront(deckView)
     }
     
+    func presentRegisterController() {
+        DispatchQueue.main.async {
+            let controller = RegistrationController()
+            //controller.delegate = self
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalTransitionStyle = .flipHorizontal
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }
+    }
+    
 }
-
 
 extension HomeController: BottomControlsStackViewDelegate {
     func handleLike() {

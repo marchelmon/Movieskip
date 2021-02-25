@@ -9,5 +9,5 @@ import Foundation
 
 struct Actor {
     let name: String
-    let photoPath: String
+    let photoPath: URL?
 }
