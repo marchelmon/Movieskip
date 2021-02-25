@@ -103,7 +103,7 @@ class HomeController: UIViewController {
     func presentRegisterController() {
         DispatchQueue.main.async {
             let controller = RegistrationController()
-            //controller.delegate = self
+            controller.delegate = self
             let nav = UINavigationController(rootViewController: controller)
             nav.modalTransitionStyle = .flipHorizontal
             nav.modalPresentationStyle = .fullScreen
@@ -112,6 +112,8 @@ class HomeController: UIViewController {
     }
     
 }
+
+//MARK: - BottomControlsStackViewDelegate
 
 extension HomeController: BottomControlsStackViewDelegate {
     func handleLike() {
@@ -139,9 +141,9 @@ extension HomeController: BottomControlsStackViewDelegate {
         print("Pressed watchlist")
     }
     
-    
 }
 
+//MARK: - FilterControllerDelegate
 
 extension HomeController: FilterControllerDelegate {
     
@@ -154,11 +156,22 @@ extension HomeController: FilterControllerDelegate {
     
 }
 
+//MARK: - CardViewDelegate
+
 extension HomeController: CardViewDelegate {
     func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie) {
         let controller = DetailsController(movie: movie)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+}
+
+//MARK: - AutheticationDelegate
+
+extension HomeController: AuthenticationDelegate {
+    func authenticationComplete() {
+        dismiss(animated: true, completion: nil)
+        //Fetch user and
     }
 }

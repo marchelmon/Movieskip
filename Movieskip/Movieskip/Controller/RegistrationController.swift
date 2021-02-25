@@ -20,11 +20,11 @@ class RegistrationController: UIViewController {
     
     private let emailTextField = CustomTextField(placeholder: "Email")
     private let usernameTextField = CustomTextField(placeholder: "Username")
-    private let passwordTextField = CustomTextField(placeholder: "Password")
+    private let passwordTextField = CustomTextField(placeholder: "Password", secureText: true)
     
     private let authButton: AuthButton = {
         let button = AuthButton(type: .system)
-        button.setTitle("Register", for: .normal)
+        button.setTitle("Sign up", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
         button.addTarget(self, action: #selector(handleRegisterUser), for: .touchUpInside)
         return button
@@ -102,7 +102,9 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleShowLogin() {
-        navigationController?.popViewController(animated: true)
+        let controller = LoginController()
+        controller.delegate = delegate
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func handleSkipLogin() {
