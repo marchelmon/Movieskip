@@ -85,12 +85,12 @@ class RegistrationController: UIViewController {
         
     @objc func handleRegisterUser() {
         guard let email = emailTextField.text else { return }
-        guard let fullname = usernameTextField.text else { return }
+        guard let username = usernameTextField.text else { return }
         guard let password = passwordTextField.text else { return }
     
 //        let hud = JGProgressHUD(style: .dark)
 //        hud.show(in: view)
-        AuthService.registerUser(email: email, fullname: fullname, password: password) { error in
+        AuthService.registerUser(email: email, username: username, password: password) { error in
             if let error = error {
                 print("DEBUG: Error registring user, \(error)")
                 //hud.dismiss()
@@ -108,7 +108,7 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleSkipLogin() {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: - Helpers

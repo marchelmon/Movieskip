@@ -94,7 +94,7 @@ class LoginController: UIViewController {
     }
     
     @objc func handleSkipLogin() {
-        
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func textDidChange(sender: UITextField) {

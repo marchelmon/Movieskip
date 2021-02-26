@@ -11,7 +11,6 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
-    
     private var filter: Filter?
     
     private var topCard: CardView?
@@ -28,20 +27,18 @@ class HomeController: UIViewController {
         view.layer.cornerRadius = 10
         return view
     }()
+
     
+    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         bottomStack.delegate = self
         configureUI()
         fetchFilterAndMovies()
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         checkIfUserIsLoggedIn()
     }
     
@@ -51,7 +48,7 @@ class HomeController: UIViewController {
         if Auth.auth().currentUser == nil {
             presentRegisterController()
         } else {
-            print("USER IS LOGGED IN ALREADY")
+            print("USER IS LOGGED IN")
         }
     }
     
@@ -172,6 +169,6 @@ extension HomeController: CardViewDelegate {
 extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true, completion: nil)
-        //Fetch user and
+        //Fetch user and 
     }
 }

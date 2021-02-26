@@ -41,6 +41,15 @@ struct Service  {
         completion(filter)
     }
     
+    //Takes data stored in firebase with device id and turns it into user with authentication id
+    static func createUserFromDevice() {
+        //Take the scenedelegate user object
+        //Add email, username, password and uid
+        //Store new user in firebase user collection
+        //Delete device data from firebase? Test enough to make sure the new user has all the data
+    }
+    
+    
 }
 
 
@@ -53,26 +62,21 @@ struct AuthService {
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
     }
     
-    static func registerUser(email: String, fullname: String, password: String, completion: @escaping ((Error?) -> Void)) {
+    static func registerUser(email: String, username: String, password: String, completion: @escaping ((Error?) -> Void)) {
     
-            Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                if let error = error {
-                    print("DEBUG: error register to firebase, \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let uid = result?.user.uid else { return }
-                
-                let data = ["email": email, "fullname": fullname, "uid": uid] as [String : Any]
-                
-                
-                COLLECTION_USERS.document(uid).setData(data, completion: completion)
-                
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print("DEBUG: error register to firebase, \(error.localizedDescription)")
+                return
             }
+            guard let uid = result?.user.uid else { return }
             
-        
+            let data = ["email": email, "username": username, "uid": uid] as [String : Any]
+            
+            COLLECTION_USERS.document(uid).setData(data, completion: completion)
+            
+        }
         
     }
-    
     
 }
