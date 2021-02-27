@@ -180,10 +180,7 @@ extension HomeController: HomeNavigationStackViewDelegate {
     }
     
     func shouldShowSettings() {
-        let settingsHeader = SettingsHeader()
-        settingsHeader.viewModel = SettingsViewModel(user: sceneDelegate.user)
         let controller = SettingsController()
-                
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
