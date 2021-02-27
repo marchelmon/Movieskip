@@ -15,7 +15,7 @@ struct TmdbService {
     static func fetchMovies(filter: Filter, completion: @escaping([Movie]) -> Void) {
         var movies = [Movie]()
         
-        let urlString = "\(TMDB_DISCOVER_BASE)\(filter.prepareFilterString())"
+        let urlString = "\(TMDB_DISCOVER_BASE)\(filter.filterUrlString)"
         
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),let url = URL(string: encoded) {
 

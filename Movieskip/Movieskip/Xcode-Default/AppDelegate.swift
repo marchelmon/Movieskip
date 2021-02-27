@@ -15,9 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()
-        
-        //Fetch user and und update
-        
+                
         return true
     }
 

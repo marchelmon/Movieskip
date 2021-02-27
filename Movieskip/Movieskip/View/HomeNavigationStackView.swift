@@ -7,9 +7,16 @@
 
 import UIKit
 
+protocol HomeNavigationStackViewDelegate: class {
+    func shouldShowWatchlist()
+    func shouldShowSettings()
+}
+
 class HomeNavigationStackView: UIStackView {
     
     //MARK: - Properties
+    
+    weak var delegate: HomeNavigationStackViewDelegate?
 
     private lazy var movieskipIcon = UIImageView(image: MOVIESKIP_ICON)
     private let watchListButton = UIButton(type: .system)
@@ -26,6 +33,9 @@ class HomeNavigationStackView: UIStackView {
         watchListButton.setImage(#imageLiteral(resourceName: "super_like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
         settingsButton.setImage(#imageLiteral(resourceName: "top_left_profile").withRenderingMode(.alwaysOriginal), for: .normal)
         
+        watchListButton.addTarget(self, action: #selector(handleShowWatchlist), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(handleShowSettings), for: .touchUpInside)
+        
         
         [watchListButton, UIView(), movieskipIcon, UIView(), settingsButton].forEach { view in
             addArrangedSubview(view)
@@ -39,6 +49,16 @@ class HomeNavigationStackView: UIStackView {
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+ 
+    //MARK: - Actions
+    
+    @objc func handleShowWatchlist() {
+        delegate?.shouldShowWatchlist()
+    }
+    
+    @objc func handleShowSettings() {
+        delegate?.shouldShowSettings()
     }
     
 }

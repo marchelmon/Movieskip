@@ -19,6 +19,7 @@ class DetailsController: UIViewController {
     init(movie: Movie) {
         self.movie = movie
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -29,8 +30,6 @@ class DetailsController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        loadDetails()
-        
     }
     
     
@@ -51,9 +50,6 @@ class DetailsController: UIViewController {
         view.addSubview(detailsView)
         detailsView.fillSuperview()
         
-    }
-    
-    func loadDetails() {
     }
     
 }

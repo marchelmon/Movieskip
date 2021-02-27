@@ -23,7 +23,7 @@ struct Filter {
         return string
     }
     
-    func prepareFilterString() -> String {
+    var filterUrlString: String {
         var requestString: String = "&language=en&release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)"
         requestString.append(popular ? "&vote_average.gte=7" : "")
         requestString.append(popular ? "&vote_count.gte=500" : "&vote_count.gte=100")
@@ -36,6 +36,20 @@ struct Filter {
         }
         return requestString
     }
+    
+//    func prepareFilterString() -> String {
+//        var requestString: String = "&language=en&release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)"
+//        requestString.append(popular ? "&vote_average.gte=7" : "")
+//        requestString.append(popular ? "&vote_count.gte=500" : "&vote_count.gte=100")
+//        
+//        if genres.count != 0 {
+//            requestString.append("&with_genres=")
+//            self.genres.forEach { genre in
+//                requestString.append("\(genre.id)|")
+//            }
+//        }
+//        return requestString
+//    }
     
 }
 

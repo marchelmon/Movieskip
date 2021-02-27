@@ -11,7 +11,7 @@ protocol BottomControlsStackViewDelegate: class {
     func handleLike()
     func handleDislike()
     func handleShowFilter()
-    func handleShowWatchlist()
+    func handleAddWatchlist()
 }
 
 class BottomControlsStackView: UIStackView {
@@ -74,6 +74,6 @@ class BottomControlsStackView: UIStackView {
     }
     
     @objc func handleShowWatchlist() {
-        delegate?.handleShowWatchlist()
+        delegate?.handleAddWatchlist()
     }
 }

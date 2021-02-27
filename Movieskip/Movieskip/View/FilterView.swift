@@ -66,7 +66,6 @@ class FilterView: UIView {
 
         addSubview(maxYearSlider)
         maxYearSlider.anchor(top: maxYearStack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 7, paddingLeft: 30, paddingRight: 25)
-
         
         let popularStack = UIStackView(arrangedSubviews: [popularText, popularToggle])
         
@@ -75,7 +74,6 @@ class FilterView: UIView {
         
         popularText.anchor(left: leftAnchor, paddingLeft: 20)
         popularToggle.anchor(right: rightAnchor, paddingRight: 25)
-                
         
     }
     

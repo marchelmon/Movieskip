@@ -37,6 +37,7 @@ class HomeController: UIViewController {
         super.viewDidLoad()
 
         bottomStack.delegate = self
+        topStack.delegate = self
         configureUI()
         fetchFilterAndMovies()
         checkIfUserIsLoggedIn()
@@ -122,7 +123,6 @@ extension HomeController: BottomControlsStackViewDelegate {
     }
     
     func handleShowFilter() {
-        
         let currentFilter = self.filter ?? Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: true)
         let filterView = FilterView()
         filterView.viewModel = FilterViewModel(filter: currentFilter)
@@ -134,10 +134,9 @@ extension HomeController: BottomControlsStackViewDelegate {
         present(nav, animated: true, completion: nil)
     }
     
-    func handleShowWatchlist() {
-        print("Pressed watchlist")
+    func handleAddWatchlist() {
+        print("Pressed staa")
     }
-    
 }
 
 //MARK: - FilterControllerDelegate
@@ -170,5 +169,23 @@ extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true, completion: nil)
         //Fetch user and 
+    }
+}
+
+//MARK: - HomeNavigationStackViewDelegate
+
+extension HomeController: HomeNavigationStackViewDelegate {
+    func shouldShowWatchlist() {
+        
+    }
+    
+    func shouldShowSettings() {
+        let settingsHeader = SettingsHeader()
+        settingsHeader.viewModel = SettingsViewModel(user: sceneDelegate.user)
+        let controller = SettingsController()
+                
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
 }

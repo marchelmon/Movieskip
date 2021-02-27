@@ -41,6 +41,8 @@
 		3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */; };
 		3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75125E81986007A18B7 /* LoginController.swift */; };
 		3CF5B75525E8233B007A18B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */; };
+		3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75725E90137007A18B7 /* SettingsController.swift */; };
+		3CF5B75F25E93EDF007A18B7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75E25E93EDF007A18B7 /* SettingsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +81,8 @@
 		3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		3CF5B75125E81986007A18B7 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		3CF5B75725E90137007A18B7 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		3CF5B75E25E93EDF007A18B7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		502268EB0F1C64D984A3C228 /* Pods-Movieskip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.release.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.release.xcconfig"; sourceTree = "<group>"; };
 		6480692B5B29D739EAAB9C65 /* Pods-Movieskip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.debug.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.debug.xcconfig"; sourceTree = "<group>"; };
 		DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Movieskip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +164,7 @@
 				3C49BA6225DC2FC60069782B /* FilterViewModel.swift */,
 				3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */,
 				3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */,
+				3CF5B75E25E93EDF007A18B7 /* SettingsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 				3CF5B70825E15BA8007A18B7 /* DetailsController.swift */,
 				3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */,
 				3CF5B75125E81986007A18B7 /* LoginController.swift */,
+				3CF5B75725E90137007A18B7 /* SettingsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -363,7 +369,9 @@
 				3C7DC87C25DABC6900FE7A61 /* CardViewModel.swift in Sources */,
 				3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */,
 				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
+				3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */,
 				3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */,
+				3CF5B75F25E93EDF007A18B7 /* SettingsViewModel.swift in Sources */,
 				3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */,
 				3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */,
 				3C7DC80D25D8273F00FE7A61 /* Service.swift in Sources */,
