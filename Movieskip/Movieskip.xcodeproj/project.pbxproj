@@ -43,6 +43,8 @@
 		3CF5B75525E8233B007A18B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */; };
 		3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75725E90137007A18B7 /* SettingsController.swift */; };
 		3CF5B75F25E93EDF007A18B7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75E25E93EDF007A18B7 /* SettingsViewModel.swift */; };
+		3CF5B76725EA6C29007A18B7 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B76625EA6C28007A18B7 /* FriendsView.swift */; };
+		3CF5B76A25EBFFB7007A18B7 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +85,8 @@
 		3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		3CF5B75725E90137007A18B7 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		3CF5B75E25E93EDF007A18B7 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		3CF5B76625EA6C28007A18B7 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		502268EB0F1C64D984A3C228 /* Pods-Movieskip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.release.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.release.xcconfig"; sourceTree = "<group>"; };
 		6480692B5B29D739EAAB9C65 /* Pods-Movieskip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Movieskip.debug.xcconfig"; path = "Target Support Files/Pods-Movieskip/Pods-Movieskip.debug.xcconfig"; sourceTree = "<group>"; };
 		DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Movieskip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,6 +157,8 @@
 				3CF5B71525E40ED4007A18B7 /* DetailsView.swift */,
 				3CF5B71E25E6B774007A18B7 /* ActorCollection.swift */,
 				3CF5B72125E6BA1A007A18B7 /* ActorCell.swift */,
+				3CF5B76625EA6C28007A18B7 /* FriendsView.swift */,
+				3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -375,6 +381,7 @@
 				3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */,
 				3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */,
 				3C7DC80D25D8273F00FE7A61 /* Service.swift in Sources */,
+				3CF5B76725EA6C29007A18B7 /* FriendsView.swift in Sources */,
 				3C7DC7B325D6755B00FE7A61 /* SceneDelegate.swift in Sources */,
 				3C7DC80625D8237E00FE7A61 /* User.swift in Sources */,
 				3CF5B71F25E6B775007A18B7 /* ActorCollection.swift in Sources */,
@@ -387,6 +394,7 @@
 				3CF5B72925E7DB06007A18B7 /* RegistrationController.swift in Sources */,
 				3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */,
 				3C7DC7DE25D688AF00FE7A61 /* BottomControlsStackView.swift in Sources */,
+				3CF5B76A25EBFFB7007A18B7 /* ProfileView.swift in Sources */,
 				3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

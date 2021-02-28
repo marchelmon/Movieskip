@@ -11,6 +11,7 @@ import UIKit
 //MARK: - APP Icon
 
 let MOVIESKIP_ICON: UIImage = #imageLiteral(resourceName: "app_icon").withRenderingMode(.alwaysOriginal)
+let MAIN_COLOR = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
 
 //MARK: - Firebase Collection
 
