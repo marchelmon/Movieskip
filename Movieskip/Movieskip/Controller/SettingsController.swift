@@ -14,13 +14,12 @@ class SettingsController: UIViewController {
         
     private let friendsView = FriendsView()
     private let profileView = ProfileView()
-
     
     private let friendsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Friends", for: .normal)
         button.setTitleColor(MAIN_COLOR, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.addTarget(self, action: #selector(showFriends), for: .touchUpInside)
         return button
     }()
@@ -28,12 +27,12 @@ class SettingsController: UIViewController {
     private let profileButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Profile", for: .normal)
-        button.setTitleColor(MAIN_COLOR, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.addTarget(self, action: #selector(showProfile), for: .touchUpInside)
         return button
     }()
-    
+        
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -47,12 +46,18 @@ class SettingsController: UIViewController {
         let topButtonStack = UIStackView(arrangedSubviews: [UIView(), friendsButton, profileButton, UIView()])
         topButtonStack.backgroundColor = .white
         topButtonStack.distribution = .equalSpacing
+        topButtonStack.layer.borderColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        
         view.addSubview(topButtonStack)
-        topButtonStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, width: view.frame.width, height: 50)
+        topButtonStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, width: view.frame.width, height: 70)
         
         view.addSubview(friendsView)
         friendsView.anchor(top: topButtonStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+        
+        view.addSubview(profileView)
+        profileView.anchor(top: topButtonStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
+    
     
     //MARK: - Actions
     
@@ -61,14 +66,36 @@ class SettingsController: UIViewController {
     }
     
     @objc func showFriends() {
-        profileButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
+        friendsView.isHidden = false
+        profileView.isHidden = true
+        
+        let colorLine = UIView(frame: CGRect(x: 0, y: friendsButton.frame.height - 10, width: friendsButton.frame.width, height: 3))
+        colorLine.backgroundColor = MAIN_COLOR
+        
+        let grayLine = UIView(frame: CGRect(x: 0, y: profileButton.frame.height - 10, width: profileButton.frame.width, height: 3))
+        grayLine.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        
+        friendsButton.addSubview(colorLine)
+        profileButton.addSubview(grayLine)
+        
         friendsButton.setTitleColor(MAIN_COLOR, for: .normal)
+        profileButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
-    
-    @objc func showProfile() {
-        friendsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
-        profileButton.setTitleColor(MAIN_COLOR, for: .normal)
 
+    @objc func showProfile() {
+        friendsView.isHidden = true
+        profileView.isHidden = false
+        
+        let colorLine = UIView(frame: CGRect(x: 0, y: profileButton.frame.height - 10, width: profileButton.frame.width, height: 3))
+        colorLine.backgroundColor = MAIN_COLOR
+        let grayLine = UIView(frame: CGRect(x: 0, y: friendsButton.frame.height - 10 , width: friendsButton.frame.width, height: 3))
+        grayLine.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+       
+        profileButton.addSubview(colorLine)
+        friendsButton.addSubview(grayLine)
+        
+        profileButton.setTitleColor(MAIN_COLOR, for: .normal)
+        friendsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
     
 }
