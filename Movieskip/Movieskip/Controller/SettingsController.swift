@@ -8,10 +8,16 @@
 import UIKit
 import Firebase
 
+protocol SettingsControllerDelegate: class {
+    func settingsPressedLogout(controller: UIViewController)
+}
+
 class SettingsController: UIViewController {
             
     //MARK: - Properties
         
+    weak var delegate: SettingsControllerDelegate?
+    
     private let friendsView = FriendsView()
     private let profileView = ProfileView()
     
@@ -39,11 +45,10 @@ class SettingsController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         profileView.isHidden = true
+        profileView.delegate = self
         
-        configureUI()
-        
+        configureUI()        
     }
-    
     
     //MARK: - Actions
     
@@ -90,5 +95,9 @@ class SettingsController: UIViewController {
  
 }
 
-    
+extension SettingsController: SettingsProfileDelegate {
+    func handleLogout() {
+        delegate?.settingsPressedLogout(controller: self)
+    }
+}
 

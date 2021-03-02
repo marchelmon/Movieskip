@@ -8,11 +8,18 @@
 import UIKit
 import Firebase
 
+
+protocol SettingsProfileDelegate: class {
+    func handleLogout()
+}
+
 class ProfileView: UIView {
     
     //MARK: - Properties
         
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
+    weak var delegate: SettingsProfileDelegate?
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
@@ -101,7 +108,7 @@ class ProfileView: UIView {
     }
     
     @objc func handleLogout() {
-        print("Logout ? ?? ? ?")
+        delegate?.handleLogout()
     }
     
     @objc func handleRestore() {

@@ -66,6 +66,15 @@ class HomeController: UIViewController {
         })
     }
     
+    func logout() {
+        do {
+            try Auth.auth().signOut()
+            presentRegisterController()
+        } catch {
+            print("Failed to log user out")
+        }
+    }
+    
     //MARK: - Helpers
     
     func configureCards() {
@@ -181,8 +190,21 @@ extension HomeController: HomeNavigationStackViewDelegate {
     
     func shouldShowSettings() {
         let controller = SettingsController()
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
 }
+
+
+//MARK: - SettingsControllerDelegate
+
+extension HomeController: SettingsControllerDelegate {
+    func settingsPressedLogout(controller: UIViewController) {
+        print("LOGOITT")
+        controller.dismiss(animated: true, completion: nil)
+        logout()
+    }
+}
+
