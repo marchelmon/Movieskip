@@ -21,22 +21,25 @@ class FriendsView: UIView {
     private let searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Find friends"
-        textField.backgroundColor = #colorLiteral(red: 0.9511495308, green: 0.9511495308, blue: 0.9511495308, alpha: 1)
+        textField.backgroundColor = .white
         textField.layer.cornerRadius = 15
+        textField.layer.borderWidth = 2
+        textField.layer.borderColor = MAIN_COLOR.cgColor
         textField.leftViewMode = .always
         let leftView = UIView()
-        leftView.setDimensions(height: 30, width: 35)
+        leftView.setDimensions(height: 30, width: 38)
         let leftViewImage = UIImageView(image: UIImage(systemName: "magnifyingglass")?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal))
-        leftViewImage.setDimensions(height: 25, width: 25)
+        leftViewImage.setDimensions(height: 28, width: 28)
         leftView.addSubview(leftViewImage)
-        leftViewImage.anchor(left: leftView.leftAnchor)
+        leftViewImage.anchor(left: leftView.leftAnchor, paddingLeft: 5)
         textField.leftView = leftView
         return textField
     }()
     
     private let tableView: UITableView = {
         let table = UITableView()
-        table.separatorStyle = .none
+        table.backgroundColor = .systemGroupedBackground
+        table.layer.cornerRadius = 5
         return table
     }()
     
@@ -66,7 +69,7 @@ class FriendsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        let user1 = User(uid: "123", email: "sadas", username: "dsfdsf", watchlist: [], excluded: [], skipped: [], friends: [], profileImage: nil)
+        let user1 = User(uid: "123", email: "sadas", username: "dsfdsf", watchlist: [1,23], excluded: [1,2,3,4], skipped: [], friends: [], profileImage: nil)
         
         for i in 0...12 {
             sceneDelegate.addToExcluded(movie: i)
@@ -79,7 +82,7 @@ class FriendsView: UIView {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -95,7 +98,7 @@ class FriendsView: UIView {
     //MARK: - Helpers
     
     func configureUI() {
-        backgroundColor = .white
+        backgroundColor = .systemGroupedBackground
         
         if Auth.auth().currentUser != nil {
             showFriendsView()
@@ -108,16 +111,16 @@ class FriendsView: UIView {
     
     func showFriendsView() {
         addSubview(searchTextField)
-        searchTextField.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 20, paddingRight: 20, height: 40)
+        searchTextField.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 25, paddingRight: 25, height: 40)
         
         let friendsLabel = UILabel()
         friendsLabel.text = "Friends"
         friendsLabel.font = UIFont.boldSystemFont(ofSize: 18)
         addSubview(friendsLabel)
-        friendsLabel.anchor(top: searchTextField.bottomAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 20)
+        friendsLabel.anchor(top: searchTextField.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 20)
         
         addSubview(tableView)
-        tableView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingBottom: 30)
+        tableView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 10,paddingLeft: 20, paddingBottom: 30, paddingRight: 20)
     }
     
     func createCountLabel(count: Int) -> UILabel {
@@ -150,13 +153,16 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 60
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
-        cell.textLabel?.text = friends[indexPath.row].username
-        cell.textLabel?.textColor = MAIN_COLOR
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! FriendCell
+        let friend = friends[indexPath.row]
+    
+        cell.usernameLabel.text = friend.username
+        cell.watchlistCount.text = String(friend.watchListCount)
+        cell.excludeCount.text = String(friend.excludedCount)
         return cell
     }
 }
