@@ -38,24 +38,10 @@ class SettingsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        profileView.isHidden = true
         
-        navigationItem.title = "Settings"
-        navigationController?.navigationBar.tintColor = .black
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
-    
-        let topButtonStack = UIStackView(arrangedSubviews: [UIView(), friendsButton, profileButton, UIView()])
-        topButtonStack.backgroundColor = .white
-        topButtonStack.distribution = .equalSpacing
-        topButtonStack.layer.borderColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
+        configureUI()
         
-        view.addSubview(topButtonStack)
-        topButtonStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, width: view.frame.width, height: 70)
-        
-        view.addSubview(friendsView)
-        friendsView.anchor(top: topButtonStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
-        
-        view.addSubview(profileView)
-        profileView.anchor(top: topButtonStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
     }
     
     
@@ -69,15 +55,6 @@ class SettingsController: UIViewController {
         friendsView.isHidden = false
         profileView.isHidden = true
         
-        let colorLine = UIView(frame: CGRect(x: 0, y: friendsButton.frame.height - 10, width: friendsButton.frame.width, height: 3))
-        colorLine.backgroundColor = MAIN_COLOR
-        
-        let grayLine = UIView(frame: CGRect(x: 0, y: profileButton.frame.height - 10, width: profileButton.frame.width, height: 3))
-        grayLine.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-        
-        friendsButton.addSubview(colorLine)
-        profileButton.addSubview(grayLine)
-        
         friendsButton.setTitleColor(MAIN_COLOR, for: .normal)
         profileButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
@@ -86,18 +63,31 @@ class SettingsController: UIViewController {
         friendsView.isHidden = true
         profileView.isHidden = false
         
-        let colorLine = UIView(frame: CGRect(x: 0, y: profileButton.frame.height - 10, width: profileButton.frame.width, height: 3))
-        colorLine.backgroundColor = MAIN_COLOR
-        let grayLine = UIView(frame: CGRect(x: 0, y: friendsButton.frame.height - 10 , width: friendsButton.frame.width, height: 3))
-        grayLine.backgroundColor = #colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1)
-       
-        profileButton.addSubview(colorLine)
-        friendsButton.addSubview(grayLine)
-        
         profileButton.setTitleColor(MAIN_COLOR, for: .normal)
         friendsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
     
+    //MARK: - Helpers
+    
+    func configureUI() {
+        navigationItem.title = "Settings"
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
+    
+        let topButtonStack = UIStackView(arrangedSubviews: [UIView(), friendsButton, profileButton, UIView()])
+        topButtonStack.backgroundColor = .white
+        topButtonStack.distribution = .equalSpacing
+        
+        view.addSubview(topButtonStack)
+        topButtonStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, width: view.frame.width, height: 70)
+        
+        view.addSubview(friendsView)
+        friendsView.anchor(top: topButtonStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+        
+        view.addSubview(profileView)
+        profileView.anchor(top: topButtonStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+    }
+ 
 }
 
     

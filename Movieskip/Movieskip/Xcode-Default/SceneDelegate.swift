@@ -40,15 +40,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.user = user
     }
     
-    func addToWatchlist(movie: Movie) {
+    func addToWatchlist(movie: Int) {
         user.watchlist.append(movie)
     }
     
-    func addToExcluded(movie: Movie) {
+    func addToExcluded(movie: Int) {
         user.excluded.append(movie)
     }
     
-    func addToSwiped(movie: Movie) {
+    func addToSwiped(movie: Int) {
         user.skipped.append(movie)
     }
     

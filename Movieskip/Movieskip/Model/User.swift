@@ -11,9 +11,9 @@ struct User {
     let uid: String
     let email: String
     let username: String
-    var watchlist: [Movie]
-    var excluded: [Movie]
-    var skipped: [Movie]
+    var watchlist: [Int]
+    var excluded: [Int]
+    var skipped: [Int]
     var friends: [User]
     var profileImage: String?
 

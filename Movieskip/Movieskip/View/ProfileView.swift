@@ -16,12 +16,18 @@ class ProfileView: UIView {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(sceneDelegate.user.username)  and other data like email, watchlist count and exclude count"
+        label.text = "\(sceneDelegate.user.username) "
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
         label.textColor = MAIN_COLOR
         return label
     } ()
+    
+    private let userStatsView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     
     private let tmdbImage: UIImageView = {
         let iv = UIImageView()
@@ -95,10 +101,6 @@ class ProfileView: UIView {
         print("Should present register")
     }
     
-    @objc func handleDone() {
-        //dismiss(animated: true, completion: nil)
-    }
-    
     @objc func handleLogout() {
         print("Logout ? ?? ? ?")
     }
@@ -113,7 +115,7 @@ class ProfileView: UIView {
         backgroundColor = .white
         
         if Auth.auth().currentUser != nil {
-            addUserDetails()
+            addUserData()
         } else {
             showRegisterContent()
         }
@@ -121,14 +123,31 @@ class ProfileView: UIView {
         addTmdbAttribution()
     }
     
-    func addUserDetails() {
-        let detailsView = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 200))
-        detailsView.backgroundColor = .white
-        detailsView.addSubview(usernameLabel)
+    func createCountLabel(count: Int) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textColor = MAIN_COLOR
+        label.text = String(count)
+        return label
+    }
+    
+    func addUserData() {
+        addSubview(userStatsView)
+        userStatsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 200)
         
-        usernameLabel.anchor(top: detailsView.topAnchor, left: detailsView.leftAnchor, right: detailsView.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
-        addSubview(detailsView)
-        detailsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 50, height: 200)
+        let watchlistCountLabel = createCountLabel(count: sceneDelegate.user.watchListCount)
+        let excludedCountLabel = createCountLabel(count: sceneDelegate.user.excludedCount)
+        let friendsCountLabel = createCountLabel(count: sceneDelegate.user.friends.count)
+        
+        userStatsView.addSubview(usernameLabel)
+        userStatsView.addSubview(watchlistCountLabel)
+        userStatsView.addSubview(excludedCountLabel)
+        userStatsView.addSubview(friendsCountLabel)
+        
+        usernameLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 20)
+        watchlistCountLabel.anchor(top: usernameLabel.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 20)
+        excludedCountLabel.anchor(top: usernameLabel.bottomAnchor, right: watchlistCountLabel.leftAnchor, paddingTop: 10, paddingRight: 80)
+        friendsCountLabel.anchor(top: usernameLabel.bottomAnchor, right: excludedCountLabel.leftAnchor, paddingTop: 10, paddingRight: 80)
     }
     
     func showRegisterContent() {

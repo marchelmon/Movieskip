@@ -13,21 +13,32 @@ private let cellIdentifier = "FriendsCell"
 class FriendsView: UIView {
     
     //MARK: - Properties
+
+    private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     var friends = [User]()
         
-    private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    private let searchTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Find friends"
+        textField.backgroundColor = #colorLiteral(red: 0.9511495308, green: 0.9511495308, blue: 0.9511495308, alpha: 1)
+        textField.layer.cornerRadius = 15
+        textField.leftViewMode = .always
+        let leftView = UIView()
+        leftView.setDimensions(height: 30, width: 35)
+        let leftViewImage = UIImageView(image: UIImage(systemName: "magnifyingglass")?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal))
+        leftViewImage.setDimensions(height: 25, width: 25)
+        leftView.addSubview(leftViewImage)
+        leftViewImage.anchor(left: leftView.leftAnchor)
+        textField.leftView = leftView
+        return textField
+    }()
     
-    private let friendsTableView = UITableView(backgroundColor: .red)
-    
-    private lazy var usernameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "\(sceneDelegate.user.username)"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.numberOfLines = 0
-        label.textColor = MAIN_COLOR
-        return label
-    } ()
+    private let tableView: UITableView = {
+        let table = UITableView()
+        table.separatorStyle = .none
+        return table
+    }()
     
     private let shouldRegisterText: UILabel = {
         let label = UILabel()
@@ -37,9 +48,8 @@ class FriendsView: UIView {
         label.textColor = MAIN_COLOR
         return label
     } ()
-    
-    
-    private var registerButton: UIButton = {
+        
+    private let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
         button.setTitleColor(MAIN_COLOR, for: .normal)
@@ -57,20 +67,19 @@ class FriendsView: UIView {
         super.init(frame: .zero)
         
         let user1 = User(uid: "123", email: "sadas", username: "dsfdsf", watchlist: [], excluded: [], skipped: [], friends: [], profileImage: nil)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
-        friends.append(user1)
+        
+        for i in 0...12 {
+            sceneDelegate.addToExcluded(movie: i)
+            sceneDelegate.addToWatchlist(movie: i)
+            friends.append(user1)
+
+        }
     
         configureUI()
         
-        friendsTableView.delegate = self
-        friendsTableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     required init?(coder: NSCoder) {
@@ -83,36 +92,40 @@ class FriendsView: UIView {
         print("Should present register")
     }
     
-    @objc func handleLogout() {
-        print("Logout ? ?? ? ?")
-    }
-    
-    @objc func handleRestore() {
-        print("Restore purchase!")
-    }
-    
     //MARK: - Helpers
     
     func configureUI() {
         backgroundColor = .white
         
         if Auth.auth().currentUser != nil {
-            addUserName()
-            showFriendsTableView()
+            showFriendsView()
         } else {
             showRegisterContent()
         }
     }
     
-    func showFriendsTableView() {
+    //MARK: - Helpers
+    
+    func showFriendsView() {
+        addSubview(searchTextField)
+        searchTextField.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 20, paddingRight: 20, height: 40)
         
+        let friendsLabel = UILabel()
+        friendsLabel.text = "Friends"
+        friendsLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        addSubview(friendsLabel)
+        friendsLabel.anchor(top: searchTextField.bottomAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 20)
+        
+        addSubview(tableView)
+        tableView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingBottom: 30)
     }
     
-    func addUserName() {
-        
-        addSubview(usernameLabel)
-        
-        usernameLabel.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
+    func createCountLabel(count: Int) -> UILabel {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        label.textColor = MAIN_COLOR
+        label.text = String(count)
+        return label
     }
     
     func showRegisterContent() {
@@ -131,13 +144,19 @@ class FriendsView: UIView {
 }
 
 extension FriendsView: UITableViewDataSource, UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sceneDelegate.user.friends.count
+        return friends.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)! //as! CustomCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
+        cell.textLabel?.text = friends[indexPath.row].username
+        cell.textLabel?.textColor = MAIN_COLOR
         return cell
     }
 }
