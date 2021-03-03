@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol AuthenticationDelegate: class {
     func authenticationComplete()
@@ -20,7 +21,9 @@ class RegistrationController: UIViewController {
     
     private let emailTextField = CustomTextField(placeholder: "Email")
     private let usernameTextField = CustomTextField(placeholder: "Username")
-    private let passwordTextField = CustomTextField(placeholder: "Password", secureText: true)
+    private let passwordTextField = CustomTextField(placeholder: "Password")
+    
+    private let failedAuthMessage = FailedAuthMessageView()
     
     private let authButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -91,10 +94,24 @@ class RegistrationController: UIViewController {
 //        let hud = JGProgressHUD(style: .dark)
 //        hud.show(in: view)
         AuthService.registerUser(email: email, username: username, password: password) { error in
-            if let error = error {
-                print("DEBUG: Error registring user, \(error)")
-                //hud.dismiss()
+            if username.count < 4 {
+                self.failedAuthMessage.text = "The username must be 4 characters long or more."
                 return
+            }
+            if let error = error {
+                if let errorCode = AuthErrorCode(rawValue: error._code) {
+                    if errorCode.rawValue == 17008 {
+                        self.failedAuthMessage.text = "Enter a valid email address."
+                    } else if errorCode.rawValue == 17026 {
+                        self.failedAuthMessage.text = "The password must be 6 characters long"
+                    } else if errorCode.rawValue == 17007 {
+                        self.failedAuthMessage.text = "The email address is already in use"
+                    }
+                    self.failedAuthMessage.text = String(errorCode.rawValue)
+                    self.failedAuthMessage.alpha = 1
+                    //hud.dismiss()
+                    return
+                }
             }
             //hud.dismiss()
             self.delegate?.authenticationComplete()
@@ -130,16 +147,19 @@ class RegistrationController: UIViewController {
 
         configureGradientLayer()
 
+        view.addSubview(failedAuthMessage)
+        failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 80)
+        
         
         let stack = UIStackView(arrangedSubviews: [emailTextField, usernameTextField, passwordTextField, authButton])
         stack.axis = .vertical
         stack.spacing = 12
         view.addSubview(stack)
         stack.anchor(
-            top: view.safeAreaLayoutGuide.topAnchor,
+            top: failedAuthMessage.bottomAnchor,
             left: view.leftAnchor,
             right: view.rightAnchor,
-            paddingTop: 100, paddingLeft: 32, paddingRight: 32
+            paddingTop: 60, paddingLeft: 32, paddingRight: 32
         )
         
         view.addSubview(signUpLaterButton)
@@ -152,6 +172,7 @@ class RegistrationController: UIViewController {
             right: view.rightAnchor,
             paddingLeft: 32, paddingRight: 32
         )
+        
     }
     
     func configureTextFieldObservers() {

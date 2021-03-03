@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginController: UIViewController {
     
@@ -17,6 +18,7 @@ class LoginController: UIViewController {
     
     private let emailTextField = CustomTextField(placeholder: "Email")
     private let passwordTextField = CustomTextField(placeholder: "Password", secureText: true)
+    private let failedAuthMessage = FailedAuthMessageView()
     
     private let authButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -80,12 +82,19 @@ class LoginController: UIViewController {
         
         AuthService.logUserIn(withEmail: email, withPassword: password) { (data, error) in
             if let error = error {
-                print("ERROR SIGNING USER IN: \(error)")
-                //hud.dismiss
-                return
-            } else {
-                //hud.dismiss
-                self.delegate?.authenticationComplete()
+                if let errorCode = AuthErrorCode(rawValue: error._code) {
+                    //hud.dismiss
+                    self.failedAuthMessage.alpha = 1
+                    if errorCode.rawValue == 17008 {
+                        self.failedAuthMessage.text = "Enter a valid email address"
+                    } else if errorCode.rawValue == 17011 {
+                        self.failedAuthMessage.text = "No match found with those credentials"
+                    }
+                    return
+                } else {
+                    //hud.dismiss
+                    self.delegate?.authenticationComplete()
+                }
             }
         }
     }
@@ -113,11 +122,15 @@ class LoginController: UIViewController {
     func configureUI() {
         configureGradientLayer()
         
+        view.addSubview(failedAuthMessage)
+        failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 80)
+        
+        
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, authButton])
         stack.axis = .vertical
         stack.spacing = 12
         view.addSubview(stack)
-        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 100, paddingLeft: 32, paddingRight: 32)
+        stack.anchor(top: failedAuthMessage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 60, paddingLeft: 32, paddingRight: 32)
         
         view.addSubview(signUpLaterButton)
         signUpLaterButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 8)

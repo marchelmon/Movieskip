@@ -40,13 +40,17 @@ class HomeController: UIViewController {
         topStack.delegate = self
         configureUI()
         fetchFilterAndMovies()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
         checkIfUserIsLoggedIn()
     }
     
     //MARK: - API
     
     func checkIfUserIsLoggedIn() {
-        if Auth.auth().currentUser == nil {
+        if !AuthService.userIsLoggedIn() {
             presentRegisterController()
         } else {
             print("USER IS LOGGED IN")

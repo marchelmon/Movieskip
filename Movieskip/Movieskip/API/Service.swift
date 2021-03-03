@@ -41,9 +41,6 @@ struct Service  {
         completion(filter)
     }
     
-
-    
-    
 }
 
 
@@ -51,6 +48,10 @@ struct Service  {
 //MARK: - AuthService
 
 struct AuthService {
+    
+    static func userIsLoggedIn() -> Bool{
+        return Auth.auth().currentUser != nil
+    }
     
     static func logUserIn(withEmail email: String, withPassword password: String, completion: AuthDataResultCallback?) {
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
@@ -60,7 +61,7 @@ struct AuthService {
     
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if let error = error {
-                print("DEBUG: error register to firebase, \(error.localizedDescription)")
+                completion(error)
                 return
             }
             guard let uid = result?.user.uid else { return }
@@ -70,7 +71,6 @@ struct AuthService {
             COLLECTION_USERS.document(uid).setData(data, completion: completion)
             
         }
-        
     }
     
 }
