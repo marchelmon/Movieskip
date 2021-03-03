@@ -64,6 +64,7 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureTextFieldObservers()
         
     }
     
@@ -94,7 +95,8 @@ class LoginController: UIViewController {
     }
     
     @objc func handleSkipLogin() {
-        dismiss(animated: true, completion: nil)
+        print("SHOULD DISMISS LOGIN CONTROLLER")
+        //dismiss(animated: true, completion: nil)
     }
     
     @objc func textDidChange(sender: UITextField) {

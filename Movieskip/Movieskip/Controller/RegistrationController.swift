@@ -108,7 +108,8 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleSkipLogin() {
-        dismiss(animated: true, completion: nil)
+        //dismiss(animated: true, completion: nil)
+        print("SHOULD DISMISS LOGIN CONTROLLER")
     }
     
     //MARK: - Helpers

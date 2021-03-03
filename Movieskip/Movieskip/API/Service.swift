@@ -41,13 +41,7 @@ struct Service  {
         completion(filter)
     }
     
-    //Takes data stored in firebase with device id and turns it into user with authentication id
-    static func createUserFromDevice() {
-        //Take the scenedelegate user object
-        //Add email, username, password and uid
-        //Store new user in firebase user collection
-        //Delete device data from firebase? Test enough to make sure the new user has all the data
-    }
+
     
     
 }
