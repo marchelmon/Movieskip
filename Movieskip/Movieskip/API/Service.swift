@@ -73,4 +73,10 @@ struct AuthService {
         }
     }
     
+    static func resetUserPassword(email: String, completion: @escaping ((Error?) -> Void)) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            completion(error)
+        }
+    }
+    
 }
