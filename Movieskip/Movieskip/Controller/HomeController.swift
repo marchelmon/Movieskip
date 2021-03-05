@@ -11,6 +11,8 @@ class HomeController: UIViewController {
     
     //MARK: - Properties
     
+    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
     private var filter: Filter?
     
     private var topCard: CardView?
@@ -28,9 +30,6 @@ class HomeController: UIViewController {
         return view
     }()
 
-    
-    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
-    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -181,7 +180,7 @@ extension HomeController: CardViewDelegate {
 extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true, completion: nil)
-        //Fetch user and 
+        //Fetch user and  TODO?
     }
 }
 
@@ -206,7 +205,6 @@ extension HomeController: HomeNavigationStackViewDelegate {
 
 extension HomeController: SettingsControllerDelegate {
     func settingsPressedLogout(controller: UIViewController) {
-        print("LOGOITT")
         controller.dismiss(animated: true, completion: nil)
         logout()
     }

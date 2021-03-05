@@ -377,6 +377,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
+  - FBSDKLoginKit
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Firestore
@@ -448,6 +449,6 @@ SPEC CHECKSUMS:
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: a82e9d2748906d49601a269cf01b8c3d51f64946
+PODFILE CHECKSUM: 844aeabc658d3e9f3a089fc323a5b02738a3df04
 
 COCOAPODS: 1.10.0

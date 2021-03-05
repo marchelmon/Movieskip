@@ -69,7 +69,7 @@ class FriendsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        let user1 = User(uid: "123", email: "sadas", username: "dsfdsf", watchlist: [1,23], excluded: [1,2,3,4], skipped: [], friends: [], profileImage: nil)
+        let user1 = User(dictionary: ["uid": "dasdasdad"])
         
         for i in 0...12 {
             sceneDelegate.addToExcluded(movie: i)

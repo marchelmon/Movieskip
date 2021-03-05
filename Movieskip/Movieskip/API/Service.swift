@@ -49,6 +49,8 @@ struct Service  {
 
 struct AuthService {
     
+    static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
     static func userIsLoggedIn() -> Bool {
         return Auth.auth().currentUser != nil
     }
@@ -79,17 +81,67 @@ struct AuthService {
         }
     }
     
-    static func socialSignIn(credential: AuthCredential, completion: ((AuthDataResult?, Error?) -> Void)?) {
-        
+    static func socialSignIn(credential: AuthCredential, completion: @escaping ((Error?) -> Void)) {
         Auth.auth().signIn(with: credential) { (data, error) in
             if let error = error {
-                print("ERROR: \(error.localizedDescription)")
+                print("ERROR signing in: \(error.localizedDescription)")
             }
             if let data = data {
-                print("DATA: \(data.user.email)")
+                COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
+            
+                    if let error = error {
+                        print("ERROR GETTING DATA: \(error.localizedDescription)")
+                        completion(error)
+                    }
+                    
+                    if let snapshot = snapshot {
+                        if snapshot.exists {
+                            guard let userData = snapshot.data() else { return }
+                            let user = User(dictionary: userData)
+                            sceneDelegate.setUser(user: user)
+                            completion(nil)
+                        } else {
+                            let userData: [String: Any] = ["uid": data.user.uid, "email": data.user.email ?? ""]
+                            
+                            let newUser = User(dictionary: userData)
+                            sceneDelegate.setUser(user: newUser)
+                            
+                            COLLECTION_USERS.document(data.user.uid).setData(newUser.dictionary) { error in
+                                completion(error)
+                            }
+                        }
+                    }
+                }
             }
         }
-        
     }
+    
+    static func fetchAndSetUser(data: AuthDataResult, completion: ((Error?) -> Void)?) {
+        COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
+    
+            if let error = error {
+                print("ERROR GETTING DATA: \(error.localizedDescription)")
+                completion!(error)
+            }
+            
+            if let snapshot = snapshot {
+                if snapshot.exists {
+                    guard let userData = snapshot.data() else { return }
+                    let user = User(dictionary: userData)
+                    sceneDelegate.setUser(user: user)
+                    print("USER IS NOW LOGGED IN AS: \(user)")
+                } else {
+                    var userData: [String: Any] = ["uid": data.user.uid]
+                    userData["email"] = data.user.email
+                    
+                    let newUser = User(dictionary: userData)
+                    sceneDelegate.setUser(user: newUser)
+                    
+                    COLLECTION_USERS.document(data.user.uid).setData(newUser.dictionary, completion: completion)
+                }
+            }
+        }
+    }
+    
     
 }

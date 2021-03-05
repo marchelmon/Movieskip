@@ -119,13 +119,12 @@ class RegistrationController: UIViewController {
                     } else if errorCode.rawValue == 17007 {
                         self.failedAuthMessage.text = "The email address is already in use"
                     }
-                    self.failedAuthMessage.text = String(errorCode.rawValue)
                     self.failedAuthMessage.alpha = 1
                     //hud.dismiss()
                     return
                 }
             }
-            //hud.dismiss()
+            //hud.dismiss() TODO
             self.delegate?.authenticationComplete()
         }
     }
@@ -201,7 +200,6 @@ class RegistrationController: UIViewController {
 }
 
 
-
 //MARK: - GIDSignInDelegate
 
 extension RegistrationController: GIDSignInDelegate {
@@ -218,13 +216,22 @@ extension RegistrationController: GIDSignInDelegate {
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
      
-        AuthService.socialSignIn(credential: credential, completion: nil)
-        
+        AuthService.socialSignIn(credential: credential) { error in
+            if let error = error {
+                //TODO: HANDLE ERROR
+                print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
+                return
+            }
+            
+            print("SUCCESS GOOGLE SIGNIN")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         // Perform any operations when the user disconnects from app here.
         // ...
+        print("DID DISCONNECT GOOGLE")
     }
 
 }

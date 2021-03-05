@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FBSDKCoreKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -13,7 +14,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var user: User
     
     override init() {
-        self.user = User(uid: "345", email: "hej", username: "hej", watchlist: [], excluded: [], skipped: [], friends: [], profileImage: "sjsd")
+        let userDictionary: [String: Any] = ["uid": "1232", "email": "hej"]
+        self.user = User(dictionary: userDictionary)
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -33,6 +35,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //Save user to firebase
         //Service.saveUserData(user: user, completition)
     }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+
+        ApplicationDelegate.shared.application(
+            UIApplication.shared,
+            open: url,
+            sourceApplication: nil,
+            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+
+    
 
     //MARK: - Helpers
     
