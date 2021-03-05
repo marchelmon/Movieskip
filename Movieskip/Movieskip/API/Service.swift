@@ -49,7 +49,7 @@ struct Service  {
 
 struct AuthService {
     
-    static func userIsLoggedIn() -> Bool{
+    static func userIsLoggedIn() -> Bool {
         return Auth.auth().currentUser != nil
     }
     
@@ -77,6 +77,19 @@ struct AuthService {
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             completion(error)
         }
+    }
+    
+    static func socialSignIn(credential: AuthCredential, completion: ((AuthDataResult?, Error?) -> Void)?) {
+        
+        Auth.auth().signIn(with: credential) { (data, error) in
+            if let error = error {
+                print("ERROR: \(error.localizedDescription)")
+            }
+            if let data = data {
+                print("DATA: \(data.user.email)")
+            }
+        }
+        
     }
     
 }

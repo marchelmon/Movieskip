@@ -7,6 +7,8 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
+
 
 protocol AuthenticationDelegate: class {
     func authenticationComplete()
@@ -65,10 +67,20 @@ class RegistrationController: UIViewController {
         return button
     }()
     
+    private let googleButton: GIDSignInButton = {
+        let button = GIDSignInButton()
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
+
         configureUI()
         configureTextFieldObservers()
     }
@@ -164,7 +176,12 @@ class RegistrationController: UIViewController {
         
         view.addSubview(signUpLaterButton)
         signUpLaterButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 8)
-    
+        
+        
+        view.addSubview(googleButton)
+        googleButton.anchor(top: signUpLaterButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 50, paddingRight: 50, height: 60)
+        
+        
         view.addSubview(goToLoginButton)
         goToLoginButton.anchor(
             left: view.leftAnchor,
@@ -182,3 +199,34 @@ class RegistrationController: UIViewController {
     }
     
 }
+
+
+
+//MARK: - GIDSignInDelegate
+
+extension RegistrationController: GIDSignInDelegate {
+
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+
+        if let error = error {
+            print("ERROR: \(error.localizedDescription)")
+            return
+        }
+
+        print("Started login PROCESS")
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+     
+        AuthService.socialSignIn(credential: credential, completion: nil)
+        
+    }
+
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+    }
+
+}
+
+

@@ -7,15 +7,20 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
+
 
 @main
+
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()
-                
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        
         return true
     }
 
@@ -33,6 +38,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-
 }
-

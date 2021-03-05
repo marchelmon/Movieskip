@@ -35,7 +35,7 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         bottomStack.delegate = self
         topStack.delegate = self
         configureUI()

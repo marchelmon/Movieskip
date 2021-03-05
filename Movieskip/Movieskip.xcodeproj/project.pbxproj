@@ -290,7 +290,7 @@
 				3C7DC7AA25D6755B00FE7A61 /* Frameworks */,
 				3C7DC7AB25D6755B00FE7A61 /* Resources */,
 				B6903D2D1E9CEBF53ACA5D2B /* [CP] Embed Pods Frameworks */,
-				B753939A16A3E9AEB78E9F0B /* [CP] Copy Pods Resources */,
+				CF5E5FFEEC3FE7FF33F08496 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -387,7 +387,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Movieskip/Pods-Movieskip-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B753939A16A3E9AEB78E9F0B /* [CP] Copy Pods Resources */ = {
+		CF5E5FFEEC3FE7FF33F08496 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
