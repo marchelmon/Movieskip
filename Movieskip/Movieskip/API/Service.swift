@@ -85,6 +85,8 @@ struct AuthService {
         Auth.auth().signIn(with: credential) { (data, error) in
             if let error = error {
                 print("ERROR signing in: \(error.localizedDescription)")
+                completion(error)
+                return
             }
             if let data = data {
                 COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
@@ -92,6 +94,7 @@ struct AuthService {
                     if let error = error {
                         print("ERROR GETTING DATA: \(error.localizedDescription)")
                         completion(error)
+                        return
                     }
                     
                     if let snapshot = snapshot {
@@ -115,33 +118,5 @@ struct AuthService {
             }
         }
     }
-    
-    static func fetchAndSetUser(data: AuthDataResult, completion: ((Error?) -> Void)?) {
-        COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
-    
-            if let error = error {
-                print("ERROR GETTING DATA: \(error.localizedDescription)")
-                completion!(error)
-            }
-            
-            if let snapshot = snapshot {
-                if snapshot.exists {
-                    guard let userData = snapshot.data() else { return }
-                    let user = User(dictionary: userData)
-                    sceneDelegate.setUser(user: user)
-                    print("USER IS NOW LOGGED IN AS: \(user)")
-                } else {
-                    var userData: [String: Any] = ["uid": data.user.uid]
-                    userData["email"] = data.user.email
-                    
-                    let newUser = User(dictionary: userData)
-                    sceneDelegate.setUser(user: newUser)
-                    
-                    COLLECTION_USERS.document(data.user.uid).setData(newUser.dictionary, completion: completion)
-                }
-            }
-        }
-    }
-    
     
 }

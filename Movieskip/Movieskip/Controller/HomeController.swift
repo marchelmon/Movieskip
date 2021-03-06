@@ -34,6 +34,13 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+        
+        //TODO CHECK FOR TOKEN
+//        if let token = AccessToken.current,
+//            !token.isExpired {
+//            // User is logged in, do work such as go to next view controller.
+//        }
         
         bottomStack.delegate = self
         topStack.delegate = self
@@ -205,8 +212,9 @@ extension HomeController: HomeNavigationStackViewDelegate {
 
 extension HomeController: SettingsControllerDelegate {
     func settingsPressedLogout(controller: UIViewController) {
-        controller.dismiss(animated: true, completion: nil)
-        logout()
+        controller.dismiss(animated: true) {
+            self.logout()
+        }
     }
 }
 

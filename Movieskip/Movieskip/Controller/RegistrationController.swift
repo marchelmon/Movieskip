@@ -178,16 +178,16 @@ class RegistrationController: UIViewController {
         
         
         view.addSubview(googleButton)
-        googleButton.anchor(top: signUpLaterButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 50, paddingRight: 50, height: 60)
+        googleButton.anchor(top: signUpLaterButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 50, paddingRight: 50, height: 50)
         
         
-        view.addSubview(goToLoginButton)
-        goToLoginButton.anchor(
-            left: view.leftAnchor,
-            bottom: view.safeAreaLayoutGuide.bottomAnchor,
-            right: view.rightAnchor,
-            paddingLeft: 32, paddingRight: 32
-        )
+//        view.addSubview(goToLoginButton)
+//        goToLoginButton.anchor(
+//            left: view.leftAnchor,
+//            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+//            right: view.rightAnchor,
+//            paddingLeft: 32, paddingRight: 32
+//        )
         
     }
     
@@ -200,7 +200,7 @@ class RegistrationController: UIViewController {
 }
 
 
-//MARK: - GIDSignInDelegate
+//MARK: - GIDSignInDelegate Google
 
 extension RegistrationController: GIDSignInDelegate {
 
@@ -235,5 +235,3 @@ extension RegistrationController: GIDSignInDelegate {
     }
 
 }
-
-
