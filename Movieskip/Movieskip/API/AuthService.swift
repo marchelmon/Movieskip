@@ -1,51 +1,12 @@
 //
-//  Service.swift
+//  AuthService.swift
 //  Movieskip
 //
-//  Created by marchelmon on 2021-02-13.
+//  Created by marchelmon on 2021-03-07.
 //
 
 import Foundation
 import Firebase
-
-
-struct Service  {
-    
-    static func saveFilter(filter: Filter) {
-        
-        let genres = try! JSONEncoder().encode(filter.genres)
-        
-        UserDefaults.standard.set(genres, forKey: USER_DEFAULTS_GENRES_KEY)
-        UserDefaults.standard.set(filter.minYear, forKey: USER_DEFAULTS_MINYEAR_KEY)
-        UserDefaults.standard.set(filter.maxYear, forKey: USER_DEFAULTS_MAXYEAR_KEY)
-        UserDefaults.standard.set(filter.popular, forKey: USER_DEFAULTS_POPULAR_KEY)
-        
-    }
-    
-    static func fetchFilter(completion: @escaping(Filter) -> Void) {
-        
-        var genres: [Genre] = TMDB_GENRES
-        var minYear: Float = 2000
-        var maxYear: Float = 2021
-        var popular: Bool = false
-        
-        if  let genresData = UserDefaults.standard.data(forKey: USER_DEFAULTS_GENRES_KEY) {
-            genres = try! JSONDecoder().decode([Genre].self, from: genresData)
-            minYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MINYEAR_KEY)
-            maxYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MAXYEAR_KEY)
-            popular = UserDefaults.standard.bool(forKey: USER_DEFAULTS_POPULAR_KEY)
-        }
-
-        let filter = Filter(genres: genres, minYear: minYear, maxYear: maxYear, popular: popular)        
-        
-        completion(filter)
-    }
-    
-}
-
-
-
-//MARK: - AuthService
 
 struct AuthService {
     
@@ -70,14 +31,16 @@ struct AuthService {
             guard let result = result else { return }
             result.user.sendEmailVerification { error in
                 if let error = error {
-                    print("ERROR VER-EMAIL: \(error.localizedDescription)")
+                    print("ERROR VERIFYING EMAIL: \(error.localizedDescription)")
                 }
             }
+            
             let uid = result.user.uid
-            
             let data = ["email": email, "uid": uid] as [String : Any]
-            
-            COLLECTION_USERS.document(uid).setData(data, completion: completion)
+            let user = User(dictionary: data)
+            sceneDelegate.setUser(user: user)
+            let userData = user.dictionary
+            COLLECTION_USERS.document(uid).setData(userData, completion: completion)
         
         }
     }
@@ -124,6 +87,22 @@ struct AuthService {
                 }
             }
         }
+    }
+    
+    static func fetchLoggedInUser(uid: String, completion: @escaping ((User?, Error?) -> Void)) {
+        COLLECTION_USERS.document(uid).getDocument { (snapshot, error) in
+            if let error = error {
+                print("FETCH ERROR: \(error.localizedDescription)")
+                completion(nil, error)
+            }
+            if let snapshot = snapshot {
+                if let userData = snapshot.data() {
+                    sceneDelegate.user = User(dictionary: userData)
+                    completion(sceneDelegate.user, nil)
+                }
+            }
+        }
+            
     }
     
 }

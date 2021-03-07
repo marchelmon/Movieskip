@@ -18,6 +18,9 @@ class RegistrationController: UIViewController {
     
     //MARK: - Properties
     
+    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+
+    
     private var viewModel = RegistrationViewModel()
     weak var delegate: AuthenticationDelegate?
     
@@ -37,14 +40,8 @@ class RegistrationController: UIViewController {
     private let goToLoginButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(
-            string: "Already have an account?  ",
-            attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 16)]
-        )
-        attributedTitle.append(
-            NSAttributedString(
-                string: "Sign in",
-                attributes: [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 16)]
-            )
+            string: "Go back to login",
+            attributes: [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 16)]
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
@@ -103,15 +100,18 @@ class RegistrationController: UIViewController {
                     if errorCode.rawValue == 17008 {
                         self.failedAuthMessage.text = "*Enter a valid email address."
                     } else if errorCode.rawValue == 17026 {
-                        self.failedAuthMessage.text = "*The password must be 6 characters long"
+                        self.failedAuthMessage.text = "*The password must be 6 characters long."
                     } else if errorCode.rawValue == 17007 {
-                        self.failedAuthMessage.text = "*The email address is already in use"
+                        self.failedAuthMessage.text = "*The email address is already in use."
+                    } else {
+                        self.failedAuthMessage.text = "An undefined error occured, please close the app and try again or login with another provider."
                     }
                     self.failedAuthMessage.alpha = 1
                     //hud.dismiss()
                     return
                 }
             }
+            print("Registered user: \(self.sceneDelegate.user)")
             //hud.dismiss() TODO
             self.delegate?.authenticationComplete()
         }
@@ -121,7 +121,6 @@ class RegistrationController: UIViewController {
         let controller = LoginController()
         controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
-        //navigationController?.popViewController(self, animated: true)
     }
     
     @objc func handleSkipLogin() {
@@ -146,33 +145,24 @@ class RegistrationController: UIViewController {
         configureGradientLayer()
 
         view.addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 100)
+        failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                                 paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 100)
         
         
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, authButton])
         stack.axis = .vertical
         stack.spacing = 12
         view.addSubview(stack)
-        stack.anchor(
-            top: failedAuthMessage.bottomAnchor,
-            left: view.leftAnchor,
-            right: view.rightAnchor,
-            paddingTop: 100, paddingLeft: 40, paddingRight: 40
-        )
-        
+        stack.anchor(top: failedAuthMessage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                     paddingTop: 100, paddingLeft: 40, paddingRight: 40)
         
         view.addSubview(googleButton)
-        googleButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 40, paddingRight: 40, height: 50)
-        
+        googleButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                            paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 50)
         
         view.addSubview(goToLoginButton)
-        goToLoginButton.anchor(
-            left: view.leftAnchor,
-            bottom: view.safeAreaLayoutGuide.bottomAnchor,
-            right: view.rightAnchor,
-            paddingLeft: 32, paddingRight: 32
-        )
-        
+        goToLoginButton.anchor(top: googleButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                               paddingTop: 30, paddingLeft: 32, paddingRight: 32)
     }
     
     func configureTextFieldObservers() {

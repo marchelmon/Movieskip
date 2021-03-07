@@ -9,7 +9,7 @@ import Foundation
 
 struct User {
     let uid: String
-    let email: String?
+    let email: String
     let username: String
     var watchlist: [Int]
     var excluded: [Int]
@@ -27,7 +27,7 @@ struct User {
     init(dictionary: [String: Any]) {
         self.uid = dictionary["uid"] as? String ?? ""
         self.username = dictionary["username"] as? String ?? ""
-        self.email = dictionary["email"] as? String ?? nil
+        self.email = dictionary["email"] as? String ?? ""
         self.profileImage = dictionary["image"] as? String ?? nil
         self.watchlist = dictionary["watchlist"] as? [Int] ?? []
         self.excluded = dictionary["excluded"] as? [Int] ?? []
@@ -38,7 +38,7 @@ struct User {
     var dictionary: [String: Any] {
         let list = [
             "uid": uid,
-            "email": email ?? "",
+            "email": email,
             "username": username,
             "watchlist": watchlist,
             "excluded": excluded,

@@ -34,13 +34,8 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-  
         
-        //TODO CHECK FOR TOKEN
-//        if let token = AccessToken.current,
-//            !token.isExpired {
-//            // User is logged in, do work such as go to next view controller.
-//        }
+        print("USER: \(sceneDelegate.user)")
         
         bottomStack.delegate = self
         topStack.delegate = self
@@ -57,14 +52,21 @@ class HomeController: UIViewController {
     
     func checkIfUserIsLoggedIn() {
         if !AuthService.userIsLoggedIn() {
+            //TODO: Hämta "user" från User defaults
             presentLoginController()
         } else {
-            print("USER IS LOGGED IN")
+            if let loggedInUser = Auth.auth().currentUser {
+                if !loggedInUser.isEmailVerified { loggedInUser.sendEmailVerification(completion: nil) } // TODO: Ta bort?
+
+                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (user, error) in
+                    
+                }
+            }
         }
     }
     
     func fetchFilterAndMovies() {
-        Service.fetchFilter { filter in
+        FilterService.fetchFilter { filter in
             self.filter = filter
             self.fetchMovies(filter: filter)
         }
@@ -164,7 +166,7 @@ extension HomeController: FilterControllerDelegate {
     
     func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter) {
         self.filter = filter
-        Service.saveFilter(filter: filter)
+        FilterService.saveFilter(filter: filter)
         self.fetchMovies(filter: filter)
         controller.dismiss(animated: true, completion: nil)
     }

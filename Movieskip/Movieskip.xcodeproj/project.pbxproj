@@ -10,6 +10,7 @@
 		23798C10FB2B090DDD0CF409 /* Pods_Movieskip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */; };
 		3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49BA5F25DC2CA60069782B /* FilterView.swift */; };
 		3C49BA6325DC2FC60069782B /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49BA6225DC2FC60069782B /* FilterViewModel.swift */; };
+		3C66623825F4D59700759552 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C66623725F4D59700759552 /* AuthService.swift */; };
 		3C7DC7B125D6755B00FE7A61 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7B025D6755B00FE7A61 /* AppDelegate.swift */; };
 		3C7DC7B325D6755B00FE7A61 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7B225D6755B00FE7A61 /* SceneDelegate.swift */; };
 		3C7DC7B825D6755B00FE7A61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C7DC7B625D6755B00FE7A61 /* Main.storyboard */; };
@@ -24,7 +25,7 @@
 		3C7DC80325D81EAA00FE7A61 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC80225D81EAA00FE7A61 /* Movie.swift */; };
 		3C7DC80625D8237E00FE7A61 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC80525D8237E00FE7A61 /* User.swift */; };
 		3C7DC80A25D825A500FE7A61 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC80925D825A500FE7A61 /* Filter.swift */; };
-		3C7DC80D25D8273F00FE7A61 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC80C25D8273F00FE7A61 /* Service.swift */; };
+		3C7DC80D25D8273F00FE7A61 /* FilterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC80C25D8273F00FE7A61 /* FilterService.swift */; };
 		3C7DC81025D8336800FE7A61 /* TmdbService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC80F25D8336800FE7A61 /* TmdbService.swift */; };
 		3C7DC87C25DABC6900FE7A61 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC87B25DABC6900FE7A61 /* CardViewModel.swift */; };
 		3C7DC87F25DBE12500FE7A61 /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC87E25DBE12500FE7A61 /* FilterController.swift */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		3C49BA5F25DC2CA60069782B /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		3C49BA6225DC2FC60069782B /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
+		3C66623725F4D59700759552 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		3C7DC7AD25D6755B00FE7A61 /* Movieskip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movieskip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C7DC7B025D6755B00FE7A61 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C7DC7B225D6755B00FE7A61 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +70,7 @@
 		3C7DC80225D81EAA00FE7A61 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		3C7DC80525D8237E00FE7A61 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3C7DC80925D825A500FE7A61 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
-		3C7DC80C25D8273F00FE7A61 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		3C7DC80C25D8273F00FE7A61 /* FilterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterService.swift; sourceTree = "<group>"; };
 		3C7DC80F25D8336800FE7A61 /* TmdbService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TmdbService.swift; sourceTree = "<group>"; };
 		3C7DC87B25DABC6900FE7A61 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
 		3C7DC87E25DBE12500FE7A61 /* FilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
@@ -138,13 +140,13 @@
 		3C7DC7AF25D6755B00FE7A61 /* Movieskip */ = {
 			isa = PBXGroup;
 			children = (
+				3C7DC7CD25D67A5C00FE7A61 /* Xcode-Default */,
 				3C7DC7CB25D6783900FE7A61 /* Model */,
 				3C7DC7C625D6777600FE7A61 /* View */,
 				3C7DC7C725D6777F00FE7A61 /* ViewModel */,
 				3C7DC7C825D677A700FE7A61 /* Controller */,
 				3C7DC7CA25D677B600FE7A61 /* Utils */,
 				3C7DC7C925D677AE00FE7A61 /* API */,
-				3C7DC7CD25D67A5C00FE7A61 /* Xcode-Default */,
 				3C7DC7BE25D6755E00FE7A61 /* Info.plist */,
 				3CF5B72B25E7DEDF007A18B7 /* GoogleService-Info.plist */,
 			);
@@ -190,8 +192,9 @@
 		3C7DC7C925D677AE00FE7A61 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				3C7DC80C25D8273F00FE7A61 /* Service.swift */,
+				3C7DC80C25D8273F00FE7A61 /* FilterService.swift */,
 				3C7DC80F25D8336800FE7A61 /* TmdbService.swift */,
+				3C66623725F4D59700759552 /* AuthService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				3C49BA6325DC2FC60069782B /* FilterViewModel.swift in Sources */,
 				3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */,
 				3C7DC87F25DBE12500FE7A61 /* FilterController.swift in Sources */,
+				3C66623825F4D59700759552 /* AuthService.swift in Sources */,
 				3C7DC7D825D6826700FE7A61 /* Constants.swift in Sources */,
 				3C7DC7DB25D684A700FE7A61 /* Extensions.swift in Sources */,
 				3C7DC80A25D825A500FE7A61 /* Filter.swift in Sources */,
@@ -428,7 +432,7 @@
 				3CF5B75F25E93EDF007A18B7 /* SettingsViewModel.swift in Sources */,
 				3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */,
 				3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */,
-				3C7DC80D25D8273F00FE7A61 /* Service.swift in Sources */,
+				3C7DC80D25D8273F00FE7A61 /* FilterService.swift in Sources */,
 				3CF5B76725EA6C29007A18B7 /* FriendsView.swift in Sources */,
 				3C7DC7B325D6755B00FE7A61 /* SceneDelegate.swift in Sources */,
 				3C7DC80625D8237E00FE7A61 /* User.swift in Sources */,

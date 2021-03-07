@@ -140,7 +140,8 @@ class LoginController: UIViewController {
                     } else if errorCode.rawValue == 17011 {
                         self.failedAuthMessage.text = "No match found with those credentials"
                     } else if errorCode.rawValue == 17009 {
-                        self.failedAuthMessage.text = "The password is not correct"
+                        print("ERROR: \(error.localizedDescription)")
+                        self.failedAuthMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
                     } else {
                         self.failedAuthMessage.text = "Unknown error, please try closing the app and starting again"
                     }
@@ -180,6 +181,8 @@ class LoginController: UIViewController {
                         self.failedAuthMessage.text = "*Enter a valid email address"
                     } else if errorCode.rawValue == 17011 {
                         self.failedAuthMessage.text = "*No match found with this email address"
+                    } else {
+                        self.failedAuthMessage.text = "*An undefined error occured, please check your email and try again"
                     }
                 }
                 return
@@ -224,11 +227,11 @@ class LoginController: UIViewController {
         
         resetPasswordView.addSubview(goToRegistrationButton)
         goToRegistrationButton.anchor(
+            top: resetPasswordButton.bottomAnchor,
             left: resetPasswordView.leftAnchor,
-            bottom: resetPasswordView.bottomAnchor,
             right: resetPasswordView.rightAnchor,
+            paddingTop: 30,
             paddingLeft: 32,
-            paddingBottom: 30,
             paddingRight: 32
         )
         view.addSubview(resetPasswordView)
@@ -241,25 +244,31 @@ class LoginController: UIViewController {
         failedAuthMessage.alpha = 0
         
         loginView.addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(top: loginView.topAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 80, paddingLeft: 30, paddingRight: 30, height: 100)
+        failedAuthMessage.anchor(top: loginView.topAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
+                                 paddingTop: 80, paddingLeft: 30, paddingRight: 30, height: 100)
         
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, authButton])
         stack.axis = .vertical
         stack.spacing = 12
         loginView.addSubview(stack)
-        stack.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 100, paddingLeft: 40, paddingRight: 40)
+        stack.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
+                     paddingTop: 100, paddingLeft: 40, paddingRight: 40)
         
         loginView.addSubview(googleButton)
-        googleButton.anchor(top: stack.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40)
+        googleButton.anchor(top: stack.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
+                            paddingTop: 20, paddingLeft: 40, paddingRight: 40)
         
         loginView.addSubview(goToRegistrationButton)
-        goToRegistrationButton.anchor(top: googleButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 20, paddingLeft: 32, paddingRight: 32)
+        goToRegistrationButton.anchor(top: googleButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
+                                      paddingTop: 30, paddingLeft: 32, paddingRight: 32)
         
         loginView.addSubview(forgotPasswordButton)
-        forgotPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor, paddingLeft: 32, paddingBottom: 30, paddingRight: 32)
+        forgotPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor,
+                                    paddingLeft: 32, paddingBottom: 30, paddingRight: 32)
         
         loginView.addSubview(signUpLaterButton)
-        signUpLaterButton.anchor(left: loginView.leftAnchor, bottom: forgotPasswordButton.topAnchor, right: loginView.rightAnchor, paddingLeft: 32, paddingBottom: 15, paddingRight: 32)
+        signUpLaterButton.anchor(left: loginView.leftAnchor, bottom: forgotPasswordButton.topAnchor, right: loginView.rightAnchor,
+                                 paddingLeft: 32, paddingBottom: 15, paddingRight: 32)
         
         view.addSubview(loginView)
         loginView.fillSuperview()

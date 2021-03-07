@@ -6,15 +6,15 @@
 //
 
 import UIKit
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var user: User
+    var user: User = User(dictionary: ["uid": "1232", "email": "hej"] as [String: Any])
     
     override init() {
-        let userDictionary: [String: Any] = ["uid": "1232", "email": "hej"]
-        self.user = User(dictionary: userDictionary)
+        super.init()
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
