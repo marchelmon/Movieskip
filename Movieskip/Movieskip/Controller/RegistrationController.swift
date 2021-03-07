@@ -22,7 +22,6 @@ class RegistrationController: UIViewController {
     weak var delegate: AuthenticationDelegate?
     
     private let emailTextField = CustomTextField(placeholder: "Email")
-    private let usernameTextField = CustomTextField(placeholder: "Username")
     private let passwordTextField = CustomTextField(placeholder: "Password")
     
     private let failedAuthMessage = FailedAuthMessageView()
@@ -41,17 +40,14 @@ class RegistrationController: UIViewController {
             string: "Already have an account?  ",
             attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 16)]
         )
-        
         attributedTitle.append(
             NSAttributedString(
                 string: "Sign in",
                 attributes: [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 16)]
             )
         )
-        
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
-        
         return button
     }()
     
@@ -63,7 +59,6 @@ class RegistrationController: UIViewController {
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleSkipLogin), for: .touchUpInside)
-        
         return button
     }()
     
@@ -92,32 +87,25 @@ class RegistrationController: UIViewController {
             viewModel.email = sender.text
         } else if sender == passwordTextField {
             viewModel.password = sender.text
-        } else if sender == usernameTextField {
-            viewModel.username = sender.text
         }
         checkFormStatus()
     }
         
     @objc func handleRegisterUser() {
         guard let email = emailTextField.text else { return }
-        guard let username = usernameTextField.text else { return }
         guard let password = passwordTextField.text else { return }
     
 //        let hud = JGProgressHUD(style: .dark)
 //        hud.show(in: view)
-        AuthService.registerUser(email: email, username: username, password: password) { error in
-            if username.count < 4 {
-                self.failedAuthMessage.text = "The username must be 4 characters long or more."
-                return
-            }
+        AuthService.registerUser(email: email, password: password) { error in
             if let error = error {
                 if let errorCode = AuthErrorCode(rawValue: error._code) {
                     if errorCode.rawValue == 17008 {
-                        self.failedAuthMessage.text = "Enter a valid email address."
+                        self.failedAuthMessage.text = "*Enter a valid email address."
                     } else if errorCode.rawValue == 17026 {
-                        self.failedAuthMessage.text = "The password must be 6 characters long"
+                        self.failedAuthMessage.text = "*The password must be 6 characters long"
                     } else if errorCode.rawValue == 17007 {
-                        self.failedAuthMessage.text = "The email address is already in use"
+                        self.failedAuthMessage.text = "*The email address is already in use"
                     }
                     self.failedAuthMessage.alpha = 1
                     //hud.dismiss()
@@ -133,6 +121,7 @@ class RegistrationController: UIViewController {
         let controller = LoginController()
         controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
+        //navigationController?.popViewController(self, animated: true)
     }
     
     @objc func handleSkipLogin() {
@@ -153,16 +142,14 @@ class RegistrationController: UIViewController {
     }
     
     func configureUI() {
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationBar.barStyle = .black
-
+        
         configureGradientLayer()
 
         view.addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 80)
+        failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 100)
         
         
-        let stack = UIStackView(arrangedSubviews: [emailTextField, usernameTextField, passwordTextField, authButton])
+        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, authButton])
         stack.axis = .vertical
         stack.spacing = 12
         view.addSubview(stack)
@@ -170,31 +157,27 @@ class RegistrationController: UIViewController {
             top: failedAuthMessage.bottomAnchor,
             left: view.leftAnchor,
             right: view.rightAnchor,
-            paddingTop: 60, paddingLeft: 32, paddingRight: 32
+            paddingTop: 100, paddingLeft: 40, paddingRight: 40
         )
-        
-        view.addSubview(signUpLaterButton)
-        signUpLaterButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 8)
         
         
         view.addSubview(googleButton)
-        googleButton.anchor(top: signUpLaterButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 50, paddingRight: 50, height: 50)
+        googleButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 40, paddingRight: 40, height: 50)
         
         
-//        view.addSubview(goToLoginButton)
-//        goToLoginButton.anchor(
-//            left: view.leftAnchor,
-//            bottom: view.safeAreaLayoutGuide.bottomAnchor,
-//            right: view.rightAnchor,
-//            paddingLeft: 32, paddingRight: 32
-//        )
+        view.addSubview(goToLoginButton)
+        goToLoginButton.anchor(
+            left: view.leftAnchor,
+            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            right: view.rightAnchor,
+            paddingLeft: 32, paddingRight: 32
+        )
         
     }
     
     func configureTextFieldObservers() {
         emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        usernameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
 }
@@ -210,8 +193,6 @@ extension RegistrationController: GIDSignInDelegate {
             print("ERROR: \(error.localizedDescription)")
             return
         }
-
-        print("Started login PROCESS")
         
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
@@ -222,7 +203,6 @@ extension RegistrationController: GIDSignInDelegate {
                 print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
                 return
             }
-            
             print("SUCCESS GOOGLE SIGNIN")
             self.dismiss(animated: true, completion: nil)
         }

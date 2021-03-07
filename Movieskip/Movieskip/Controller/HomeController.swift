@@ -57,7 +57,7 @@ class HomeController: UIViewController {
     
     func checkIfUserIsLoggedIn() {
         if !AuthService.userIsLoggedIn() {
-            presentRegisterController()
+            presentLoginController()
         } else {
             print("USER IS LOGGED IN")
         }
@@ -79,7 +79,7 @@ class HomeController: UIViewController {
     func logout() {
         do {
             try Auth.auth().signOut()
-            presentRegisterController()
+            presentLoginController()
         } catch {
             print("Failed to log user out")
         }
@@ -117,9 +117,9 @@ class HomeController: UIViewController {
         stack.bringSubviewToFront(deckView)
     }
     
-    func presentRegisterController() {
+    func presentLoginController() {
         DispatchQueue.main.async {
-            let controller = RegistrationController()
+            let controller = LoginController()
             controller.delegate = self
             let nav = UINavigationController(rootViewController: controller)
             nav.modalTransitionStyle = .flipHorizontal

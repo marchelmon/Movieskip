@@ -7,9 +7,9 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 class LoginController: UIViewController {
-    
     
     //MARK: - Properties
     
@@ -31,6 +31,7 @@ class LoginController: UIViewController {
     private let passwordTextField = CustomTextField(placeholder: "Password", secureText: true)
     private let failedAuthMessage = FailedAuthMessageView()
     
+    
     private let authButton: AuthButton = {
         let button = AuthButton(type: .system)
         button.setTitle("Sign in", for: .normal)
@@ -38,6 +39,7 @@ class LoginController: UIViewController {
         button.addTarget(self, action: #selector(handleLoginUser), for: .touchUpInside)
         return button
     }()
+    
     
     private let resetPasswordButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -51,14 +53,8 @@ class LoginController: UIViewController {
     private let goToRegistrationButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(
-            string: "Don't have an account?  ",
-            attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 16)]
-        )
-        attributedTitle.append(
-            NSAttributedString(
-                string: "Sign up",
-                attributes: [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 16)]
-            )
+            string: "Sign up with email",
+            attributes: [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 16)]
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowRegister), for: .touchUpInside)
@@ -86,20 +82,46 @@ class LoginController: UIViewController {
         return button
     }()
     
+    private let googleButton: GIDSignInButton = {
+        let button = GIDSignInButton()
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
+    private let signUpLaterButton: UIButton = {
+        let button = UIButton(type: .system)
+        let attributedTitle = NSMutableAttributedString(
+            string: "Continue without login",
+            attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 16)]
+        )
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.addTarget(self, action: #selector(handleSkipLogin), for: .touchUpInside)
+        
+        return button
+    }()
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barStyle = .black
+        
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+        GIDSignIn.sharedInstance().delegate = self
         
         configureGradientLayer()
         displayLoginView()
         configureTextFieldObservers()
-        
     }
     
     
     //MARK: - Actions
     
+    @objc func handleSkipLogin() {
+        //dismiss(animated: true, completion: nil)
+        print("SHOULD DISMISS LOGIN CONTROLLER")
+    }
     
     @objc func handleLoginUser() {
         guard let email = viewModel.email else { return }
@@ -132,7 +154,9 @@ class LoginController: UIViewController {
     }
     
     @objc func handleShowRegister() {
-        navigationController?.popViewController(animated: true)
+        let controller = RegistrationController()
+        controller.delegate = delegate
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func handleForgotPassword() {
@@ -144,7 +168,7 @@ class LoginController: UIViewController {
         
         if email.count < 3 {
             failedAuthMessage.alpha = 1
-            failedAuthMessage.text = "Enter a valid email address"
+            failedAuthMessage.text = "*Enter a valid email address"
             return
         }
         
@@ -153,17 +177,16 @@ class LoginController: UIViewController {
                 if let errorCode = AuthErrorCode(rawValue: error._code) {
                     self.failedAuthMessage.alpha = 1
                     if errorCode.rawValue == 17008 {
-                        self.failedAuthMessage.text = "Enter a valid email address"
+                        self.failedAuthMessage.text = "*Enter a valid email address"
                     } else if errorCode.rawValue == 17011 {
-                        self.failedAuthMessage.text = "No match found with this email address"
+                        self.failedAuthMessage.text = "*No match found with this email address"
                     }
                 }
                 return
             }
             self.failedAuthMessage.alpha = 1
-            self.failedAuthMessage.text = "Check your email to continue"
+            self.failedAuthMessage.text = "*Check your email to continue"
         }
-        
         
     }
     
@@ -191,7 +214,7 @@ class LoginController: UIViewController {
         backButton.anchor(top: resetPasswordView.topAnchor, left: resetPasswordView.leftAnchor, paddingTop: 45, paddingLeft: 20)
         
         resetPasswordView.addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(top: resetPasswordView.topAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor, paddingTop: 110, paddingLeft: 30, paddingRight: 30, height: 80)
+        failedAuthMessage.anchor(top: resetPasswordView.topAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor, paddingTop: 110, paddingLeft: 30, paddingRight: 30, height: 100)
         
         resetPasswordView.addSubview(emailTextField)
         emailTextField.anchor(top: failedAuthMessage.bottomAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor, paddingTop: 120, paddingLeft: 32, paddingRight: 32)
@@ -208,10 +231,8 @@ class LoginController: UIViewController {
             paddingBottom: 30,
             paddingRight: 32
         )
-        
         view.addSubview(resetPasswordView)
         resetPasswordView.fillSuperview()
-        
     }
     
     func displayLoginView() {
@@ -220,26 +241,25 @@ class LoginController: UIViewController {
         failedAuthMessage.alpha = 0
         
         loginView.addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(top: loginView.topAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 80, paddingLeft: 30, paddingRight: 30, height: 80)
+        failedAuthMessage.anchor(top: loginView.topAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 80, paddingLeft: 30, paddingRight: 30, height: 100)
         
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, authButton])
         stack.axis = .vertical
         stack.spacing = 12
         loginView.addSubview(stack)
-        stack.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 60, paddingLeft: 32, paddingRight: 32)
+        stack.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 100, paddingLeft: 40, paddingRight: 40)
         
-        loginView.addSubview(forgotPasswordButton)
-        forgotPasswordButton.anchor(top: stack.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 8)
+        loginView.addSubview(googleButton)
+        googleButton.anchor(top: stack.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40)
         
         loginView.addSubview(goToRegistrationButton)
-        goToRegistrationButton.anchor(
-            left: loginView.leftAnchor,
-            bottom: loginView.bottomAnchor,
-            right: loginView.rightAnchor,
-            paddingLeft: 32,
-            paddingBottom: 30,
-            paddingRight: 32
-        )
+        goToRegistrationButton.anchor(top: googleButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 20, paddingLeft: 32, paddingRight: 32)
+        
+        loginView.addSubview(forgotPasswordButton)
+        forgotPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor, paddingLeft: 32, paddingBottom: 30, paddingRight: 32)
+        
+        loginView.addSubview(signUpLaterButton)
+        signUpLaterButton.anchor(left: loginView.leftAnchor, bottom: forgotPasswordButton.topAnchor, right: loginView.rightAnchor, paddingLeft: 32, paddingBottom: 15, paddingRight: 32)
         
         view.addSubview(loginView)
         loginView.fillSuperview()
@@ -261,3 +281,37 @@ class LoginController: UIViewController {
     }
     
 }
+
+//MARK: - GIDSignInDelegate Google
+
+extension LoginController: GIDSignInDelegate {
+
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+
+        if let error = error {
+            print("ERROR: \(error.localizedDescription)")
+            return
+        }
+        
+        guard let authentication = user.authentication else { return }
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+     
+        AuthService.socialSignIn(credential: credential) { error in
+            if let error = error {
+                //TODO: HANDLE ERROR
+                print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
+                return
+            }
+            print("SUCCESS GOOGLE SIGNIN")
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+        print("DID DISCONNECT GOOGLE")
+    }
+
+}
+

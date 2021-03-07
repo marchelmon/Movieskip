@@ -13,11 +13,10 @@ class FailedAuthMessageView: UITextView {
         super.init(frame: frame, textContainer: textContainer)
         
         font = UIFont.boldSystemFont(ofSize: 18)
-        textColor = MAIN_COLOR
+        textColor = .white
+        backgroundColor = UIColor(white: 0.5, alpha: 0.0)
         alpha = 0
-        layer.cornerRadius = 10
-        backgroundColor = .white
-        
+        layer.cornerRadius = 10        
     }
     
     required init?(coder: NSCoder) {

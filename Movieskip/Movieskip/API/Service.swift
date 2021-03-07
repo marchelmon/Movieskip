@@ -59,19 +59,26 @@ struct AuthService {
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
     }
     
-    static func registerUser(email: String, username: String, password: String, completion: @escaping ((Error?) -> Void)) {
+    static func registerUser(email: String, password: String, completion: @escaping ((Error?) -> Void)) {
     
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if let error = error {
                 completion(error)
                 return
             }
-            guard let uid = result?.user.uid else { return }
             
-            let data = ["email": email, "username": username, "uid": uid] as [String : Any]
+            guard let result = result else { return }
+            result.user.sendEmailVerification { error in
+                if let error = error {
+                    print("ERROR VER-EMAIL: \(error.localizedDescription)")
+                }
+            }
+            let uid = result.user.uid
+            
+            let data = ["email": email, "uid": uid] as [String : Any]
             
             COLLECTION_USERS.document(uid).setData(data, completion: completion)
-            
+        
         }
     }
     
