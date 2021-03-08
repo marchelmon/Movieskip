@@ -17,7 +17,26 @@ struct AuthService {
     }
     
     static func logUserIn(withEmail email: String, withPassword password: String, completion: AuthDataResultCallback?) {
-        Auth.auth().signIn(withEmail: email, password: password, completion: completion)
+        Auth.auth().signIn(withEmail: email, password: password) { (data, error) in
+            if let error = error {
+                print("FIREBASE LOGIN ERROR: \(error.localizedDescription)")
+                return
+            }
+            if let data = data {
+                COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
+                    if let error = error {
+                        print("FIREBASE LOGIN FETCH ERROR: \(error.localizedDescription)")
+                        return
+                    }
+                    if let snapshot = snapshot {
+                        if let userData = snapshot.data() {
+                            print("LOGGED IN USER SET IN sceneDelegate")
+                            sceneDelegate.setUser(user: User(dictionary: userData))
+                        }
+                    }
+                }
+            }
+        }
     }
     
     static func registerUser(email: String, password: String, completion: @escaping ((Error?) -> Void)) {

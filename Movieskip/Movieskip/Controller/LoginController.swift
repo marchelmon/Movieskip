@@ -145,12 +145,11 @@ class LoginController: UIViewController {
                     } else {
                         self.failedAuthMessage.text = "Unknown error, please try closing the app and starting again"
                     }
-                    return
                 }
-            }  else {
+                return
+            }
                 //hud.dismiss
                 self.delegate?.authenticationComplete()
-            }
         }
     }
     
@@ -311,8 +310,9 @@ extension LoginController: GIDSignInDelegate {
                 print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
                 return
             }
-            print("SUCCESS GOOGLE SIGNIN")
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true) {
+                
+            }
         }
     }
 

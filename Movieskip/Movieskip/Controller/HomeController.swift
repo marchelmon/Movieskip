@@ -188,8 +188,12 @@ extension HomeController: CardViewDelegate {
 
 extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
-        dismiss(animated: true, completion: nil)
-        //Fetch user and  TODO?
+        dismiss(animated: true) {
+            if AuthService.sceneDelegate.user.username == "" {
+                let controller = UsernameController()
+            }
+        }
+        
     }
 }
 
