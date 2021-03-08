@@ -51,9 +51,10 @@ class HomeController: UIViewController {
     //MARK: - API
     
     func checkIfUserIsLoggedIn() {
+        authenticationComplete()
         if !AuthService.userIsLoggedIn() {
             //TODO: Hämta "user" från User defaults
-            presentLoginController()
+            //presentLoginController()
         } else {
             if let loggedInUser = Auth.auth().currentUser {
                 if !loggedInUser.isEmailVerified { loggedInUser.sendEmailVerification(completion: nil) } // TODO: Ta bort?
@@ -191,10 +192,11 @@ extension HomeController: AuthenticationDelegate {
         dismiss(animated: true) {
             if AuthService.sceneDelegate.user.username == "" {
                 let controller = UsernameController()
-                self.present(controller, animated: true, completion: nil)
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
             }
         }
-        
     }
 }
 

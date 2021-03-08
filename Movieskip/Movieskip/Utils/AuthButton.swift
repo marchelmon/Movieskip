@@ -16,7 +16,6 @@ class AuthButton: UIButton {
         layer.cornerRadius = 5
         heightAnchor.constraint(equalToConstant: 50).isActive = true
         setTitleColor(.white, for: .normal)
-        isEnabled = false
     }
     
     required init?(coder: NSCoder) {
