@@ -11,6 +11,12 @@ public struct AnchoredConstraints {
     public var top, leading, bottom, trailing, width, height: NSLayoutConstraint?
 }
 
+extension String {
+    func isAlphanumeric() -> Bool {
+        return self.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil && self != ""
+    }
+}
+
 extension UIColor {
     static let barDeselectedColor = UIColor(white: 0, alpha: 0.1)
 }

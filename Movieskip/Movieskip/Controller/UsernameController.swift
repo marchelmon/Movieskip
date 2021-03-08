@@ -10,6 +10,8 @@ import UIKit
 
 class UsernameController: UIViewController {
     
+    //MARK: - Properties
+    
     private let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Select a username to continue"
@@ -30,12 +32,24 @@ class UsernameController: UIViewController {
         tf.placeholder = "Username"
         return tf
     }()
+    
     private let authButton: AuthButton = {
         let button = AuthButton(type: .system)
         button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         button.setTitle("Continue", for: .normal)
+        button.addTarget(self, action: #selector(handleSelectUsername), for: .touchUpInside)
         return button
     }()
+    
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.alpha = 0
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,19 +57,66 @@ class UsernameController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         
         view.addSubview(usernameLabel)
-        usernameLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingRight: 20)
+        usernameLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
+        
+        view.addSubview(errorLabel)
+        errorLabel.anchor(top: usernameLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 100, paddingLeft: 20, paddingRight: 20, height: 50)
         
         view.addSubview(usernameTextfield)
-        usernameTextfield.anchor(top: usernameLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 100, paddingLeft: 40, paddingRight: 40, height: 50)
+        usernameTextfield.anchor(top: errorLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 40, paddingRight: 40, height: 50)
         
         view.addSubview(authButton)
         authButton.anchor(top: usernameTextfield.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 15, paddingLeft: 40, paddingRight: 40)
         
-        //TODO: kolla om detta knasar
-        authButton.centerY(inView: view)
-
-        
-        
+    }
+    
+    //MARK: - Actions
+    
+    @objc func handleSelectUsername() {
+        if let username = usernameTextfield.text {
+            
+            if !username.isAlphanumeric() {
+                errorLabel.text = "Only letter and numbers are allowed"
+                errorLabel.alpha = 1
+                return
+            }
+            
+            if username.count < 4 {
+                errorLabel.text = "The username has to be 4 characters or longer"
+                errorLabel.alpha = 1
+                return
+            }
+            
+            AuthService.isUsernameTaken(username: username) { (isTaken, error) in
+                
+                if let error = error {
+                    print("ERROR OCCUREDWHEN SELECTING USERNAME: \(error.localizedDescription)")
+                    self.errorLabel.text = "An error occured, please close the app and try again"
+                    self.errorLabel.alpha = 1
+                    return
+                }
+               
+                if !isTaken {
+                    
+                    AuthService.updateUsername(username: username) { error in
+                        if let error = error {
+                            print("ERROR updating firebase username: \(error.localizedDescription)")
+                            self.errorLabel.text = "An error occurred"
+                            self.errorLabel.alpha = 1
+                            return
+                        }
+                        AuthService.sceneDelegate.user.username = username
+                        print("Success: \(AuthService.sceneDelegate.user)")
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    
+                } else {
+                    self.errorLabel.text = "The username is already taken"
+                    self.errorLabel.alpha = 1
+                }
+                
+            }
+        }
     }
     
 }

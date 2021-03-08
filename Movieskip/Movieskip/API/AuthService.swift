@@ -121,7 +121,28 @@ struct AuthService {
                 }
             }
         }
+    }
+    
+    static func isUsernameTaken(username: String, completion: @escaping (Bool, Error?) -> Void) {
+        COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments { (snapshot, error) in
+            if let results = snapshot {
+                if results.count == 0 {
+                    completion(false, nil)
+                    return
+                }
+                completion(true, error)
+                return
+            }
+            completion(true, error)
+        }
+    }
+    
+    static func updateUsername(username: String, completion: ((Error?) -> Void)?) {
+        
+        print("KOM HIT IAF ")
+        COLLECTION_USERS.document(sceneDelegate.user.uid).updateData(["username" : username], completion: completion)
             
+
     }
     
 }

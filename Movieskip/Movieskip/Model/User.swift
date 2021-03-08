@@ -10,7 +10,7 @@ import Foundation
 struct User {
     let uid: String
     let email: String
-    let username: String
+    var username: String
     var watchlist: [Int]
     var excluded: [Int]
     var skipped: [Int]
