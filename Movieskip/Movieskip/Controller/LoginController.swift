@@ -310,9 +310,7 @@ extension LoginController: GIDSignInDelegate {
                 print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
                 return
             }
-            self.dismiss(animated: true) {
-                
-            }
+            self.delegate?.authenticationComplete()
         }
     }
 

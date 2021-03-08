@@ -193,8 +193,7 @@ extension RegistrationController: GIDSignInDelegate {
                 print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
                 return
             }
-            print("SUCCESS GOOGLE SIGNIN")
-            self.dismiss(animated: true, completion: nil)
+            self.delegate?.authenticationComplete()
         }
     }
 

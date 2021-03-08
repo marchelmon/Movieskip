@@ -191,6 +191,7 @@ extension HomeController: AuthenticationDelegate {
         dismiss(animated: true) {
             if AuthService.sceneDelegate.user.username == "" {
                 let controller = UsernameController()
+                self.present(controller, animated: true, completion: nil)
             }
         }
         
