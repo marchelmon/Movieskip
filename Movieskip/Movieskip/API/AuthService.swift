@@ -126,18 +126,16 @@ struct AuthService {
         }
     }
     
-    static func fetchLoggedInUser(uid: String, completion: @escaping ((User?, Error?) -> Void)) {
+    static func fetchLoggedInUser(uid: String, completion: @escaping ((Error?) -> Void)) {
         COLLECTION_USERS.document(uid).getDocument { (snapshot, error) in
-            if let error = error {
-                print("FETCH ERROR: \(error.localizedDescription)")
-                completion(nil, error)
-            }
+            
             if let snapshot = snapshot {
                 if let userData = snapshot.data() {
                     sceneDelegate.user = User(dictionary: userData)
-                    completion(sceneDelegate.user, nil)
                 }
             }
+            completion(error)
+
         }
     }
     

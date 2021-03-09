@@ -35,8 +35,6 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("USER: \(sceneDelegate.user)")
-        
         bottomStack.delegate = self
         topStack.delegate = self
         configureUI()
@@ -53,16 +51,20 @@ class HomeController: UIViewController {
     func checkIfUserIsLoggedIn() {
         authenticationComplete()
         if !AuthService.userIsLoggedIn() {
-            //TODO: Hämta "user" från User defaults eller lägg bara till i user defaults hela tiden(nä)
-            //presentLoginController()
+            if !UserDefaults.standard.bool(forKey: "skippedLogin") {
+                presentLoginController()
+            }
         } else {
             if let loggedInUser = Auth.auth().currentUser {
-                if !loggedInUser.isEmailVerified { loggedInUser.sendEmailVerification(completion: nil) } // TODO: Ta bort?
+                
+                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { error in
 
-                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (user, error) in
-                    //TODO: Vad händer här?
-
+                    if let error = error {
+                        print("ERROR FETCHING USER FROM FIREBASE: \(error.localizedDescription)")
+                    }
+                    
                 }
+                
             }
         }
     }

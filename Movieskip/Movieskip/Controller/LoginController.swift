@@ -119,8 +119,8 @@ class LoginController: UIViewController {
     //MARK: - Actions
     
     @objc func handleSkipLogin() {
-        //dismiss(animated: true, completion: nil)
-        print("SHOULD DISMISS LOGIN CONTROLLER")
+        UserDefaults.standard.set(true, forKey: "skippedLogin")
+        dismiss(animated: true, completion: nil)
     }
     
     @objc func handleLoginUser() {

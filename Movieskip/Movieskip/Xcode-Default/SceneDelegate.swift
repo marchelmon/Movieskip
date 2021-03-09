@@ -16,8 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     override init() {
         super.init()
-        
-        fetchLocalUserInDefaults()
+        fetchLocalUser()
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -34,9 +33,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        
         updateFirebaseUser()
         updateLocalUserDefaults()
+        
+        UserDefaults.standard.set(false, forKey: "skippedLogin")
         
     }
 
@@ -101,8 +101,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         COLLECTION_USERS.document(user.uid).setData(user.dictionary)
     }
     
-    func fetchLocalUserInDefaults() {
-        
+    func fetchLocalUser() {
         
         let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? [1, 3]
         let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? [2]
