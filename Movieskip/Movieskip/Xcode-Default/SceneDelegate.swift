@@ -11,7 +11,7 @@ import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var user: User = User(dictionary: ["uid": "1232", "email": "hej"] as [String: Any])
+    var user: User?
     
     override init() {
         super.init()
@@ -42,23 +42,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func addToWatchlist(movie: Int) {
-        user.watchlist.append(movie)
+        user?.watchlist.append(movie)
     }
     
     func addToExcluded(movie: Int) {
-        user.excluded.append(movie)
+        user?.excluded.append(movie)
     }
     
     func addToSwiped(movie: Int) {
-        user.skipped.append(movie)
+        user?.skipped.append(movie)
     }
     
     func addFriend(friend: User) {
-        user.friends.append(friend)
+        user?.friends.append(friend)
     }
     
     func setProfileImage(image: String) {
-        user.profileImage = image
+        user?.profileImage = image
+    }
+    
+    func setUsername(username: String) {
+        user?.username = username
     }
 
 }

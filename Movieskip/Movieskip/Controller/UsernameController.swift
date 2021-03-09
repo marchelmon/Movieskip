@@ -105,7 +105,7 @@ class UsernameController: UIViewController {
                             self.errorLabel.alpha = 1
                             return
                         }
-                        AuthService.sceneDelegate.user.username = username
+                        AuthService.sceneDelegate.setUsername(username: username)
                         print("Success: \(AuthService.sceneDelegate.user)")
                         self.dismiss(animated: true, completion: nil)
                     }
