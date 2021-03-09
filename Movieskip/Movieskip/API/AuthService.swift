@@ -130,29 +130,18 @@ struct AuthService {
                     completion(false, nil)
                     return
                 }
-                completion(true, error)
-                return
             }
             completion(true, error)
         }
     }
     
-    static func updateUsername(username: String, completion: ((Error?) -> Void)?) {
+    static func updateUsername(username: String) {
+
+        sceneDelegate.user?.username = username
         
-        guard let uid = sceneDelegate.user?.uid else {
-            let error = NSError(domain:"", code: 401, userInfo:[ NSLocalizedDescriptionKey: "No user found in sceneDelegate"])
-            completion!(error)
-            return
-        }
-        COLLECTION_USERS.document(uid).updateData(["username" : username], completion: completion)
+        guard let uid = sceneDelegate.user?.uid else { return }
+        COLLECTION_USERS.document(uid).updateData(["username" : username])
             
-    }
-    
-    static func updateFirebaseUser(user: User, completion: ((Error?) -> Void)?) {
-        
-        //TODO: USER MUST NOT BE NIL
-        COLLECTION_USERS.document(user.uid).setData(user.dictionary, completion: completion)
-        
     }
     
 }

@@ -62,7 +62,7 @@ class HomeController: UIViewController {
                 AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (user, error) in
                     //TODO: Vad händer här?
                     
-                    self.sceneDelegate.addToSwiped(movie: 3)
+                    self.sceneDelegate.addToSkipped(movie: 3)
                     self.sceneDelegate.addToWatchlist(movie: 4)
                     self.sceneDelegate.addToExcluded(movie: 2)
 

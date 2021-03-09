@@ -96,24 +96,16 @@ class UsernameController: UIViewController {
                     self.errorLabel.alpha = 1
                     return
                 }
-               
                 if !isTaken {
                     
-                    AuthService.updateUsername(username: username) { error in
-                        if let error = error {
-                            print("ERROR updating firebase username: \(error.localizedDescription)")
-                            self.errorLabel.text = "An error occurred"
-                            self.errorLabel.alpha = 1
-                            return
-                        }
-                        AuthService.sceneDelegate.setUsername(username: username)
-                        print("Success: \(AuthService.sceneDelegate.user?.username ?? "No user UsernameController")")
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                    
-                } else {
                     self.errorLabel.text = "The username is already taken"
                     self.errorLabel.alpha = 1
+                    
+                } else {
+                    
+                    AuthService.updateUsername(username: username)
+                    self.dismiss(animated: true, completion: nil)
+                    
                 }
                 
             }

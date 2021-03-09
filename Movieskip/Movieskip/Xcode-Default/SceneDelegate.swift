@@ -12,9 +12,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var user: User?
+    var localUser: LocalUser?
     
     override init() {
         super.init()
+        
+        fetchLocalUserInDefaults()
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -33,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         
         updateFirebaseUser()
+        updateLocalUserDefaults()
         
     }
 
@@ -43,15 +47,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func addToWatchlist(movie: Int) {
-        user?.watchlist.append(movie)
+        
+        if user != nil {
+            user?.watchlist.append(movie)
+            return
+        }
+        
+        if localUser != nil {
+            localUser?.watchlist.append(movie)
+        }
     }
     
     func addToExcluded(movie: Int) {
-        user?.excluded.append(movie)
+
+        if user != nil {
+            user?.excluded.append(movie)
+            return
+        }
+        
+        if localUser != nil {
+            localUser?.excluded.append(movie)
+        }
+        
     }
     
-    func addToSwiped(movie: Int) {
-        user?.skipped.append(movie)
+    func addToSkipped(movie: Int) {
+
+        if user != nil {
+            user?.skipped.append(movie)
+            return
+        }
+        
+        if localUser != nil {
+            localUser?.skipped.append(movie)
+        }
+
     }
     
     func addFriend(friend: User) {
@@ -67,9 +97,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func updateFirebaseUser() {
-        print("ENTERED BACKGROUND")
         guard let user = user else { return }
         COLLECTION_USERS.document(user.uid).setData(user.dictionary)
+    }
+    
+    func fetchLocalUserInDefaults() {
+        
+        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? []
+        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? []
+        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? []
+        
+        let data = ["watchlist": watchlist, "excluded": excluded, "skipped": skipped]
+        
+        if watchlist.count != 0 || excluded.count != 0 || skipped.count != 0 {
+            print("THERE IS A USER DEFAULTS USER")
+            localUser = LocalUser(data: data)
+        }
+                
+    }
+    
+    func updateLocalUserDefaults() {
+        
+        if localUser != nil {
+            UserDefaults.standard.set(localUser?.watchlist, forKey: "watchlist")
+            UserDefaults.standard.set(localUser?.excluded, forKey: "excluded")
+            UserDefaults.standard.set(localUser?.skipped, forKey: "skipped")
+        }
+        
     }
 
 }
