@@ -103,9 +103,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func fetchLocalUserInDefaults() {
         
-        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? []
-        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? []
-        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? []
+        
+        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? [1, 3]
+        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? [2]
+        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? [3]
         
         let data = ["watchlist": watchlist, "excluded": excluded, "skipped": skipped]
         
@@ -124,6 +125,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             UserDefaults.standard.set(localUser?.skipped, forKey: "skipped")
         }
         
+    }
+    
+    func clearDefaults() {
+        let domain = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: domain)
+        UserDefaults.standard.synchronize()
     }
 
 }

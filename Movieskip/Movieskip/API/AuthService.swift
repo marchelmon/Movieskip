@@ -55,7 +55,15 @@ struct AuthService {
             }
             
             let uid = result.user.uid
-            let data = ["email": email, "uid": uid] as [String : Any]
+            let localUser = sceneDelegate.localUser
+            let data: [String: Any] = [
+                "uid": result.user.uid,
+                "email": result.user.email ?? "",
+                "watchlist": localUser?.watchlist ?? [],
+                "excluded": localUser?.excluded ?? [],
+                "skipped": localUser?.skipped ?? [],
+            ]
+            
             let user = User(dictionary: data)
             sceneDelegate.setUser(user: user)
             let userData = user.dictionary
@@ -88,12 +96,22 @@ struct AuthService {
                     
                     if let snapshot = snapshot {
                         if snapshot.exists {
+                            
                             guard let userData = snapshot.data() else { return }
                             let user = User(dictionary: userData)
                             sceneDelegate.setUser(user: user)
                             completion(nil)
+                            
                         } else {
-                            let userData: [String: Any] = ["uid": data.user.uid, "email": data.user.email ?? ""]
+                            
+                            let localUser = sceneDelegate.localUser
+                            let userData: [String: Any] = [
+                                "uid": data.user.uid,
+                                "email": data.user.email ?? "",
+                                "watchlist": localUser?.watchlist ?? [],
+                                "excluded": localUser?.excluded ?? [],
+                                "skipped": localUser?.skipped ?? [],
+                            ]
                             
                             let newUser = User(dictionary: userData)
                             sceneDelegate.setUser(user: newUser)
