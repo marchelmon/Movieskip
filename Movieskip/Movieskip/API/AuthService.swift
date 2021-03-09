@@ -150,7 +150,8 @@ struct AuthService {
     
     static func updateFirebaseUser(user: User, completion: ((Error?) -> Void)?) {
         
-        COLLECTION_USERS.document(user.uid).setData(user.dictionary, merge: true, completion: completion)
+        //TODO: USER MUST NOT BE NIL
+        COLLECTION_USERS.document(user.uid).setData(user.dictionary, completion: completion)
         
     }
     

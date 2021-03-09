@@ -31,17 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        //Save user to firebase
-        //Service.saveUserData(user: user, completition)
-        print("ENTERED BACKGROUND")
-        guard let saveUser = user else { return }
-        AuthService.updateFirebaseUser(user: saveUser) { error in
-            if let error = error {
-                print("DET SÖG JU: \(error.localizedDescription)")
-                return
-            }
-            print("USERN SPARAD")
-        }
+        
+        updateFirebaseUser()
         
     }
 
@@ -73,6 +64,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func setUsername(username: String) {
         user?.username = username
+    }
+    
+    func updateFirebaseUser() {
+        print("ENTERED BACKGROUND")
+        guard let user = user else { return }
+        COLLECTION_USERS.document(user.uid).setData(user.dictionary)
     }
 
 }
