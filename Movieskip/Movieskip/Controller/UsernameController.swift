@@ -26,10 +26,11 @@ class UsernameController: UIViewController {
         spacer.setDimensions(height: 50, width: 12)
         tf.leftView = spacer
         tf.leftViewMode = .always
-        //tf.heightAnchor.constraint(equalToConstant: 35).isActive = true
         tf.backgroundColor = UIColor(white: 0.9, alpha: 0.5)
         tf.attributedPlaceholder = NSAttributedString(string: "Username", attributes: [.foregroundColor: UIColor(white: 0.1, alpha: 0.8)])
         tf.placeholder = "Username"
+        tf.autocorrectionType = .no
+        tf.autocapitalizationType = .none
         return tf
     }()
     
@@ -106,7 +107,7 @@ class UsernameController: UIViewController {
                             return
                         }
                         AuthService.sceneDelegate.setUsername(username: username)
-                        print("Success: \(AuthService.sceneDelegate.user)")
+                        print("Success: \(AuthService.sceneDelegate.user?.username ?? "No user UsernameController")")
                         self.dismiss(animated: true, completion: nil)
                     }
                     

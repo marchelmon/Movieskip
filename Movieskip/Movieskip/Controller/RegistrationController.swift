@@ -111,7 +111,7 @@ class RegistrationController: UIViewController {
                     return
                 }
             }
-            print("Registered user: \(self.sceneDelegate.user)")
+            print("Registered user: \(self.sceneDelegate.user ?? User(dictionary: ["": ""]))")
             //hud.dismiss() TODO
             self.delegate?.authenticationComplete()
         }

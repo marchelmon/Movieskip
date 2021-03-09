@@ -26,6 +26,7 @@ class CustomTextField: UITextField {
         isSecureTextEntry = secureText
         keyboardAppearance = .dark
         autocorrectionType = .no
+        autocapitalizationType = .none
     }
     
     required init?(coder: NSCoder) {

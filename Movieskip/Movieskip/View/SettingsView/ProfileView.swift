@@ -23,7 +23,7 @@ class ProfileView: UIView {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(sceneDelegate.user.username) "
+        label.text = "\(sceneDelegate.user?.username ?? "No username") "
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
         label.textColor = MAIN_COLOR
@@ -141,9 +141,9 @@ class ProfileView: UIView {
         addSubview(userStatsView)
         userStatsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 200)
         
-        let watchlistCountLabel = createCountLabel(count: sceneDelegate.user.watchListCount)
-        let excludedCountLabel = createCountLabel(count: sceneDelegate.user.excludedCount)
-        let friendsCountLabel = createCountLabel(count: sceneDelegate.user.friends.count)
+        let watchlistCountLabel = createCountLabel(count: sceneDelegate.user?.watchListCount ?? 0)
+        let excludedCountLabel = createCountLabel(count: sceneDelegate.user?.excludedCount ?? 0)
+        let friendsCountLabel = createCountLabel(count: sceneDelegate.user?.friends.count ?? 0)
         
         userStatsView.addSubview(usernameLabel)
         userStatsView.addSubview(watchlistCountLabel)

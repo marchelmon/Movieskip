@@ -53,14 +53,20 @@ class HomeController: UIViewController {
     func checkIfUserIsLoggedIn() {
         authenticationComplete()
         if !AuthService.userIsLoggedIn() {
-            //TODO: Hämta "user" från User defaults
+            //TODO: Hämta "user" från User defaults eller lägg bara till i user defaults hela tiden(nä)
             //presentLoginController()
         } else {
             if let loggedInUser = Auth.auth().currentUser {
                 if !loggedInUser.isEmailVerified { loggedInUser.sendEmailVerification(completion: nil) } // TODO: Ta bort?
 
                 AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (user, error) in
+                    //TODO: Vad händer här?
                     
+                    self.sceneDelegate.addToSwiped(movie: 2)
+                    self.sceneDelegate.addToWatchlist(movie: 4)
+                    self.sceneDelegate.addToExcluded(movie: 2)
+                    self.sceneDelegate.addToSwiped(movie: 5)
+
                 }
             }
         }
@@ -190,7 +196,7 @@ extension HomeController: CardViewDelegate {
 extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true) {
-            if AuthService.sceneDelegate.user.username == "" {
+            if AuthService.sceneDelegate.user?.username == "" {
                 let controller = UsernameController()
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen

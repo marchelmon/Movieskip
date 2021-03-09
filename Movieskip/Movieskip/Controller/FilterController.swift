@@ -67,9 +67,6 @@ class FilterController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
         filterView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 270)
-
-        print("VIEW WIDTH: \(view.frame.width)")
-
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.tableHeaderView = filterView
