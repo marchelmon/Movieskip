@@ -96,7 +96,7 @@ class UsernameController: UIViewController {
                     self.errorLabel.alpha = 1
                     return
                 }
-                if !isTaken {
+                if isTaken {
                     
                     self.errorLabel.text = "The username is already taken"
                     self.errorLabel.alpha = 1
@@ -107,7 +107,7 @@ class UsernameController: UIViewController {
                     self.dismiss(animated: true, completion: nil)
                     
                 }
-                
+
             }
         }
     }

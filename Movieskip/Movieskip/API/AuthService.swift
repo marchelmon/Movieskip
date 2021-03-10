@@ -143,7 +143,7 @@ struct AuthService {
         COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments { (snapshot, error) in
             if let results = snapshot {
                 if results.count == 0 {
-                    completion(false, nil)
+                    completion(false, error)
                     return
                 }
             }
