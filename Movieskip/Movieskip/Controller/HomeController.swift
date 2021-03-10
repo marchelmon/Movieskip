@@ -51,9 +51,10 @@ class HomeController: UIViewController {
     func checkIfUserIsLoggedIn() {
         authenticationComplete()
         if !AuthService.userIsLoggedIn() {
-            if !UserDefaults.standard.bool(forKey: "skippedLogin") {
-                presentLoginController()
-            }
+//            if !UserDefaults.standard.bool(forKey: "skippedLogin") {
+//                presentLoginController()
+//            }
+            presentLoginController()
         } else {
             if let loggedInUser = Auth.auth().currentUser {
                 
@@ -185,6 +186,16 @@ extension HomeController: CardViewDelegate {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    func cardView(_ view: CardView, didLikeMovie: Bool) {
+        let movieId = view.viewModel.movie.id
+        
+        if didLikeMovie {
+            sceneDelegate.addToSkipped(movie: movieId)
+        } else {
+            sceneDelegate.addToExcluded(movie: movieId)
+        }
     }
 }
 

@@ -103,9 +103,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func fetchLocalUser() {
         
-        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? [1, 3]
-        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? [2]
-        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? [3]
+        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? []
+        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? []
+        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? []
         
         let data = ["watchlist": watchlist, "excluded": excluded, "skipped": skipped]
         
