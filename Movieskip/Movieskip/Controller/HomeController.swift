@@ -13,12 +13,17 @@ class HomeController: UIViewController {
     
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
+    var swipeAnimationReady = true
+    
     private var filter: Filter?
     
     private var topCard: CardView?
     private var viewModels = [CardViewModel]() {
         didSet { configureCards() }
     }
+    
+    private var topCardView: CardView?
+    private var cardViews = [CardView]()
     
     private let topStack = HomeNavigationStackView()
     private let bottomStack = BottomControlsStackView()
@@ -95,7 +100,7 @@ class HomeController: UIViewController {
     //MARK: - Helpers
     
     func configureCards() {
-        for view in deckView.subviews{
+        for view in deckView.subviews {
             view.removeFromSuperview()
         }
         for viewModel in viewModels {
@@ -104,12 +109,19 @@ class HomeController: UIViewController {
             deckView.addSubview(cardView)
             cardView.fillSuperview()
         }
+        cardViews = deckView.subviews.map({ ($0 as? CardView)! })
+        topCardView = cardViews.last
+        
     }
     
     func configureUI() {
         view.backgroundColor = .white
         
-        let stack = UIStackView(arrangedSubviews: [topStack, deckView , bottomStack])
+        let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
+        
+        
+        let stack = UIStackView(arrangedSubviews: [topStack, midStack , bottomStack])
         
         view.addSubview(stack)
         
@@ -119,7 +131,7 @@ class HomeController: UIViewController {
         bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 25)
         
         stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = .init(top: 0, left: 15, bottom: 0, right: 15)
+        stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         stack.bringSubviewToFront(deckView)
     }
@@ -134,18 +146,55 @@ class HomeController: UIViewController {
             self.present(nav, animated: true, completion: nil)
         }
     }
+
+    //Animation, remove topcard and add movieid to skipped or excluded
+    func performSwipeAnimation(shouldExclude: Bool) {
+        guard let topCard = self.topCardView else { return }
+        
+        if !swipeAnimationReady { return }
+        swipeAnimationReady = false
+        
+        let translation: CGFloat = shouldExclude ? -700 : 700
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .transitionCurlDown) {
+            topCard.frame = CGRect(x: translation, y: 0,
+                                             width: (topCard.frame.width),
+                                             height: (topCard.frame.height))
+        } completion: { _ in
+            self.swipeAnimationReady = true
+            
+            shouldExclude ?
+                self.sceneDelegate.addToExcluded(movie: topCard.viewModel.movie.id) :
+                self.sceneDelegate.addToSkipped(movie: topCard.viewModel.movie.id)
+            
+            self.topCardView?.removeFromSuperview()
+            guard !self.cardViews.isEmpty else { return }
+            self.cardViews.remove(at: self.cardViews.count - 1)
+            self.topCardView = self.cardViews.last
+        }
+    }
     
 }
 
 //MARK: - BottomControlsStackViewDelegate
 
 extension HomeController: BottomControlsStackViewDelegate {
-    func handleLike() {
-        print("Pressed like")
+    
+    func handleSkip() {
+        sceneDelegate.addToExcluded(movie: topCard.viewModel.movie.id)
+
+        performSwipeAnimation(shouldExclude: false)
     }
     
-    func handleDislike() {
-        print("Pressed dislike")
+    func handleExclude() {
+        guard let topCard = topCardView else { return }
+        sceneDelegate.addToSkipped(movie: topCard.viewModel.movie.id)
+        
+        performSwipeAnimation(shouldExclude: true)
+    }
+    
+    func handleAddWatchlist() {
+        print("Pressed staaaa")
+        sceneDelegate.addToWatchlist(movie: 1)
     }
     
     func handleShowFilter() {
@@ -159,10 +208,7 @@ extension HomeController: BottomControlsStackViewDelegate {
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
-    
-    func handleAddWatchlist() {
-        print("Pressed staa")
-    }
+
 }
 
 //MARK: - FilterControllerDelegate
@@ -181,6 +227,7 @@ extension HomeController: FilterControllerDelegate {
 //MARK: - CardViewDelegate
 
 extension HomeController: CardViewDelegate {
+    
     func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie) {
         let controller = DetailsController(movie: movie)
         let nav = UINavigationController(rootViewController: controller)
@@ -196,6 +243,11 @@ extension HomeController: CardViewDelegate {
         } else {
             sceneDelegate.addToExcluded(movie: movieId)
         }
+        
+        view.removeFromSuperview()
+        self.cardViews.removeAll(where: { view == $0 })
+        self.topCardView = cardViews.last
+        
     }
 }
 

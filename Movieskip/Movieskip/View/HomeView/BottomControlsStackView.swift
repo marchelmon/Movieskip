@@ -8,8 +8,8 @@
 import UIKit
 
 protocol BottomControlsStackViewDelegate: class {
-    func handleLike()
-    func handleDislike()
+    func handleSkip()
+    func handleExclude()
     func handleShowFilter()
     func handleAddWatchlist()
 }
@@ -19,8 +19,8 @@ class BottomControlsStackView: UIStackView {
     
     weak var delegate: BottomControlsStackViewDelegate?
     
-    private let dislikeButton = UIButton(type: .system)
-    private let likeButton = UIButton(type: .system)
+    private let excludeButton = UIButton(type: .system)
+    private let skipButton = UIButton(type: .system)
     private let watchlistButton = UIButton(type: .system)
     private let refreshButton = UIButton(type: .system)
     private let filterButton = UIButton(type: .system)
@@ -36,21 +36,21 @@ class BottomControlsStackView: UIStackView {
         
         let gearImage = UIImage(systemName: "gearshape.fill")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
         
-        dislikeButton.setImage(#imageLiteral(resourceName: "dismiss_circle").withRenderingMode(.alwaysOriginal), for: .normal)
-        likeButton.setImage(#imageLiteral(resourceName: "like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
+        excludeButton.setImage(#imageLiteral(resourceName: "dismiss_circle").withRenderingMode(.alwaysOriginal), for: .normal)
+        skipButton.setImage(#imageLiteral(resourceName: "like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
         watchlistButton.setImage(#imageLiteral(resourceName: "super_like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
         filterButton.setImage(gearImage, for: .normal)
 
         
         //Actions for buttons goes here
-        dislikeButton.addTarget(self, action: #selector(handleDislike), for: .touchUpInside)
-        likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+        excludeButton.addTarget(self, action: #selector(handleDislike), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         watchlistButton.addTarget(self, action: #selector(handleShowWatchlist), for: .touchUpInside)
         filterButton.addTarget(self, action: #selector(handleShowFilter), for: .touchUpInside)
 
         
         
-        [filterButton, dislikeButton, likeButton, watchlistButton].forEach { view in
+        [filterButton, excludeButton, skipButton, watchlistButton].forEach { view in
             addArrangedSubview(view)
         }
     }
@@ -62,11 +62,11 @@ class BottomControlsStackView: UIStackView {
     //MARK: - Actions
     
     @objc func handleDislike() {
-        delegate?.handleDislike()
+        delegate?.handleExclude()
     }
     
     @objc func handleLike() {
-        delegate?.handleLike()
+        delegate?.handleSkip()
     }
     
     @objc func handleShowFilter() {
