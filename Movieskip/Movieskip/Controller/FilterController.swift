@@ -50,7 +50,7 @@ class FilterController: UITableViewController {
     }
     
     @objc func handleSave() {
-        if filterView.viewModel.filter.minYear > filterView.viewModel.filter.maxYear {
+        if filterView.viewModel.filter.minYear >= filterView.viewModel.filter.maxYear - 1 {
             filterView.viewModel.filter.minYear = 2010
             filterView.viewModel.filter.maxYear = 2021
         }

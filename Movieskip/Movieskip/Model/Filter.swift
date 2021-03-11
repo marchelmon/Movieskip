@@ -12,6 +12,7 @@ struct Filter {
     var minYear: Float
     var maxYear: Float
     var popular: Bool
+    var page: Int
     
     var minYearString: String {
         let string = "\(String(Int(minYear) + 1))-01-01"
@@ -24,7 +25,7 @@ struct Filter {
     }
     
     var filterUrlString: String {
-        var requestString: String = "&language=en&release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)"
+        var requestString: String = "release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)&page=\(page)"
         requestString.append(popular ? "&vote_average.gte=7" : "")
         requestString.append(popular ? "&vote_count.gte=500" : "&vote_count.gte=100")
         
@@ -36,20 +37,6 @@ struct Filter {
         }
         return requestString
     }
-    
-//    func prepareFilterString() -> String {
-//        var requestString: String = "&language=en&release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)"
-//        requestString.append(popular ? "&vote_average.gte=7" : "")
-//        requestString.append(popular ? "&vote_count.gte=500" : "&vote_count.gte=100")
-//        
-//        if genres.count != 0 {
-//            requestString.append("&with_genres=")
-//            self.genres.forEach { genre in
-//                requestString.append("\(genre.id)|")
-//            }
-//        }
-//        return requestString
-//    }
     
 }
 

@@ -192,7 +192,7 @@ extension HomeController: BottomControlsStackViewDelegate {
     }
     
     func handleShowFilter() {
-        let currentFilter = self.filter ?? Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: true)
+        let currentFilter = self.filter ?? Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: true, page: 1)
         let filterView = FilterView()
         filterView.viewModel = FilterViewModel(filter: currentFilter)
         let controller = FilterController(filterView: filterView)

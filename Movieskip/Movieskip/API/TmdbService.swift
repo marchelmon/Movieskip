@@ -17,6 +17,8 @@ struct TmdbService {
         
         let urlString = "\(TMDB_DISCOVER_BASE)\(filter.filterUrlString)"
         
+        print(urlString)
+        
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),let url = URL(string: encoded) {
 
             AF.request(url).validate().responseJSON { (response) in

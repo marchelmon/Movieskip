@@ -27,10 +27,12 @@ let USER_DEFAULTS_POPULAR_KEY = "popular"
 let USER_DEFAULTS_PAGE_KEY = "page"
 
 
-//MARK: - TMDB API 
+//MARK: - TMDB API
+
+//TDOD: Ändra sort_by till inget (aka popularity.asc)
 
 let TMDB_API_KEY: String = "ab0e29ade2759c5fdac27207fe0ce0b8"
-let TMDB_DISCOVER_BASE: String = "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_API_KEY)"
+let TMDB_DISCOVER_BASE: String = "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_API_KEY)&language=en&sort_by=vote_count.desc&include_adult=false&include_video=false"
 let TMDB_MOVIE_BASE: String = "https://api.themoviedb.org/3/movie/"
 let TMDB_IMAGE_BASE: String = "https://image.tmdb.org/t/p/w500"
 
