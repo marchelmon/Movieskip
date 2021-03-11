@@ -56,10 +56,9 @@ class HomeController: UIViewController {
     func checkIfUserIsLoggedIn() {
         authenticationComplete()
         if !AuthService.userIsLoggedIn() {
-//            if !UserDefaults.standard.bool(forKey: "skippedLogin") {
-//                presentLoginController()
-//            }
-            presentLoginController()
+            if !UserDefaults.standard.bool(forKey: "skippedLogin") {
+                presentLoginController()
+            }
         } else {
             if let loggedInUser = Auth.auth().currentUser {
                 
@@ -147,7 +146,7 @@ class HomeController: UIViewController {
         }
     }
 
-    //Animation, remove topcard and add movieid to skipped or excluded
+    //Animation, remove topcard and add movieid to skipped or excluded in sceneDelegate.user
     func performSwipeAnimation(shouldExclude: Bool) {
         guard let topCard = self.topCardView else { return }
         
@@ -180,15 +179,10 @@ class HomeController: UIViewController {
 extension HomeController: BottomControlsStackViewDelegate {
     
     func handleSkip() {
-        sceneDelegate.addToExcluded(movie: topCard.viewModel.movie.id)
-
         performSwipeAnimation(shouldExclude: false)
     }
     
     func handleExclude() {
-        guard let topCard = topCardView else { return }
-        sceneDelegate.addToSkipped(movie: topCard.viewModel.movie.id)
-        
         performSwipeAnimation(shouldExclude: true)
     }
     
@@ -290,6 +284,13 @@ extension HomeController: SettingsControllerDelegate {
         controller.dismiss(animated: true) {
             self.logout()
         }
+    }
+    
+    func settingsPressedRegister(controller: UIViewController) {
+        controller.dismiss(animated: true) {
+            self.presentLoginController()
+        }
+        
     }
 }
 

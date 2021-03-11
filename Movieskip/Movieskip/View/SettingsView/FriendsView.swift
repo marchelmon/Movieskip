@@ -10,11 +10,17 @@ import Firebase
 
 private let cellIdentifier = "FriendsCell"
 
+protocol SettingsFriendsDelegate: class {
+    func friendsViewGoToRegister()
+}
+
 class FriendsView: UIView {
     
     //MARK: - Properties
 
     private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
+    weak var delegate: SettingsFriendsDelegate?
     
     var friends = [User]()
         
@@ -92,7 +98,7 @@ class FriendsView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
-        print("Should present register")
+        delegate?.friendsViewGoToRegister()
     }
     
     //MARK: - Helpers
@@ -166,3 +172,4 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 }
+

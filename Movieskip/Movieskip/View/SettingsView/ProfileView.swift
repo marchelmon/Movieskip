@@ -11,6 +11,7 @@ import Firebase
 
 protocol SettingsProfileDelegate: class {
     func handleLogout()
+    func profileViewGoToRegister()
 }
 
 class ProfileView: UIView {
@@ -104,7 +105,7 @@ class ProfileView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
-        print("Should present register")
+        delegate?.profileViewGoToRegister()
     }
     
     @objc func handleLogout() {
