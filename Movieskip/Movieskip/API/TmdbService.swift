@@ -14,31 +14,36 @@ struct TmdbService {
     
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    static func fetchMovies(filter: Filter, completion: @escaping([Movie]) -> Void) {
-        let urlString = "\(TMDB_DISCOVER_BASE)\(filter.filterUrlString)"
+    static func fetchMovies(completion: @escaping([Movie]) -> Void) {
+        
+        let urlString = "\(TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"
                 
         print("FETCHING PAGE: \(FilterService.filter.page)")
-        
+        FilterService.filter.page += 1
+
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
 
             AF.request(url).validate().responseJSON { (response) in
                 switch response.result {
                 case .success(let value):
-                    
+                                        
                     let data = JSON(value)["results"]
                     
-                    let moviesResult = data.arrayValue.map({ Movie(data: $0) })
+                    FilterService.totalPages = data["pages"].int ?? 10
                     
+                    let moviesResult = data.arrayValue.map({ Movie(data: $0) })
                     removeAlreadySwiped(allMovies: moviesResult) { newMovies in
                         completion(newMovies)
                     }
                     
                 case .failure(let error):
                     debugPrint(error)
+                    //TODO: Skicka error om att ändra filter för att få resultat
                 }
             }
         }
     }
+    
     
     static func removeAlreadySwiped(allMovies: [Movie], completion: ([Movie]) -> Void) {
         var newMovies = [Movie]()
@@ -49,14 +54,9 @@ struct TmdbService {
         } else if let localUser = sceneDelegate.localUser {
             swipedMovies = localUser.watchlist + localUser.excluded + localUser.skipped
         }
-             
-        print("All: \(swipedMovies.count)")
-        
+                     
         allMovies.forEach { movie in
-            if swipedMovies.contains(movie.id) {
-                print("Movie: \(movie.title)")
-                return
-            }
+            if swipedMovies.contains(movie.id) { return }
             newMovies.append(movie)
         }
         completion(newMovies)

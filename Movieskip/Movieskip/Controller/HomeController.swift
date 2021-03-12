@@ -19,6 +19,8 @@ class HomeController: UIViewController {
         didSet { configureCards() }
     }
     
+    private var moviesToDisplay = [Movie]()
+    
     private var topCardView: CardView?
     private var cardViews = [CardView]()
     
@@ -92,9 +94,16 @@ class HomeController: UIViewController {
     }
     
     func fetchMovies(filter: Filter) {
-        TmdbService.fetchMovies(filter: filter, completion: { movies in
-            FilterService.filter.page += 1
-            self.viewModels = movies.map({ CardViewModel(movie: $0) })
+        if FilterService.filter.page == FilterService.totalPages { return }  //TODO: Present message about changing filter
+        
+        TmdbService.fetchMovies(completion: { movies in
+            self.moviesToDisplay.append(contentsOf: movies)
+            
+            if self.moviesToDisplay.count > 15 {
+                self.viewModels = self.moviesToDisplay.map({ CardViewModel(movie: $0) })
+            } else {
+                self.fetchMovies(filter: FilterService.filter)
+            }
         })
     }
     

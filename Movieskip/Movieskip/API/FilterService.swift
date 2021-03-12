@@ -12,6 +12,8 @@ struct FilterService  {
     
     static var filter: Filter = Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: false, page: 1)
     
+    static var totalPages = 10
+    
     static func saveFilter() {
         
         let genres = try! JSONEncoder().encode(filter.genres)
