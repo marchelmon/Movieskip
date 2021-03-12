@@ -15,9 +15,10 @@ struct TmdbService {
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     static func fetchMovies(filter: Filter, completion: @escaping([Movie]) -> Void) {
-        
         let urlString = "\(TMDB_DISCOVER_BASE)\(filter.filterUrlString)"
                 
+        print("FETCHING PAGE: \(FilterService.filter.page)")
+        
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
 
             AF.request(url).validate().responseJSON { (response) in
@@ -48,8 +49,8 @@ struct TmdbService {
         } else if let localUser = sceneDelegate.localUser {
             swipedMovies = localUser.watchlist + localUser.excluded + localUser.skipped
         }
-                
-        print(sceneDelegate.user)
+             
+        print("All: \(swipedMovies.count)")
         
         allMovies.forEach { movie in
             if swipedMovies.contains(movie.id) {

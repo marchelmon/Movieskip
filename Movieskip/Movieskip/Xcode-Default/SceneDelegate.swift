@@ -33,14 +33,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
+        FilterService.saveFilter()
         saveUserDataOnExit()
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
+        FilterService.saveFilter()
         saveUserDataOnExit()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        FilterService.saveFilter()
         saveUserDataOnExit()
     }
     

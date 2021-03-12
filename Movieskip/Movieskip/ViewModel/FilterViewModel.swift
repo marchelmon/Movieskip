@@ -31,7 +31,6 @@ struct FilterViewModel {
     }
     
     
-    
     init(filter: Filter) {
         self.filter = filter
     }

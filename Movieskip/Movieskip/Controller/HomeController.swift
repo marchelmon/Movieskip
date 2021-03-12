@@ -14,9 +14,7 @@ class HomeController: UIViewController {
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     var swipeAnimationReady = true
-    
-    private var filter: Filter?
-    
+        
     private var viewModels = [CardViewModel]() {
         didSet { configureCards() }
     }
@@ -89,13 +87,13 @@ class HomeController: UIViewController {
     
     func fetchFilterAndMovies() {
         FilterService.fetchFilter { filter in
-            self.filter = filter
             self.fetchMovies(filter: filter)
         }
     }
     
     func fetchMovies(filter: Filter) {
         TmdbService.fetchMovies(filter: filter, completion: { movies in
+            FilterService.filter.page += 1
             self.viewModels = movies.map({ CardViewModel(movie: $0) })
         })
     }
@@ -118,45 +116,6 @@ class HomeController: UIViewController {
         self.present(nav, animated: true, completion: nil)
     }
     
-    //MARK: - Helpers
-    
-    func configureCards() {
-        for view in deckView.subviews {
-            view.removeFromSuperview()
-        }
-        for viewModel in viewModels {
-            let cardView = CardView(viewModel: viewModel)
-            cardView.delegate = self
-            deckView.addSubview(cardView)
-            cardView.fillSuperview()
-        }
-        cardViews = deckView.subviews.map({ ($0 as? CardView)! })
-        topCardView = cardViews.last
-        
-    }
-    
-    func configureUI() {
-        view.backgroundColor = .white
-        
-        let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
-        
-        
-        let stack = UIStackView(arrangedSubviews: [topStack, midStack , bottomStack])
-        
-        view.addSubview(stack)
-        
-        stack.axis = .vertical
-        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
-        
-        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 25)
-        
-        stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
-        
-        stack.bringSubviewToFront(deckView)
-    }
-    
     func presentLoginController() {
         DispatchQueue.main.async {
             let controller = LoginController()
@@ -167,9 +126,9 @@ class HomeController: UIViewController {
             self.present(nav, animated: true, completion: nil)
         }
     }
-
+    
     //Animation, remove topcard and add movieid to skipped or excluded in sceneDelegate.user
-    func performSwipeAnimation(shouldExclude: Bool) {        
+    func performSwipeAnimation(shouldExclude: Bool) {
         guard let topCard = self.topCardView else { return }
         
         if !swipeAnimationReady { return }
@@ -194,6 +153,44 @@ class HomeController: UIViewController {
         }
     }
     
+    //MARK: - Helpers
+    
+    func configureCards() {
+        for view in deckView.subviews {
+            view.removeFromSuperview()
+        }
+        for viewModel in viewModels {
+            let cardView = CardView(viewModel: viewModel)
+            cardView.delegate = self
+            deckView.addSubview(cardView)
+            cardView.fillSuperview()
+        }
+        cardViews = deckView.subviews.map({ ($0 as? CardView)! })
+        topCardView = cardViews.last
+    }
+    
+    func configureUI() {
+        view.backgroundColor = .white
+        
+        let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
+        
+        
+        let stack = UIStackView(arrangedSubviews: [topStack, midStack , bottomStack])
+        
+        view.addSubview(stack)
+        
+        stack.axis = .vertical
+        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
+        
+        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 25)
+        
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
+        
+        stack.bringSubviewToFront(deckView)
+    }
+    
 }
 
 //MARK: - BottomControlsStackViewDelegate
@@ -209,14 +206,18 @@ extension HomeController: BottomControlsStackViewDelegate {
     }
     
     func handleAddWatchlist() {
-        print("Pressed staaaa")
-        sceneDelegate.addToWatchlist(movie: 1)
+        guard let topCard = topCardView else { return }
+        sceneDelegate.addToWatchlist(movie: topCard.viewModel.movie.id)
+        
+        self.topCardView?.removeFromSuperview()
+        guard !self.cardViews.isEmpty else { return }
+        self.cardViews.remove(at: self.cardViews.count - 1)
+        self.topCardView = self.cardViews.last
     }
     
     func handleShowFilter() {
-        let currentFilter = self.filter ?? Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: true, page: 1)
         let filterView = FilterView()
-        filterView.viewModel = FilterViewModel(filter: currentFilter)
+        filterView.viewModel = FilterViewModel(filter: FilterService.filter)
         let controller = FilterController(filterView: filterView)
         controller.delegate = self
                 
@@ -232,8 +233,7 @@ extension HomeController: BottomControlsStackViewDelegate {
 extension HomeController: FilterControllerDelegate {
     
     func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter) {
-        self.filter = filter
-        FilterService.saveFilter(filter: filter)
+        FilterService.filter = filter
         self.fetchMovies(filter: filter)
         controller.dismiss(animated: true, completion: nil)
     }
@@ -253,7 +253,7 @@ extension HomeController: CardViewDelegate {
     
     func cardView(_ view: CardView, didLikeMovie: Bool) {
         let movieId = view.viewModel.movie.id
-        
+                
         if didLikeMovie {
             sceneDelegate.addToSkipped(movie: movieId)
         } else {
@@ -263,8 +263,8 @@ extension HomeController: CardViewDelegate {
         view.removeFromSuperview()
         self.cardViews.removeAll(where: { view == $0 })
         self.topCardView = cardViews.last
-        
     }
+    
 }
 
 //MARK: - AutheticationDelegate
