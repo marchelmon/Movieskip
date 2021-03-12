@@ -17,7 +17,6 @@ class HomeController: UIViewController {
     
     private var filter: Filter?
     
-    private var topCard: CardView?
     private var viewModels = [CardViewModel]() {
         didSet { configureCards() }
     }
@@ -43,33 +42,47 @@ class HomeController: UIViewController {
         bottomStack.delegate = self
         topStack.delegate = self
         configureUI()
-        fetchFilterAndMovies()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        checkIfUserIsLoggedIn()
+        if topCardView == nil {
+            configureUserAndFetchMovies()
+        }
     }
+
     
     //MARK: - API
     
-    func checkIfUserIsLoggedIn() {
-        authenticationComplete()
-        if !AuthService.userIsLoggedIn() {
-            if !UserDefaults.standard.bool(forKey: "skippedLogin") {
-                presentLoginController()
-            }
+    func configureUserAndFetchMovies() {
+        
+        if let user = sceneDelegate.user {
+            fetchFilterAndMovies()
+            if user.username == "" { presentUsernameSelectionView() }
         } else {
+            
             if let loggedInUser = Auth.auth().currentUser {
-                
-                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { error in
-
+            
+                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (snapshot, error) in
+                    
                     if let error = error {
-                        print("ERROR FETCHING USER FROM FIREBASE: \(error.localizedDescription)")
+                        print("ERROR-home: \(error.localizedDescription)")
                     }
                     
+                    if let snapshot = snapshot {
+                        if let userData = snapshot.data() {
+                            self.sceneDelegate.user = User(dictionary: userData)
+                            self.fetchFilterAndMovies()
+                        }
+                    }
                 }
                 
+            } else {
+                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
+                if  userHasSkippedLoginPreviously {
+                    presentLoginController()
+                }
             }
         }
     }
@@ -94,6 +107,15 @@ class HomeController: UIViewController {
         } catch {
             print("Failed to log user out")
         }
+    }
+    
+    //MARK: - Actions
+    
+    func presentUsernameSelectionView() {
+        let controller = UsernameController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
     
     //MARK: - Helpers
@@ -147,7 +169,7 @@ class HomeController: UIViewController {
     }
 
     //Animation, remove topcard and add movieid to skipped or excluded in sceneDelegate.user
-    func performSwipeAnimation(shouldExclude: Bool) {
+    func performSwipeAnimation(shouldExclude: Bool) {        
         guard let topCard = self.topCardView else { return }
         
         if !swipeAnimationReady { return }
@@ -250,11 +272,8 @@ extension HomeController: CardViewDelegate {
 extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true) {
-            if AuthService.sceneDelegate.user?.username == "" {
-                let controller = UsernameController()
-                let nav = UINavigationController(rootViewController: controller)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
+            if self.sceneDelegate.user?.username == "" {
+                self.presentUsernameSelectionView()
             }
         }
     }

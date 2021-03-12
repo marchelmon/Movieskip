@@ -12,14 +12,13 @@ import SwiftyJSON
 
 struct TmdbService {
     
+    static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
     static func fetchMovies(filter: Filter, completion: @escaping([Movie]) -> Void) {
-        var movies = [Movie]()
         
         let urlString = "\(TMDB_DISCOVER_BASE)\(filter.filterUrlString)"
-        
-        print(urlString)
-        
-        if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed),let url = URL(string: encoded) {
+                
+        if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
 
             AF.request(url).validate().responseJSON { (response) in
                 switch response.result {
@@ -27,15 +26,39 @@ struct TmdbService {
                     
                     let data = JSON(value)["results"]
                     
-                    movies = data.arrayValue.map({ Movie(data: $0) })
+                    let moviesResult = data.arrayValue.map({ Movie(data: $0) })
                     
-                    completion(movies)
-
+                    removeAlreadySwiped(allMovies: moviesResult) { newMovies in
+                        completion(newMovies)
+                    }
+                    
                 case .failure(let error):
                     debugPrint(error)
                 }
             }
         }
+    }
+    
+    static func removeAlreadySwiped(allMovies: [Movie], completion: ([Movie]) -> Void) {
+        var newMovies = [Movie]()
+        var swipedMovies = [Int]()
+                        
+        if let user = sceneDelegate.user {
+            swipedMovies = user.watchlist + user.excluded + user.skipped
+        } else if let localUser = sceneDelegate.localUser {
+            swipedMovies = localUser.watchlist + localUser.excluded + localUser.skipped
+        }
+                
+        print(sceneDelegate.user)
+        
+        allMovies.forEach { movie in
+            if swipedMovies.contains(movie.id) {
+                print("Movie: \(movie.title)")
+                return
+            }
+            newMovies.append(movie)
+        }
+        completion(newMovies)
     }
     
     static func fetchMovieWithDetails(withId id: Int, completion: @escaping(Movie) -> Void) {
@@ -44,8 +67,6 @@ struct TmdbService {
         AF.request(url).responseJSON { (response) in
             switch response.result {
             case .success(let value):
-                
-                
                 
                 let movie = Movie(data: JSON(value))
                 completion(movie)

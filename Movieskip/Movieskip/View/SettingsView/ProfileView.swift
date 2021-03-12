@@ -121,7 +121,7 @@ class ProfileView: UIView {
     func configureUI() {
         backgroundColor = .white
         
-        if AuthService.userIsLoggedIn() {
+        if Auth.auth().currentUser != nil {
             addUserData()
         } else {
             showRegisterContent()
@@ -185,7 +185,7 @@ class ProfileView: UIView {
     }
     
     func addLogoutAndRestore() {
-        if AuthService.userIsLoggedIn() {
+        if Auth.auth().currentUser != nil {
             addSubview(logoutButton)
             logoutButton.anchor(left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingBottom: 20, height: 60)
             

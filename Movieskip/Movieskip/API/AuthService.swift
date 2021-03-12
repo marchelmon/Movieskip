@@ -11,11 +11,7 @@ import Firebase
 struct AuthService {
     
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
-    
-    static func userIsLoggedIn() -> Bool {
-        return Auth.auth().currentUser != nil
-    }
-    
+
     static func logUserIn(withEmail email: String, withPassword password: String, completion: AuthDataResultCallback?) {
         Auth.auth().signIn(withEmail: email, password: password) { (data, error) in
             if let error = error {
@@ -126,17 +122,8 @@ struct AuthService {
         }
     }
     
-    static func fetchLoggedInUser(uid: String, completion: @escaping ((Error?) -> Void)) {
-        COLLECTION_USERS.document(uid).getDocument { (snapshot, error) in
-            
-            if let snapshot = snapshot {
-                if let userData = snapshot.data() {
-                    sceneDelegate.user = User(dictionary: userData)
-                }
-            }
-            completion(error)
-
-        }
+    static func fetchLoggedInUser(uid: String, completion: @escaping ((DocumentSnapshot?, Error?) -> Void)) {
+        COLLECTION_USERS.document(uid).getDocument(completion: completion)
     }
     
     static func isUsernameTaken(username: String, completion: @escaping (Bool, Error?) -> Void) {

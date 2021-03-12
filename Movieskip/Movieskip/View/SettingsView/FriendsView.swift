@@ -106,7 +106,7 @@ class FriendsView: UIView {
     func configureUI() {
         backgroundColor = .systemGroupedBackground
         
-        if AuthService.userIsLoggedIn() {
+        if Auth.auth().currentUser != nil {
             showFriendsView()
         } else {
             showRegisterContent()

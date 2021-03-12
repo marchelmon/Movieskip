@@ -25,7 +25,7 @@ struct Filter {
     }
     
     var filterUrlString: String {
-        var requestString: String = "release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)&page=\(page)"
+        var requestString: String = "release_date.gte=\(minYearString)&release_date.lte=\(maxYearString)&page=\(page+1)"
         requestString.append(popular ? "&vote_average.gte=7" : "")
         requestString.append(popular ? "&vote_count.gte=500" : "&vote_count.gte=100")
         

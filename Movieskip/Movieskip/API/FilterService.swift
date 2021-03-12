@@ -10,6 +10,8 @@ import Foundation
 
 struct FilterService  {
     
+    static var filter: Filter?
+    
     static func saveFilter(filter: Filter) {
         
         let genres = try! JSONEncoder().encode(filter.genres)

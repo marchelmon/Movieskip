@@ -10,13 +10,17 @@ import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    //MARK: - Properties
+    
     var window: UIWindow?
     var user: User?
     var localUser: LocalUser?
     
+    //MARK: - Lifecycle
+    
     override init() {
         super.init()
-        fetchLocalUser()
+        fetchAndSetUser()
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -27,61 +31,87 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         window?.rootViewController = HomeController()
     }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-
+    
+    func sceneDidDisconnect(_ scene: UIScene) {
+        saveUserDataOnExit()
+    }
+    
+    func sceneWillResignActive(_ scene: UIScene) {
+        saveUserDataOnExit()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        updateFirebaseUser()
-        updateLocalUserDefaults()
+        saveUserDataOnExit()
+    }
+    
+    //MARK: - Fetch firebase user and lcoaluser
+    
+    func fetchAndSetUser() {
+        if let authenticatedUser = Auth.auth().currentUser {
+            AuthService.fetchLoggedInUser(uid: authenticatedUser.uid) { (snapshot, error) in
+                
+                if let error = error { print("ERROR: \(error.localizedDescription)") }
+                
+                if let snapshot = snapshot {
+                    if let userData = snapshot.data() {
+                        self.user = User(dictionary: userData)
+                    }
+                } else {
+                    self.fetchLocalUser()
+                }
+            }
+        } else {
+            fetchLocalUser()
+        }
+    }
+    
+    func fetchLocalUser() {
+        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? []
+        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? []
+        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? []
         
-        UserDefaults.standard.set(false, forKey: "skippedLogin")
+        let data = ["watchlist": watchlist, "excluded": excluded, "skipped": skipped]
         
+        if watchlist.count != 0 || excluded.count != 0 || skipped.count != 0 {
+            print("THERE IS A USER DEFAULTS USER")
+            localUser = LocalUser(data: data)
+        }
     }
 
-    //MARK: - Helpers
+    //MARK: - Update user data
     
     func setUser(user: User) {
         self.user = user
     }
     
     func addToWatchlist(movie: Int) {
-        
         if user != nil {
             user?.watchlist.append(movie)
             return
         }
-        
         if localUser != nil {
             localUser?.watchlist.append(movie)
         }
     }
     
     func addToExcluded(movie: Int) {
-
         if user != nil {
             user?.excluded.append(movie)
             return
         }
-        
         if localUser != nil {
             localUser?.excluded.append(movie)
         }
-        
     }
     
     func addToSkipped(movie: Int) {
-
         if user != nil {
             user?.skipped.append(movie)
             return
         }
-        
         if localUser != nil {
             localUser?.skipped.append(movie)
         }
-
     }
     
     func addFriend(friend: User) {
@@ -96,36 +126,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         user?.username = username
     }
     
+    //MARK: - Update firebase and local user
+    
+    func saveUserDataOnExit() {
+        updateFirebaseUser()
+        updateLocalUserDefaults()
+        UserDefaults.standard.set(false, forKey: "skippedLogin") //TODO: ta bort?
+    }
+    
     func updateFirebaseUser() {
         guard let user = user else { return }
         COLLECTION_USERS.document(user.uid).setData(user.dictionary)
     }
     
-    func fetchLocalUser() {
-        
-        let watchlist = UserDefaults.standard.object(forKey: "watchlist") as? [Int] ?? []
-        let excluded = UserDefaults.standard.object(forKey: "excluded") as? [Int] ?? []
-        let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? []
-        
-        let data = ["watchlist": watchlist, "excluded": excluded, "skipped": skipped]
-        
-        if watchlist.count != 0 || excluded.count != 0 || skipped.count != 0 {
-            print("THERE IS A USER DEFAULTS USER")
-            localUser = LocalUser(data: data)
-        }
-                
-    }
-    
     func updateLocalUserDefaults() {
-        
-        if localUser != nil {
-            UserDefaults.standard.set(localUser?.watchlist, forKey: "watchlist")
-            UserDefaults.standard.set(localUser?.excluded, forKey: "excluded")
-            UserDefaults.standard.set(localUser?.skipped, forKey: "skipped")
+        if let user = localUser {
+            print("SAVE TO USER DEFAUTLS")
+            UserDefaults.standard.set(user.watchlist, forKey: "watchlist")
+            UserDefaults.standard.set(user.excluded, forKey: "excluded")
+            UserDefaults.standard.set(user.skipped, forKey: "skipped")
         }
-        
     }
     
+    //TODO: TA BORT! Bara till för att testa annars
     func clearDefaults() {
         let domain = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: domain)
