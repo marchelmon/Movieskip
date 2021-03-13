@@ -22,6 +22,7 @@ class FriendsView: UIView {
     
     weak var delegate: SettingsFriendsDelegate?
     
+    var allUsers = [User]()
     var friends = [User]()
         
     private let searchTextField: UITextField = {
@@ -39,6 +40,7 @@ class FriendsView: UIView {
         leftView.addSubview(leftViewImage)
         leftViewImage.anchor(left: leftView.leftAnchor, paddingLeft: 5)
         textField.leftView = leftView
+        textField.addTarget(self, action: #selector(handleSearchTextChanged), for: .editingChanged)
         return textField
     }()
     
@@ -76,13 +78,12 @@ class FriendsView: UIView {
         super.init(frame: .zero)
         
         let user1 = User(dictionary: ["uid": "dasdasdad"])
-        
-        for i in 0...12 {
-            sceneDelegate.addToExcluded(movie: i)
-            sceneDelegate.addToWatchlist(movie: i)
+        for _ in 0...12 {
             friends.append(user1)
-
+            sceneDelegate.addFriend(friend: user1)
         }
+        
+        fetchAllUsers()
     
         configureUI()
         
@@ -101,6 +102,18 @@ class FriendsView: UIView {
         delegate?.friendsViewGoToRegister()
     }
     
+    @objc func handleSearchTextChanged(sender: UITextField) {
+        guard let text = sender.text else { return }
+        
+        if text == ""{
+            //TODO show all users
+        } else if text.count < 4 {
+            //TODO: Empty friends table
+        } else {
+            
+        }
+    }
+    
     //MARK: - Helpers
     
     func configureUI() {
@@ -113,7 +126,16 @@ class FriendsView: UIView {
         }
     }
     
-    //MARK: - Helpers
+    func fetchAllUsers() {
+        AuthService.fetchAllUsers { (snapshot, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+            if let snapshot = snapshot {
+                self.allUsers = snapshot.documents.map({ User(dictionary: $0.data()) })
+            }
+        }
+    }
     
     func showFriendsView() {
         addSubview(searchTextField)

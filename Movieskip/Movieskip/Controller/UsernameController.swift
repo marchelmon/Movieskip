@@ -76,38 +76,28 @@ class UsernameController: UIViewController {
     @objc func handleSelectUsername() {
         if let username = usernameTextfield.text {
             
-            if !username.isAlphanumeric() {
-                errorLabel.text = "Only letter and numbers are allowed"
+            if !username.isAlphanumeric() || username.count < 4 {
+                errorLabel.text = "Must be 4 characters or longer, only letter and numbers are allowed"
                 errorLabel.alpha = 1
                 return
             }
             
-            if username.count < 4 {
-                errorLabel.text = "The username has to be 4 characters or longer"
-                errorLabel.alpha = 1
-                return
-            }
-            
-            AuthService.isUsernameTaken(username: username) { (isTaken, error) in
-                
+            AuthService.fetchUserByUsername(username: username) { (snapshot, error) in
                 if let error = error {
                     print("ERROR OCCUREDWHEN SELECTING USERNAME: \(error.localizedDescription)")
                     self.errorLabel.text = "An error occured, please close the app and try again"
                     self.errorLabel.alpha = 1
                     return
                 }
-                if isTaken {
-                    
-                    self.errorLabel.text = "The username is already taken"
-                    self.errorLabel.alpha = 1
-                    
-                } else {
-                    
-                    AuthService.updateUsername(username: username)
-                    self.dismiss(animated: true, completion: nil)
-                    
+                if let snapshot = snapshot {
+                    if snapshot.documents.count != 0 {
+                        self.errorLabel.text = "The username is already taken"
+                        self.errorLabel.alpha = 1
+                    } else {
+                        AuthService.updateUsername(username: username)
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 }
-
             }
         }
     }

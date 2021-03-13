@@ -184,7 +184,6 @@ class HomeController: UIViewController {
         let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
         
-        
         let stack = UIStackView(arrangedSubviews: [topStack, midStack, bottomStack])
         stack.spacing = 20
         

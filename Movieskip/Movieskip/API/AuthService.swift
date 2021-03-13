@@ -74,7 +74,7 @@ struct AuthService {
         }
     }
     
-    static func socialSignIn(credential: AuthCredential, completion: @escaping ((Error?) -> Void)) {
+    static func socialSignIn(credential: AuthCredential, completion: @escaping (Error?) -> Void) {
         Auth.auth().signIn(with: credential) { (data, error) in
             if let error = error {
                 print("ERROR signing in: \(error.localizedDescription)")
@@ -122,20 +122,12 @@ struct AuthService {
         }
     }
     
-    static func fetchLoggedInUser(uid: String, completion: @escaping ((DocumentSnapshot?, Error?) -> Void)) {
+    static func fetchLoggedInUser(uid: String, completion: @escaping (DocumentSnapshot?, Error?) -> Void) {
         COLLECTION_USERS.document(uid).getDocument(completion: completion)
     }
     
-    static func isUsernameTaken(username: String, completion: @escaping (Bool, Error?) -> Void) {
-        COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments { (snapshot, error) in
-            if let results = snapshot {
-                if results.count == 0 {
-                    completion(false, error)
-                    return
-                }
-            }
-            completion(true, error)
-        }
+    static func fetchUserByUsername(username: String, completion: @escaping ((QuerySnapshot?, Error?) -> Void)) {
+        COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments(completion: completion)
     }
     
     static func updateUsername(username: String) {
@@ -145,6 +137,10 @@ struct AuthService {
         guard let uid = sceneDelegate.user?.uid else { return }
         COLLECTION_USERS.document(uid).updateData(["username" : username])
             
+    }
+    
+    static func fetchAllUsers(completion: @escaping (QuerySnapshot?, Error?) -> Void) {
+        COLLECTION_USERS.getDocuments(completion: completion)
     }
     
 }
