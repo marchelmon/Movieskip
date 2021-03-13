@@ -185,14 +185,15 @@ class HomeController: UIViewController {
         let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
         
         
-        let stack = UIStackView(arrangedSubviews: [topStack, midStack , bottomStack])
+        let stack = UIStackView(arrangedSubviews: [topStack, midStack, bottomStack])
+        stack.spacing = 20
         
         view.addSubview(stack)
         
         stack.axis = .vertical
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
-        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 25)
+        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 35)
         
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
