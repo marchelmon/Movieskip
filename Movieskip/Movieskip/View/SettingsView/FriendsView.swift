@@ -22,32 +22,35 @@ class FriendsView: UIView {
     
     weak var delegate: SettingsFriendsDelegate?
     
-    var allUsers = [User]()
     var friends = [User]()
+    var usersToDisplay = [User]()
         
     private let searchTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Find friends"
-        textField.backgroundColor = .white
-        textField.layer.cornerRadius = 15
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = MAIN_COLOR.cgColor
-        textField.leftViewMode = .always
+        let tf = UITextField()
+        tf.placeholder = "Find friends"
+        tf.backgroundColor = .white
+        tf.layer.cornerRadius = 15
+        tf.layer.borderWidth = 2
+        tf.layer.borderColor = MAIN_COLOR.cgColor
+        tf.leftViewMode = .always
         let leftView = UIView()
         leftView.setDimensions(height: 30, width: 38)
         let leftViewImage = UIImageView(image: UIImage(systemName: "magnifyingglass")?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal))
         leftViewImage.setDimensions(height: 28, width: 28)
         leftView.addSubview(leftViewImage)
         leftViewImage.anchor(left: leftView.leftAnchor, paddingLeft: 5)
-        textField.leftView = leftView
-        textField.addTarget(self, action: #selector(handleSearchTextChanged), for: .editingChanged)
-        return textField
+        tf.leftView = leftView
+        tf.addTarget(self, action: #selector(handleSearchTextChanged), for: .editingChanged)
+        tf.autocorrectionType = .no
+        tf.autocapitalizationType = .none
+        return tf
     }()
     
     private let tableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .systemGroupedBackground
         table.layer.cornerRadius = 5
+        table.separatorStyle = .none
         return table
     }()
     
@@ -77,14 +80,11 @@ class FriendsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        let user1 = User(dictionary: ["uid": "dasdasdad"])
-        for _ in 0...12 {
-            friends.append(user1)
-            sceneDelegate.addFriend(friend: user1)
-        }
+//        sceneDelegate.addFriend(friend: "VHsgXu7qc0TsOVIbvh4H9DZ6Yfy2")
+//        sceneDelegate.addFriend(friend: "dpyRpsppEBdQSv8v3Xg9qUng1AS2")
         
-        fetchAllUsers()
-    
+        showAllFriends()
+            
         configureUI()
         
         tableView.delegate = self
@@ -105,16 +105,49 @@ class FriendsView: UIView {
     @objc func handleSearchTextChanged(sender: UITextField) {
         guard let text = sender.text else { return }
         
-        if text == ""{
-            //TODO show all users
-        } else if text.count < 4 {
-            //TODO: Empty friends table
+        if text == "" {
+            showAllFriends()
+        } else if text.count < 3 {
+            usersToDisplay = []
+            tableView.reloadData()
         } else {
-            
+            searchAndShowResults(username: text)
         }
     }
     
+    
     //MARK: - Helpers
+    
+    func searchAndShowResults(username: String) {
+        guard let allUsers = sceneDelegate.allUsers else { return }
+        
+        usersToDisplay = []
+        
+        allUsers.forEach { user in
+            if user.username.starts(with: username) { usersToDisplay.append(user) }
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func showAllFriends() {
+
+        if friends.count == 0 {
+            guard let allUsers = sceneDelegate.allUsers else { return }
+            guard let user = sceneDelegate.user else { return }
+
+            user.friendIds.forEach { friendId in
+                let friendIndex = allUsers.firstIndex { user -> Bool in
+                    return user.uid == friendId
+                }
+                guard let index = friendIndex else { return }
+                friends.append(allUsers[index])
+            }
+        }
+        usersToDisplay = friends
+        tableView.reloadData()
+        
+    }
     
     func configureUI() {
         backgroundColor = .systemGroupedBackground
@@ -123,17 +156,6 @@ class FriendsView: UIView {
             showFriendsView()
         } else {
             showRegisterContent()
-        }
-    }
-    
-    func fetchAllUsers() {
-        AuthService.fetchAllUsers { (snapshot, error) in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-            }
-            if let snapshot = snapshot {
-                self.allUsers = snapshot.documents.map({ User(dictionary: $0.data()) })
-            }
         }
     }
     
@@ -177,7 +199,7 @@ class FriendsView: UIView {
 extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friends.count
+        return usersToDisplay.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -186,7 +208,7 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! FriendCell
-        let friend = friends[indexPath.row]
+        let friend = usersToDisplay[indexPath.row]
     
         cell.usernameLabel.text = friend.username
         cell.watchlistCount.text = String(friend.watchListCount)

@@ -14,7 +14,7 @@ struct User {
     var watchlist: [Int]
     var excluded: [Int]
     var skipped: [Int]
-    var friends: [User]
+    var friendIds: [String]
     var profileImage: String?
 
     var watchListCount: Int {
@@ -32,7 +32,7 @@ struct User {
         self.watchlist = dictionary["watchlist"] as? [Int] ?? []
         self.excluded = dictionary["excluded"] as? [Int] ?? []
         self.skipped = dictionary["skipped"] as? [Int] ?? []
-        self.friends = dictionary["friends"] as? [User] ?? []
+        self.friendIds = dictionary["friends"] as? [String] ?? []
     }
     
     var dictionary: [String: Any] {
@@ -43,7 +43,7 @@ struct User {
             "watchlist": watchlist,
             "excluded": excluded,
             "skipped": skipped,
-            "friends": friends,
+            "friends": friendIds,
             "profileImage": profileImage ?? ""
         ] as [String : Any]
         return list

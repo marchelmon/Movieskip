@@ -13,6 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     //MARK: - Properties
     
     var window: UIWindow?
+    
+    var allUsers: [User]?
     var user: User?
     var localUser: LocalUser?
     
@@ -21,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     override init() {
         super.init()
         fetchAndSetUser()
+        fetchAllUsers()
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -47,7 +50,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         saveUserDataOnExit()
     }
     
-    //MARK: - Fetch firebase user and lcoaluser
+    //MARK: - Fetch firebase logged in user, lcoaluser and all users
+    
+    func fetchAllUsers() {
+        AuthService.fetchAllUsers { (snapshot, error) in
+            if let snapshot = snapshot {
+                self.allUsers = snapshot.documents.map({ User(dictionary: $0.data()) })
+            }
+        }
+    }
     
     func fetchAndSetUser() {
         if let authenticatedUser = Auth.auth().currentUser {
@@ -117,8 +128,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func addFriend(friend: User) {
-        user?.friends.append(friend)
+    func addFriend(friend: String) {
+        user?.friendIds.append(friend)
     }
     
     func setProfileImage(image: String) {

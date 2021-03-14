@@ -144,7 +144,7 @@ class ProfileView: UIView {
         
         let watchlistCountLabel = createCountLabel(count: sceneDelegate.user?.watchListCount ?? 0)
         let excludedCountLabel = createCountLabel(count: sceneDelegate.user?.excludedCount ?? 0)
-        let friendsCountLabel = createCountLabel(count: sceneDelegate.user?.friends.count ?? 0)
+        let friendsCountLabel = createCountLabel(count: sceneDelegate.user?.friendIds.count ?? 0)
         
         userStatsView.addSubview(usernameLabel)
         userStatsView.addSubview(watchlistCountLabel)
