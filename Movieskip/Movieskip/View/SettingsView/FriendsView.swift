@@ -208,11 +208,25 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! FriendCell
-        let friend = usersToDisplay[indexPath.row]
+        let user = usersToDisplay[indexPath.row]
     
-        cell.usernameLabel.text = friend.username
-        cell.watchlistCount.text = String(friend.watchListCount)
-        cell.excludeCount.text = String(friend.excludedCount)
+        let _ = friends.contains(where: { friend -> Bool in
+            if friend.uid == user.uid {
+                print("Has friend: \(user.username)")
+                cell.removeFriendButtonToView()
+                return true
+
+            } else {
+                print("has not: \(user.username)")
+                cell.addFriendButtonToView()
+                return false
+            }
+        })
+                
+        cell.addFriendButton.alpha = 1
+        cell.usernameLabel.text = user.username
+        cell.watchlistCount.text = String(user.watchListCount)
+        cell.excludeCount.text = String(user.excludedCount)
         return cell
     }
 }

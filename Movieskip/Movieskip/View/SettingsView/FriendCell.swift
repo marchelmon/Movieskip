@@ -31,8 +31,19 @@ class FriendCell: UITableViewCell {
     
     let removeFriendButton: UIButton = {
         let button = UIButton()
-        let image = UIImage(systemName: "xmark.circle.fill")?.withTintColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), renderingMode: .alwaysOriginal)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "person.fill.badge.minus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.6176958476, green: 0.05836011096, blue: 0.1382402272, alpha: 1), renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(removeFriend), for: .touchUpInside)
+        return button
+    }()
+    
+    let addFriendButton: UIButton = {
+        let button = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "person.fill.badge.plus", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
         return button
     }()
     
@@ -40,7 +51,6 @@ class FriendCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         selectionStyle = UITableViewCell.SelectionStyle.none
-        removeFriendButton.addTarget(self, action: #selector(removeFriend), for: .touchUpInside)
                 
         contentView.addSubview(usernameLabel)
         contentView.addSubview(watchlistCount)
@@ -50,20 +60,30 @@ class FriendCell: UITableViewCell {
         watchlistCount.anchor(top: usernameLabel.bottomAnchor, left: leftAnchor, paddingLeft: 25)
         excludeCount.anchor(top: usernameLabel.bottomAnchor, left: watchlistCount.rightAnchor, paddingLeft: 15)
     
+    }
+    
+    func removeFriendButtonToView() {
         contentView.addSubview(removeFriendButton)
         removeFriendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
-
+    }
+    
+    func addFriendButtonToView() {
+        contentView.addSubview(addFriendButton)
+        addFriendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     //MARK: - Actions
     
     @objc func removeFriend() {
         print("REMOVE FRIEND")
+    }
+    
+    @objc func addFriend() {
+        print("ADD FRIEND")
     }
     
 }
