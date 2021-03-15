@@ -132,6 +132,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         user?.friendIds.append(friend)
     }
     
+    func removeFriend(friendUID: String) {
+        let index = user?.friendIds.firstIndex(where: { id -> Bool in
+            if friendUID == id { return true }
+            return false
+        })
+        if let index = index { user?.friendIds.remove(at: index) }
+    }
+    
     func setProfileImage(image: String) {
         user?.profileImage = image
     }

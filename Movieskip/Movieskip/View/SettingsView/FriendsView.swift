@@ -115,18 +115,30 @@ class FriendsView: UIView {
         }
     }
     
+    func addFriendToUser(user: User) {
+        friends.append(user)
+        sceneDelegate.addFriend(friend: user.uid)
+    }
+    
+    func removeFriendFromUser(user: User) {
+        let index = friends.firstIndex { friend -> Bool in
+            if friend.uid == user.uid { return true }
+            return false
+        }
+        if let index = index { friends.remove(at: index) }
+        sceneDelegate.removeFriend(friendUID: user.uid)
+    }
+    
     
     //MARK: - Helpers
     
     func searchAndShowResults(username: String) {
         guard let allUsers = sceneDelegate.allUsers else { return }
-        
         usersToDisplay = []
         
         allUsers.forEach { user in
             if user.username.starts(with: username) { usersToDisplay.append(user) }
         }
-        
         tableView.reloadData()
     }
     
@@ -208,8 +220,11 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! FriendCell
+        cell.delegate = self
+        
         let user = usersToDisplay[indexPath.row]
-    
+        cell.user = user
+        
         let _ = friends.contains(where: { friend -> Bool in
             if friend.uid == user.uid {
                 print("Has friend: \(user.username)")
@@ -223,7 +238,6 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
             }
         })
                 
-        cell.addFriendButton.alpha = 1
         cell.usernameLabel.text = user.username
         cell.watchlistCount.text = String(user.watchListCount)
         cell.excludeCount.text = String(user.excludedCount)
@@ -231,3 +245,25 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+extension FriendsView: FriendCellDelegate {
+
+    func addFriend(cell: FriendCell) {
+        guard let user = cell.user else { return }
+
+        cell.removeFriendButton.alpha = 1
+        cell.addFriendButton.alpha = 0
+        cell.removeFriendButtonToView()
+                
+        addFriendToUser(user: user)
+    }
+    
+    func removeFriend(cell: FriendCell) {
+        guard let user = cell.user else { return }
+
+        cell.addFriendButton.alpha = 1
+        cell.removeFriendButton.alpha = 0
+        cell.addFriendButtonToView()
+                
+        removeFriendFromUser(user: user)
+    }
+}
