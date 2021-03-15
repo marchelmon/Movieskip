@@ -42,6 +42,7 @@ class FriendCell: UITableViewCell {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
         let image = UIImage(systemName: "person.fill.badge.minus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.6176958476, green: 0.05836011096, blue: 0.1382402272, alpha: 1), renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
+        button.alpha = 0
         return button
     }()
     
@@ -50,6 +51,7 @@ class FriendCell: UITableViewCell {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
         let image = UIImage(systemName: "person.fill.badge.plus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.1793520883, green: 0.2976820872, blue: 1, alpha: 1), renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
+        button.alpha = 0
         return button
     }()
     
@@ -69,6 +71,9 @@ class FriendCell: UITableViewCell {
         usernameLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 5, paddingLeft: 20)
         watchlistCount.anchor(top: usernameLabel.bottomAnchor, left: leftAnchor, paddingLeft: 25)
         excludeCount.anchor(top: usernameLabel.bottomAnchor, left: watchlistCount.rightAnchor, paddingLeft: 15)
+        
+        addFriendButtonToView()
+        removeFriendButtonToView()
 
     }
     
@@ -93,7 +98,6 @@ class FriendCell: UITableViewCell {
     }
     
     @objc func addFriend() {
-        print("ADD FRIEND")
         delegate?.addFriend(cell: self)
     }
     

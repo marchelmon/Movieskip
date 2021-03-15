@@ -80,9 +80,6 @@ class FriendsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-//        sceneDelegate.addFriend(friend: "VHsgXu7qc0TsOVIbvh4H9DZ6Yfy2")
-//        sceneDelegate.addFriend(friend: "dpyRpsppEBdQSv8v3Xg9qUng1AS2")
-        
         showAllFriends()
             
         configureUI()
@@ -227,13 +224,13 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
         
         let _ = friends.contains(where: { friend -> Bool in
             if friend.uid == user.uid {
-                print("Has friend: \(user.username)")
-                cell.removeFriendButtonToView()
+                cell.addFriendButton.alpha = 0
+                cell.removeFriendButton.alpha = 1
                 return true
 
             } else {
-                print("has not: \(user.username)")
-                cell.addFriendButtonToView()
+                cell.removeFriendButton.alpha = 0
+                cell.addFriendButton.alpha = 1
                 return false
             }
         })
@@ -252,7 +249,6 @@ extension FriendsView: FriendCellDelegate {
 
         cell.removeFriendButton.alpha = 1
         cell.addFriendButton.alpha = 0
-        cell.removeFriendButtonToView()
                 
         addFriendToUser(user: user)
     }
@@ -262,7 +258,6 @@ extension FriendsView: FriendCellDelegate {
 
         cell.addFriendButton.alpha = 1
         cell.removeFriendButton.alpha = 0
-        cell.addFriendButtonToView()
                 
         removeFriendFromUser(user: user)
     }
