@@ -63,7 +63,6 @@ class FriendCell: UITableViewCell {
         removeFriendButton.addTarget(self, action: #selector(removeFriend), for: .touchUpInside)
         addFriendButton.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
 
-
         contentView.addSubview(usernameLabel)
         contentView.addSubview(watchlistCount)
         contentView.addSubview(excludeCount)
@@ -72,19 +71,12 @@ class FriendCell: UITableViewCell {
         watchlistCount.anchor(top: usernameLabel.bottomAnchor, left: leftAnchor, paddingLeft: 25)
         excludeCount.anchor(top: usernameLabel.bottomAnchor, left: watchlistCount.rightAnchor, paddingLeft: 15)
         
-        addFriendButtonToView()
-        removeFriendButtonToView()
-
-    }
-    
-    func addFriendButtonToView() {
         contentView.addSubview(addFriendButton)
         addFriendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
-    }
-    
-    func removeFriendButtonToView() {
+        
         contentView.addSubview(removeFriendButton)
         removeFriendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
+    
     }
     
     required init?(coder: NSCoder) {

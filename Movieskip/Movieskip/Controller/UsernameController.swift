@@ -12,6 +12,9 @@ class UsernameController: UIViewController {
     
     //MARK: - Properties
     
+    private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
+    
     private let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Select a username to continue"
@@ -31,6 +34,7 @@ class UsernameController: UIViewController {
         tf.placeholder = "Username"
         tf.autocorrectionType = .no
         tf.autocapitalizationType = .none
+        tf.addTarget(self, action: #selector(handleUserTyped), for: .editingChanged)
         return tf
     }()
     
@@ -73,33 +77,42 @@ class UsernameController: UIViewController {
     
     //MARK: - Actions
     
-    @objc func handleSelectUsername() {
-        if let username = usernameTextfield.text {
-            
-            if !username.isAlphanumeric() || username.count < 4 {
-                errorLabel.text = "Must be 4 characters or longer, only letter and numbers are allowed"
-                errorLabel.alpha = 1
-                return
-            }
-            
-            AuthService.fetchUserByUsername(username: username) { (snapshot, error) in
-                if let error = error {
-                    print("ERROR OCCUREDWHEN SELECTING USERNAME: \(error.localizedDescription)")
-                    self.errorLabel.text = "An error occured, please close the app and try again"
-                    self.errorLabel.alpha = 1
-                    return
-                }
-                if let snapshot = snapshot {
-                    if snapshot.documents.count != 0 {
-                        self.errorLabel.text = "The username is already taken"
-                        self.errorLabel.alpha = 1
-                    } else {
-                        AuthService.updateUsername(username: username)
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                }
-            }
+    @objc func handleUserTyped(sender: UITextField) {
+
+        if usernameIsTaken(username: sender.text) {
+            self.errorLabel.text = "The username is already taken"
+            self.errorLabel.alpha = 1
         }
+        
+    }
+    
+    @objc func handleSelectUsername() {
+       
+        guard let username = usernameTextfield.text else { return }
+            
+        if !username.isAlphanumeric() || username.count < 4 {
+            errorLabel.text = "Must be 4 characters or longer, only letters and numbers are allowed"
+            errorLabel.alpha = 1
+            return
+        }
+        if !usernameIsTaken(username: username) {
+            AuthService.updateUsername(username: username)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func usernameIsTaken(username: String?) -> Bool {
+        guard let username = username else { return true }
+        guard let allUsers = sceneDelegate.allUsers else { return true }
+        
+        let usernameTaken = allUsers.firstIndex { user -> Bool in
+            if user.username == username { return true }
+            return false
+        }
+        
+        if usernameTaken != nil { return true }
+        
+        return false
     }
     
 }

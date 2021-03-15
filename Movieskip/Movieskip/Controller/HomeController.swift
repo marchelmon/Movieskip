@@ -73,6 +73,7 @@ class HomeController: UIViewController {
                     if let snapshot = snapshot {
                         if let userData = snapshot.data() {
                             self.sceneDelegate.user = User(dictionary: userData)
+                            if self.sceneDelegate.user?.username == "" { self.presentUsernameSelectionView() }
                             self.fetchFilterAndMovies()
                         }
                     }

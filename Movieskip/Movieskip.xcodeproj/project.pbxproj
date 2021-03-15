@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		23798C10FB2B090DDD0CF409 /* Pods_Movieskip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */; };
+		3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */; };
 		3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49BA5F25DC2CA60069782B /* FilterView.swift */; };
 		3C49BA6325DC2FC60069782B /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49BA6225DC2FC60069782B /* FilterViewModel.swift */; };
 		3C66623825F4D59700759552 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C66623725F4D59700759552 /* AuthService.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistController.swift; sourceTree = "<group>"; };
 		3C49BA5F25DC2CA60069782B /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		3C49BA6225DC2FC60069782B /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
 		3C66623725F4D59700759552 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				3CF5B75125E81986007A18B7 /* LoginController.swift */,
 				3CF5B75725E90137007A18B7 /* SettingsController.swift */,
 				3C66623B25F64C9900759552 /* UsernameController.swift */,
+				3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				3C7DC7B125D6755B00FE7A61 /* AppDelegate.swift in Sources */,
 				3C7DC81025D8336800FE7A61 /* TmdbService.swift in Sources */,
 				3C7DC87C25DABC6900FE7A61 /* CardViewModel.swift in Sources */,
+				3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */,
 				3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */,
 				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
 				3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */,
