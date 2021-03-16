@@ -18,7 +18,6 @@ struct TmdbService {
         
         let urlString = "\(TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"
                 
-        print("FETCHING PAGE: \(FilterService.filter.page)")
         FilterService.filter.page += 1
 
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
