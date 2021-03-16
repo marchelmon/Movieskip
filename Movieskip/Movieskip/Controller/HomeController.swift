@@ -293,7 +293,10 @@ extension HomeController: AuthenticationDelegate {
 
 extension HomeController: HomeNavigationStackViewDelegate {
     func shouldShowWatchlist() {
-        
+        let controller = WatchlistController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
     
     func shouldShowSettings() {
