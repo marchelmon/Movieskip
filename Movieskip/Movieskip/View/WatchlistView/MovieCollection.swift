@@ -35,7 +35,7 @@ class MovieCollection: UICollectionView {
     
     func configureUI() {
         backgroundColor = .systemGreen
-        alpha = 0
+        alpha = 1
     }
     
     func loadData() {
@@ -44,7 +44,7 @@ class MovieCollection: UICollectionView {
     
 }
 
-//MARK: - TableViewDelegate and DataSource 
+
 
 extension MovieCollection: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

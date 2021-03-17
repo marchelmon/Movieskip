@@ -115,6 +115,8 @@ class FriendsView: UIView {
     func addFriendToUser(user: User) {
         friends.append(user)
         sceneDelegate.addFriend(friend: user.uid)
+        searchTextField.text = ""
+        handleSearchTextChanged(sender: searchTextField)
     }
     
     func removeFriendFromUser(user: User) {
@@ -124,6 +126,7 @@ class FriendsView: UIView {
         }
         if let index = index { friends.remove(at: index) }
         sceneDelegate.removeFriend(friendUID: user.uid)
+        showAllFriends()
     }
     
     
@@ -140,11 +143,14 @@ class FriendsView: UIView {
     }
     
     func showAllFriends() {
-
         if friends.count == 0 {
             guard let allUsers = sceneDelegate.allUsers else { return }
             guard let user = sceneDelegate.user else { return }
-
+            
+            for i in 1...25 {
+                friends.append(User(dictionary: ["username": "heeeeeej\(String(i))"]))
+            }
+            friends.append(User(dictionary: ["username": "Aaaaaaaa"]))
             user.friendIds.forEach { friendId in
                 let friendIndex = allUsers.firstIndex { user -> Bool in
                     return user.uid == friendId
@@ -153,9 +159,9 @@ class FriendsView: UIView {
                 friends.append(allUsers[index])
             }
         }
+        friends = friends.sorted { $0.username.compare($1.username) == ComparisonResult.orderedAscending }
         usersToDisplay = friends
         tableView.reloadData()
-        
     }
     
     func configureUI() {
@@ -205,6 +211,8 @@ class FriendsView: UIView {
     
 }
 
+//MARK: - TableViewDelegate    TableViewDataSource
+
 extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,6 +223,7 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
         return 60
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! FriendCell
         cell.delegate = self
@@ -224,13 +233,13 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
         
         let _ = friends.contains(where: { friend -> Bool in
             if friend.uid == user.uid {
-                cell.addFriendButton.alpha = 0
-                cell.removeFriendButton.alpha = 1
+
+                cell.friendButton.setImage(cell.removeFriendImage, for: .normal)
                 return true
 
             } else {
-                cell.removeFriendButton.alpha = 0
-                cell.addFriendButton.alpha = 1
+
+                cell.friendButton.setImage(cell.addFriendImage, for: .normal)
                 return false
             }
         })
@@ -242,23 +251,24 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+//MARK: - FriendCellDelegate
+
 extension FriendsView: FriendCellDelegate {
 
     func addFriend(cell: FriendCell) {
         guard let user = cell.user else { return }
-
-        cell.removeFriendButton.alpha = 1
-        cell.addFriendButton.alpha = 0
                 
         addFriendToUser(user: user)
+        
+        cell.friendButton.setImage(cell.removeFriendImage, for: .normal)
+
     }
     
     func removeFriend(cell: FriendCell) {
         guard let user = cell.user else { return }
-
-        cell.addFriendButton.alpha = 1
-        cell.removeFriendButton.alpha = 0
-                
+        
         removeFriendFromUser(user: user)
+        
+        cell.friendButton.setImage(cell.addFriendImage, for: .normal)
     }
 }

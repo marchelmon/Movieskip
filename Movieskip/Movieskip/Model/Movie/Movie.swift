@@ -13,7 +13,7 @@ struct Movie {
     let title: String
     let rating: Double
     let overview: String
-    var posterPath: String?
+    var posterPath: URL?
     let released: String
     var images = [String]()
     var reviews = [String]()
@@ -25,13 +25,15 @@ struct Movie {
     init(data: JSON) {
         self.id = data["id"].int ?? 0
         self.title = data["title"].string ?? "No title found"
-        self.posterPath = data["poster_path"].string ?? nil
         self.rating = data["vote_average"].double ?? 5.0
         self.released = data["release_date"].string ?? "Not available"
         self.overview = data["overview"].string ?? "No description available"
         self.images = data["images"]["backdrops"].arrayValue.map({ $0["file_path"].string ?? "" })
         self.reviews = data["reviews"]["results"].arrayValue.map({ $0["content"].stringValue })
-            
+        
+        if let posterString = data["poster_path"].string {
+            self.posterPath = URL(string: "\(TMDB_IMAGE_BASE)\(posterString)")
+        }
         
         let videos = data["videos"]["results"].arrayValue
         self.trailer = videos.count != 0 ? videos[0]["key"].string : nil

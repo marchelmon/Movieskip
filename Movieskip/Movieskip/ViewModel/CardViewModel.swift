@@ -10,18 +10,10 @@ import UIKit
 struct CardViewModel {
     
     let movie: Movie
-    let poster: URL?
     let movieInfoText: NSAttributedString
     
     init(movie: Movie) {
         self.movie = movie
-        
-        if let posterPath = movie.posterPath {
-            let posterString = TMDB_IMAGE_BASE + posterPath
-            self.poster = URL(string: posterString)
-        } else {
-            poster = nil
-        }
 
         let attributedText = NSMutableAttributedString(
             string: movie.title,

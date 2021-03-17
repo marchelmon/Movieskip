@@ -11,6 +11,7 @@
 		3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */; };
 		3C37DB5225FFBC5C006A35FB /* MovieCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB5125FFBC5C006A35FB /* MovieCollection.swift */; };
 		3C37DB5825FFBC81006A35FB /* MovieTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB5725FFBC81006A35FB /* MovieTable.swift */; };
+		3C37DB5C260102A5006A35FB /* WatchlistTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB5B260102A5006A35FB /* WatchlistTableCell.swift */; };
 		3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49BA5F25DC2CA60069782B /* FilterView.swift */; };
 		3C49BA6325DC2FC60069782B /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49BA6225DC2FC60069782B /* FilterViewModel.swift */; };
 		3C66623825F4D59700759552 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C66623725F4D59700759552 /* AuthService.swift */; };
@@ -58,6 +59,7 @@
 		3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistController.swift; sourceTree = "<group>"; };
 		3C37DB5125FFBC5C006A35FB /* MovieCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollection.swift; sourceTree = "<group>"; };
 		3C37DB5725FFBC81006A35FB /* MovieTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTable.swift; sourceTree = "<group>"; };
+		3C37DB5B260102A5006A35FB /* WatchlistTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistTableCell.swift; sourceTree = "<group>"; };
 		3C49BA5F25DC2CA60069782B /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		3C49BA6225DC2FC60069782B /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
 		3C66623725F4D59700759552 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			children = (
 				3C37DB5125FFBC5C006A35FB /* MovieCollection.swift */,
 				3C37DB5725FFBC81006A35FB /* MovieTable.swift */,
+				3C37DB5B260102A5006A35FB /* WatchlistTableCell.swift */,
 			);
 			path = WatchlistView;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */,
 				3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */,
 				3C7DC80D25D8273F00FE7A61 /* FilterService.swift in Sources */,
+				3C37DB5C260102A5006A35FB /* WatchlistTableCell.swift in Sources */,
 				3CF5B76725EA6C29007A18B7 /* FriendsView.swift in Sources */,
 				3C7DC7B325D6755B00FE7A61 /* SceneDelegate.swift in Sources */,
 				3C7DC80625D8237E00FE7A61 /* User.swift in Sources */,

@@ -9,50 +9,50 @@ import UIKit
 
 private let cellIdentifier = "MovieCell"
 
-class MovieTable: UITableView {
+class MovieTable: UIView {
     
     //MARK: - Properties
     
-    var movies: [Movie]! {
-        didSet{ loadData() }
-    }
+    var movies = [Movie]()
+    
+    private let tableView: UITableView = {
+        let table = UITableView()
+        table.backgroundColor = .systemGroupedBackground
+        table.layer.cornerRadius = 5
+        table.separatorStyle = .none
+        return table
+    }()
     
     //MARK: - Lifecycle
     
-    override init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: frame, style: style)
-        
-        configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     //MARK: - Helpers
     
     func configureUI() {
-        separatorStyle = .none
-        backgroundColor = .systemPink
-        alpha = 1
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .systemPink
     }
-    
-    func loadData() {
-        print("Movies were added to collection")
-    }
-    
     
 }
 
 
 extension MovieTable: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return movies.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! WatchlistTableCell
 
+        print(indexPath.row)
+        
+        cell.movie = movies[indexPath.row]
+        
         return cell
     }
     

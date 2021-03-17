@@ -37,22 +37,21 @@ class FriendCell: UITableViewCell {
         return label
     }()
     
-    let removeFriendButton: UIButton = {
+    let friendButton: UIButton = {
         let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
-        let image = UIImage(systemName: "person.fill.badge.minus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.6176958476, green: 0.05836011096, blue: 0.1382402272, alpha: 1), renderingMode: .alwaysOriginal)
-        button.setImage(image, for: .normal)
-        button.alpha = 0
         return button
     }()
     
-    let addFriendButton: UIButton = {
-        let button = UIButton()
+    let addFriendImage: UIImage? = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
         let image = UIImage(systemName: "person.fill.badge.plus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.1793520883, green: 0.2976820872, blue: 1, alpha: 1), renderingMode: .alwaysOriginal)
-        button.setImage(image, for: .normal)
-        button.alpha = 0
-        return button
+        return image
+    }()
+    
+    let removeFriendImage: UIImage? = {
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "person.fill.badge.minus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.4740568882, green: 0.04478905388, blue: 0.1060938521, alpha: 1), renderingMode: .alwaysOriginal)
+        return image
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -60,8 +59,7 @@ class FriendCell: UITableViewCell {
 
         selectionStyle = UITableViewCell.SelectionStyle.none
         
-        removeFriendButton.addTarget(self, action: #selector(removeFriend), for: .touchUpInside)
-        addFriendButton.addTarget(self, action: #selector(addFriend), for: .touchUpInside)
+        friendButton.addTarget(self, action: #selector(toggleFriend), for: .touchUpInside)
 
         contentView.addSubview(usernameLabel)
         contentView.addSubview(watchlistCount)
@@ -71,11 +69,8 @@ class FriendCell: UITableViewCell {
         watchlistCount.anchor(top: usernameLabel.bottomAnchor, left: leftAnchor, paddingLeft: 25)
         excludeCount.anchor(top: usernameLabel.bottomAnchor, left: watchlistCount.rightAnchor, paddingLeft: 15)
         
-        contentView.addSubview(addFriendButton)
-        addFriendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
-        
-        contentView.addSubview(removeFriendButton)
-        removeFriendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
+        contentView.addSubview(friendButton)
+        friendButton.anchor(top: topAnchor, bottom: bottomAnchor, right: rightAnchor, paddingRight: 20)
     
     }
     
@@ -83,14 +78,28 @@ class FriendCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Actions
-    
-    @objc func removeFriend() {
-        delegate?.removeFriend(cell: self)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        friendButton.setImage(nil, for: .normal)
+        friendButton.titleLabel?.text = nil
+        watchlistCount.text = ""
+        excludeCount.text = ""
+        usernameLabel.text = ""
+        
     }
     
-    @objc func addFriend() {
-        delegate?.addFriend(cell: self)
+    //MARK: - Actions
+    
+    @objc func toggleFriend() {
+        guard let image = friendButton.imageView?.image else { return }
+
+        if image == addFriendImage {
+            delegate?.addFriend(cell: self)
+        } else if image == removeFriendImage {
+            delegate?.removeFriend(cell: self)
+        }
+        
     }
     
 }

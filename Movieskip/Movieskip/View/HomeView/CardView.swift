@@ -58,7 +58,7 @@ class CardView: UIView {
         clipsToBounds = true
         backgroundColor = .white
         
-        imageView.sd_setImage(with: viewModel.poster)
+        imageView.sd_setImage(with: viewModel.movie.posterPath)
         
         addSubview(imageView)
         imageView.fillSuperview()

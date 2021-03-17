@@ -14,7 +14,9 @@ class WatchlistController: UIViewController {
     
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    private let movieTable = MovieTable()
+    private var watchlist = [Movie]()
+    
+    private lazy var movieTable = MovieTable()
     private lazy var movieCollection: MovieCollection = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100)
         let layout = UICollectionViewLayout()
@@ -47,10 +49,24 @@ class WatchlistController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        fetchMoviesInWatchlist()
 
     }
     
     //MARK: - Actions
+    
+    func fetchMoviesInWatchlist() {
+        guard let user = sceneDelegate.user else { return }         //TODO: error to user
+
+        user.watchlist.forEach { movieId in
+            TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
+                self.watchlist.append(movie)
+                if self.watchlist.count == user.watchlist.count {
+                    self.showTableView()
+                }
+            }
+        }
+    }
     
     @objc func handleDone() {
         self.dismiss(animated: true, completion: nil)
@@ -59,11 +75,15 @@ class WatchlistController: UIViewController {
     @objc func showTableView() {
         movieCollection.alpha = 0
         movieTable.alpha = 1
+        
+        movieTable.movies = watchlist
     }
     
     @objc func showCollectionView() {
         movieTable.alpha = 0
         movieCollection.alpha = 1
+        
+        movieCollection.movies = watchlist
     }
     
     //MARK: - Helpers
