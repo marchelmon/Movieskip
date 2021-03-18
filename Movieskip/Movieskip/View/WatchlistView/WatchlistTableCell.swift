@@ -11,7 +11,6 @@ class WatchlistTableCell: UITableViewCell {
     
     var movie: Movie?
     
-    
     private let poster: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit

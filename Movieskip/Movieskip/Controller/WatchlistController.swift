@@ -16,6 +16,16 @@ class WatchlistController: UIViewController {
     
     private var watchlist = [Movie]()
     
+    private let matchButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        button.setTitle("Combine watchlists", for: .normal)
+        button.layer.cornerRadius = 5
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.setTitleColor(.white, for: .normal)
+        return button
+    }()
+    
     private lazy var movieTable = MovieTable()
     private lazy var movieCollection: MovieCollection = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100)
@@ -101,11 +111,14 @@ class WatchlistController: UIViewController {
         view.addSubview(collectionButton)
         collectionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: tableButton.leftAnchor, paddingTop: 20, paddingRight: 20)
         
+        view.addSubview(matchButton)
+        matchButton.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+        
         view.addSubview(movieTable)
-        movieTable.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 50, paddingLeft: 30, paddingRight: 30, height: 500)
+        movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)
         
         view.addSubview(movieCollection)
-        movieCollection.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 50, paddingLeft: 30, paddingRight: 30, height: 500)
+        movieCollection.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)
     }
     
     

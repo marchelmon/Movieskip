@@ -139,7 +139,7 @@ class FriendsView: UIView {
         allUsers.forEach { user in
             if user.username.starts(with: username) { usersToDisplay.append(user) }
         }
-        tableView.reloadData()
+        tableView.reloadData()//showAllFriends()
     }
     
     func showAllFriends() {
@@ -147,10 +147,6 @@ class FriendsView: UIView {
             guard let allUsers = sceneDelegate.allUsers else { return }
             guard let user = sceneDelegate.user else { return }
             
-            for i in 1...25 {
-                friends.append(User(dictionary: ["username": "heeeeeej\(String(i))"]))
-            }
-            friends.append(User(dictionary: ["username": "Aaaaaaaa"]))
             user.friendIds.forEach { friendId in
                 let friendIndex = allUsers.firstIndex { user -> Bool in
                     return user.uid == friendId
@@ -230,6 +226,8 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
         
         let user = usersToDisplay[indexPath.row]
         cell.user = user
+        
+        cell.friendButton.setImage(cell.addFriendImage, for: .normal)
         
         let _ = friends.contains(where: { friend -> Bool in
             if friend.uid == user.uid {
