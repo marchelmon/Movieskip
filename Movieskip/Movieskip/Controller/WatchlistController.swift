@@ -26,14 +26,19 @@ class WatchlistController: UIViewController {
         return button
     }()
     
-    private lazy var movieTable = MovieTable()
+    private lazy var movieTable = MovieTable(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
+    private lazy var mCollection = MovieCollection(
+        frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100),
+        collectionViewLayout: UICollectionViewFlowLayout()
+    )
+    
     private lazy var movieCollection: MovieCollection = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100)
-        let layout = UICollectionViewLayout()
-        
-        let cv = MovieCollection(frame: frame, collectionViewLayout: layout)
-        return cv
-    }()
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collection = MovieCollection(frame: frame, collectionViewLayout: UICollectionViewLayout())
+        return collection
+    } ()
     
     private let collectionButton: UIButton = {
         let button = UIButton()
@@ -113,6 +118,8 @@ class WatchlistController: UIViewController {
         
         view.addSubview(matchButton)
         matchButton.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+        
+        let movieTable = MovieCollection(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
         
         view.addSubview(movieTable)
         movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)

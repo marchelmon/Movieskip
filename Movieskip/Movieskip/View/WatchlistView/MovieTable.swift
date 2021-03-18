@@ -25,7 +25,16 @@ class MovieTable: UIView {
     
     //MARK: - Lifecycle
     
-
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        alpha = 0
+        
+        configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Helpers
     
