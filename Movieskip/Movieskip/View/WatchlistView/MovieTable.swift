@@ -9,11 +9,19 @@ import UIKit
 
 private let cellIdentifier = "MovieCell"
 
+protocol MovieTableDelegate: class {
+    func presentMovieDetails(movie: Movie)
+}
+
 class MovieTable: UIView {
     
     //MARK: - Properties
     
-    var movies = [Movie]()
+    weak var delegate: MovieTableDelegate?
+    
+    var movies: [Movie]! {
+        didSet{ loadData() }
+    }
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -27,14 +35,26 @@ class MovieTable: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        alpha = 0
         
+        movies = []
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(WatchlistTableCell.self, forCellReuseIdentifier: cellIdentifier)
         configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    //MARK: - Actions
+    
+    func loadData() {
+        tableView.reloadData()
+    }
+    
     
     //MARK: - Helpers
     
@@ -55,16 +75,26 @@ extension MovieTable: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 20
+        return 130
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = movies[indexPath.row]
+        
+        print(movie.title)
+        
+        delegate?.presentMovieDetails(movie: movie)
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! WatchlistTableCell
-
-        print(indexPath.row)
+        let movie = movies[indexPath.row]
         
-        cell.movie = movies[indexPath.row]
-        
+        cell.poster.sd_setImage(with: movie.posterPath)
+        cell.movieTitle.text = movie.title
+        cell.rating.text = String(movie.rating)
+                
         return cell
     }
     

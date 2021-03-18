@@ -35,11 +35,11 @@ class MovieCollection: UICollectionView {
     
     func configureUI() {
         backgroundColor = .systemGreen
-        alpha = 1
+        alpha = 0
     }
     
     func loadData() {
-        print("Movies were added to collection")
+        
     }
     
 }

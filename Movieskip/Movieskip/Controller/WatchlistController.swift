@@ -54,6 +54,8 @@ class WatchlistController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        movieTable.delegate = self
+        
         configureUI()
         fetchMoviesInWatchlist()
 
@@ -68,7 +70,11 @@ class WatchlistController: UIViewController {
             TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
                 self.watchlist.append(movie)
                 if self.watchlist.count == user.watchlist.count {
-                    self.showTableView()
+                    if UserDefaults.standard.bool(forKey: WATCHLIST_IS_TABLE) {
+                        self.showTableView()
+                    } else {
+                        self.showCollectionView()
+                    }
                 }
             }
         }
@@ -82,12 +88,16 @@ class WatchlistController: UIViewController {
         movieCollection.alpha = 0
         movieTable.alpha = 1
         
+        UserDefaults.standard.setValue(true, forKey: WATCHLIST_IS_TABLE)
+        
         movieTable.movies = watchlist
     }
     
     @objc func showCollectionView() {
         movieTable.alpha = 0
         movieCollection.alpha = 1
+        
+        UserDefaults.standard.setValue(false, forKey: WATCHLIST_IS_TABLE)
         
         movieCollection.movies = watchlist
     }
@@ -111,11 +121,22 @@ class WatchlistController: UIViewController {
         matchButton.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingRight: 30)
                 
         view.addSubview(movieTable)
-        movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)
+        movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingBottom: 30, paddingRight: 30)
         
         view.addSubview(movieCollection)
         movieCollection.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)
     }
     
+    
+}
+
+extension WatchlistController: MovieTableDelegate {
+    
+    func presentMovieDetails(movie: Movie) {
+        let controller = DetailsController(movie: movie)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
     
 }

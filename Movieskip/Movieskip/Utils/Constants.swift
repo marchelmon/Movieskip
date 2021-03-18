@@ -26,6 +26,7 @@ let USER_DEFAULTS_MAXYEAR_KEY = "maxYear"
 let USER_DEFAULTS_POPULAR_KEY = "popular"
 let USER_DEFAULTS_PAGE_KEY = "page"
 
+let WATCHLIST_IS_TABLE = "tableOrCollection"
 
 //MARK: - TMDB API
 
