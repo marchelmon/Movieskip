@@ -9,36 +9,17 @@ import UIKit
 
 class WatchlistController: UIViewController {
     
-    
     //MARK: - Properties
     
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     private var watchlist = [Movie]()
     
-    private let matchButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
-        button.setTitle("Combine watchlists", for: .normal)
-        button.layer.cornerRadius = 5
-        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    
     private lazy var movieTable = MovieTable(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
-    private lazy var mCollection = MovieCollection(
+    private lazy var movieCollection = MovieCollection(
         frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100),
         collectionViewLayout: UICollectionViewFlowLayout()
     )
-    
-    private lazy var movieCollection: MovieCollection = {
-        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100)
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let collection = MovieCollection(frame: frame, collectionViewLayout: UICollectionViewLayout())
-        return collection
-    } ()
     
     private let collectionButton: UIButton = {
         let button = UIButton()
@@ -55,6 +36,16 @@ class WatchlistController: UIViewController {
         let image = UIImage(systemName: "list.dash", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(showTableView), for: .touchUpInside)
+        return button
+    }()
+    
+    private let matchButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        button.setTitle("Combine watchlists", for: .normal)
+        button.layer.cornerRadius = 5
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.setTitleColor(.white, for: .normal)
         return button
     }()
     
@@ -117,10 +108,8 @@ class WatchlistController: UIViewController {
         collectionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: tableButton.leftAnchor, paddingTop: 20, paddingRight: 20)
         
         view.addSubview(matchButton)
-        matchButton.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
-        
-        let movieTable = MovieCollection(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
-        
+        matchButton.anchor(top: tableButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingRight: 30)
+                
         view.addSubview(movieTable)
         movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)
         

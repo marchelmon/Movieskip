@@ -41,6 +41,9 @@ class MovieTable: UIView {
     func configureUI() {
         tableView.separatorStyle = .none
         tableView.backgroundColor = .systemPink
+        
+        addSubview(tableView)
+        tableView.fillSuperview()
     }
     
 }
