@@ -10,7 +10,7 @@ import UIKit
 private let cellIdentifier = "MovieCell"
 
 protocol MovieTableDelegate: class {
-    func presentMovieDetails(movie: Movie)
+    func tablePresentMovieDetails(movie: Movie)
 }
 
 class MovieTable: UIView {
@@ -25,7 +25,7 @@ class MovieTable: UIView {
     
     private let tableView: UITableView = {
         let table = UITableView()
-        table.backgroundColor = .systemGroupedBackground
+        table.backgroundColor = .white
         table.layer.cornerRadius = 5
         table.separatorStyle = .none
         return table
@@ -41,7 +41,10 @@ class MovieTable: UIView {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(WatchlistTableCell.self, forCellReuseIdentifier: cellIdentifier)
-        configureUI()
+
+        addSubview(tableView)
+        tableView.fillSuperview()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -53,17 +56,6 @@ class MovieTable: UIView {
     
     func loadData() {
         tableView.reloadData()
-    }
-    
-    
-    //MARK: - Helpers
-    
-    func configureUI() {
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
-        
-        addSubview(tableView)
-        tableView.fillSuperview()
     }
     
 }
@@ -83,7 +75,7 @@ extension MovieTable: UITableViewDelegate, UITableViewDataSource {
         
         print(movie.title)
         
-        delegate?.presentMovieDetails(movie: movie)
+        delegate?.tablePresentMovieDetails(movie: movie)
         
     }
     

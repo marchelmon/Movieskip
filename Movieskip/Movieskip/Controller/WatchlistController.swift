@@ -14,19 +14,16 @@ class WatchlistController: UIViewController {
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
         
     private lazy var movieTable = MovieTable(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
-    private lazy var movieCollection = MovieCollection(
-        frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100),
-        collectionViewLayout: UICollectionViewFlowLayout()
-    )
+    private lazy var movieCollection = MovieCollection(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
     
     private let collectionIcon: UIImage? = {
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 35)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 40)
         let image = UIImage(systemName: "square.grid.2x2", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
         return image
     }()
     
     private let tableIcon: UIImage? = {
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 35)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 40)
         let image = UIImage(systemName: "list.dash", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
         return image
     }()
@@ -42,7 +39,7 @@ class WatchlistController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         button.setTitle("Combine watchlists", for: .normal)
         button.layer.cornerRadius = 5
-        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 45).isActive = true
         button.setTitleColor(.white, for: .normal)
         return button
     }()
@@ -53,6 +50,7 @@ class WatchlistController: UIViewController {
         super.viewDidLoad()
         
         movieTable.delegate = self
+        movieCollection.delegate = self
                 
         configureUI()
         sceneDelegate.userWatchlist.count == 0 ? fetchMoviesInWatchlist() : configureAndDisplayMovies()
@@ -63,7 +61,6 @@ class WatchlistController: UIViewController {
     
     func fetchMoviesInWatchlist() {
         guard let user = sceneDelegate.user else { return }         //TODO: error to user
-        print("Fetching movies")
         user.watchlist.forEach { movieId in
             TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
                 self.sceneDelegate.userWatchlist.append(movie)
@@ -101,6 +98,13 @@ class WatchlistController: UIViewController {
         
     }
     
+    func presentMovieDetails(movie: Movie) {
+        let controller = DetailsController(movie: movie)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
     //MARK: - Helpers
     
     func configureAndDisplayMovies() {
@@ -120,30 +124,31 @@ class WatchlistController: UIViewController {
         navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
                 
-        
-        view.addSubview(toggleViewModeButton)
-        toggleViewModeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, right: view.rightAnchor, paddingTop: 20, paddingRight: 20)
-        
-        view.addSubview(matchButton)
-        matchButton.anchor(top: toggleViewModeButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingRight: 30)
+        let stack = UIStackView(arrangedSubviews: [matchButton, toggleViewModeButton])
+        stack.distribution = .fillProportionally
+        view.addSubview(stack)
+        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 10)
                 
         view.addSubview(movieTable)
-        movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingBottom: 30, paddingRight: 30)
+        movieTable.anchor(top: stack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
         
         view.addSubview(movieCollection)
-        movieCollection.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 500)
+        movieCollection.anchor(top: stack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
+        
     }
-    
     
 }
 
 extension WatchlistController: MovieTableDelegate {
     
-    func presentMovieDetails(movie: Movie) {
-        let controller = DetailsController(movie: movie)
-        let nav = UINavigationController(rootViewController: controller)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true, completion: nil)
+    func tablePresentMovieDetails(movie: Movie) {
+        presentMovieDetails(movie: movie)
     }
     
+}
+
+extension WatchlistController: MovieCollectionDelegate {
+    func collectionPresentMovieDetails(movie: Movie) {
+        presentMovieDetails(movie: movie)
+    }
 }
