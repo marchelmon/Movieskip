@@ -18,6 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var user: User?
     var localUser: LocalUser?
     
+    var userWatchlist = [Movie]()
+    
     //MARK: - Lifecycle
     
     override init() {

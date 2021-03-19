@@ -38,10 +38,10 @@ class WatchlistTableCell: UITableViewCell {
         selectionStyle = .none
         
         addSubview(poster)
-        poster.anchor(top: topAnchor, left: leftAnchor, paddingTop: 8, width: 120 / 1.5, height: 120)
+        poster.anchor(top: topAnchor, left: leftAnchor, paddingTop: 5, width: 120 / 1.5, height: 120)
         
         addSubview(movieTitle)
-        movieTitle.anchor(top: topAnchor, left: poster.rightAnchor, paddingTop: 15, paddingLeft: 20)
+        movieTitle.anchor(top: topAnchor, left: poster.rightAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 20)
         
         addSubview(rating)
         rating.anchor(top: movieTitle.bottomAnchor, left: poster.rightAnchor, paddingTop: 10, paddingLeft: 20)
