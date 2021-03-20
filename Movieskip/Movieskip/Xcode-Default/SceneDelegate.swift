@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var localUser: LocalUser?
     
     var userWatchlist = [Movie]()
+    var userFriends = [User]()
     
     //MARK: - Lifecycle
     

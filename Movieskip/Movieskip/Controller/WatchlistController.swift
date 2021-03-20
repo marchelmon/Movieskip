@@ -41,6 +41,7 @@ class WatchlistController: UIViewController {
         button.layer.cornerRadius = 5
         button.heightAnchor.constraint(equalToConstant: 45).isActive = true
         button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(goToMatchView), for: .touchUpInside)
         return button
     }()
     
@@ -69,6 +70,13 @@ class WatchlistController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc func goToMatchView() {
+        let controller = CombineWatchlistController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
     
     @objc func handleDone() {

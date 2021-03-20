@@ -26,7 +26,6 @@ class MovieTable: UIView {
     private let tableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .white
-        table.layer.cornerRadius = 5
         table.separatorStyle = .none
         return table
     }()

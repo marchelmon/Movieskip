@@ -22,7 +22,6 @@ class FriendsView: UIView {
     
     weak var delegate: SettingsFriendsDelegate?
     
-    var friends = [User]()
     var usersToDisplay = [User]()
         
     private let searchTextField: UITextField = {
@@ -80,8 +79,8 @@ class FriendsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        showAllFriends()
-            
+        configureAndShowFriends()
+        
         configureUI()
         
         tableView.delegate = self
@@ -103,7 +102,7 @@ class FriendsView: UIView {
         guard let text = sender.text else { return }
         
         if text == "" {
-            showAllFriends()
+            configureAndShowFriends()
         } else if text.count < 3 {
             usersToDisplay = []
             tableView.reloadData()
@@ -113,20 +112,20 @@ class FriendsView: UIView {
     }
     
     func addFriendToUser(user: User) {
-        friends.append(user)
+        sceneDelegate.userFriends.append(user)
         sceneDelegate.addFriend(friend: user.uid)
         searchTextField.text = ""
         handleSearchTextChanged(sender: searchTextField)
     }
     
     func removeFriendFromUser(user: User) {
-        let index = friends.firstIndex { friend -> Bool in
+        let index = sceneDelegate.userFriends.firstIndex { friend -> Bool in
             if friend.uid == user.uid { return true }
             return false
         }
-        if let index = index { friends.remove(at: index) }
+        if let index = index { sceneDelegate.userFriends.remove(at: index) }
         sceneDelegate.removeFriend(friendUID: user.uid)
-        showAllFriends()
+        configureAndShowFriends()
     }
     
     
@@ -142,8 +141,8 @@ class FriendsView: UIView {
         tableView.reloadData()//showAllFriends()
     }
     
-    func showAllFriends() {
-        if friends.count == 0 {
+    func configureAndShowFriends() {
+        if sceneDelegate.userFriends.count == 0 {
             guard let allUsers = sceneDelegate.allUsers else { return }
             guard let user = sceneDelegate.user else { return }
             
@@ -152,11 +151,11 @@ class FriendsView: UIView {
                     return user.uid == friendId
                 }
                 guard let index = friendIndex else { return }
-                friends.append(allUsers[index])
+                sceneDelegate.userFriends.append(allUsers[index])
             }
+            sceneDelegate.userFriends = sceneDelegate.userFriends.sorted { $0.username.compare($1.username) == ComparisonResult.orderedAscending }
         }
-        friends = friends.sorted { $0.username.compare($1.username) == ComparisonResult.orderedAscending }
-        usersToDisplay = friends
+        usersToDisplay = sceneDelegate.userFriends
         tableView.reloadData()
     }
     
@@ -229,7 +228,7 @@ extension FriendsView: UITableViewDataSource, UITableViewDelegate {
         
         cell.friendButton.setImage(cell.addFriendImage, for: .normal)
         
-        let _ = friends.contains(where: { friend -> Bool in
+        let _ = sceneDelegate.userFriends.contains(where: { friend -> Bool in
             if friend.uid == user.uid {
 
                 cell.friendButton.setImage(cell.removeFriendImage, for: .normal)
