@@ -12,7 +12,6 @@ class WatchlistTableCell: UITableViewCell {
     let poster: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 8
         return imageView
     }()
     

@@ -61,6 +61,7 @@ class MovieTable: UIView {
 
 
 extension MovieTable: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
@@ -71,11 +72,7 @@ extension MovieTable: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let movie = movies[indexPath.row]
-        
-        print(movie.title)
-        
         delegate?.tablePresentMovieDetails(movie: movie)
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,5 +86,7 @@ extension MovieTable: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    
 }
+
+
+

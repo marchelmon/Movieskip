@@ -24,7 +24,7 @@ class WatchlistController: UIViewController {
     
     private let tableIcon: UIImage? = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40)
-        let image = UIImage(systemName: "list.dash", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "list.bullet", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
         return image
     }()
     

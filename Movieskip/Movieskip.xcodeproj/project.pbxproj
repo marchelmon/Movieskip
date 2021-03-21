@@ -37,6 +37,7 @@
 		3C7DC87F25DBE12500FE7A61 /* FilterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC87E25DBE12500FE7A61 /* FilterController.swift */; };
 		3CB20CBE2604E26C006D869A /* WatchlistCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CBD2604E26C006D869A /* WatchlistCollectionCell.swift */; };
 		3CB20CC126051111006D869A /* CombineWatchlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CC026051111006D869A /* CombineWatchlistController.swift */; };
+		3CB20CC826077CFC006D869A /* MatchingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CC726077CFC006D869A /* MatchingResultsView.swift */; };
 		3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B6B425DD8E00007A18B7 /* Genre.swift */; };
 		3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70825E15BA8007A18B7 /* DetailsController.swift */; };
 		3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70C25E16312007A18B7 /* Actor.swift */; };
@@ -89,6 +90,7 @@
 		3C7DC87E25DBE12500FE7A61 /* FilterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterController.swift; sourceTree = "<group>"; };
 		3CB20CBD2604E26C006D869A /* WatchlistCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistCollectionCell.swift; sourceTree = "<group>"; };
 		3CB20CC026051111006D869A /* CombineWatchlistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWatchlistController.swift; sourceTree = "<group>"; };
+		3CB20CC726077CFC006D869A /* MatchingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingResultsView.swift; sourceTree = "<group>"; };
 		3CF5B6B425DD8E00007A18B7 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		3CF5B70825E15BA8007A18B7 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
 		3CF5B70C25E16312007A18B7 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				3CF5B77225EE6080007A18B7 /* DetailsView */,
 				3CF5B76C25EE6029007A18B7 /* SettingsView */,
 				3C37DB5425FFBC67006A35FB /* WatchlistView */,
+				3CB20CC726077CFC006D869A /* MatchingResultsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -459,6 +462,7 @@
 				3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */,
 				3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */,
 				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
+				3CB20CC826077CFC006D869A /* MatchingResultsView.swift in Sources */,
 				3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */,
 				3C66623F25F79B0200759552 /* LocalUser.swift in Sources */,
 				3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */,
