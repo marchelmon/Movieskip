@@ -163,9 +163,30 @@ extension CombineWatchlistController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         let friend = sceneDelegate.userFriends[indexPath.row]
-        
+        cell.selectionStyle = .none
         cell.textLabel?.text = friend.username
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        let friend = sceneDelegate.userFriends[indexPath.row]
+       
+        if selectedFriends.contains(where: { return $0.uid == friend.uid }) {
+            let friendIndex = selectedFriends.firstIndex { selectedFriend -> Bool in
+                if selectedFriend.uid == friend.uid {
+                    return true
+                }
+                return false
+            }
+            if let friendIndex = friendIndex { selectedFriends.remove(at: friendIndex) }
+            cell?.accessoryType = .none
+        } else {
+            selectedFriends.append(friend)
+            cell?.accessoryType = .checkmark
+        }
+        print(selectedFriends.count)
+        tableView.reloadData()
     }
     
 }
