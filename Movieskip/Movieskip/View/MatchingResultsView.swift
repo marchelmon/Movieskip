@@ -145,6 +145,6 @@ class MatchingResultsView: UIView {
 
 extension MatchingResultsView: MovieTableDelegate {
     func tablePresentMovieDetails(movie: Movie) {
-        delegate?tablePresentMovieDetails(movie: movie)
+        delegate?.tablePresentMovieDetails(movie: movie)
     }
 }

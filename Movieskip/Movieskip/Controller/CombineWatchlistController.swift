@@ -170,6 +170,7 @@ class CombineWatchlistController: UIViewController {
         matchingResultsView.isHidden = false
         backFromResultsButton.isHidden = false
         
+        matchingResultsView.delegate = self
         matchingResultsView.friends = selectedFriends
         
         view.addSubview(backFromResultsButton)
@@ -219,6 +220,13 @@ extension CombineWatchlistController: UITableViewDelegate, UITableViewDataSource
     
 }
 
-
+extension CombineWatchlistController: MatchingResultsViewDelegate {
+    func tablePresentMovieDetails(movie: Movie) {
+        let controller = DetailsController(movie: movie)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+}
 
 
