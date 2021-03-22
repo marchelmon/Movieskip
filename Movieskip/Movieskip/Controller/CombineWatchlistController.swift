@@ -17,7 +17,7 @@ class CombineWatchlistController: UIViewController {
     
     private var selectedFriends = [User]()
     
-    private lazy var matchingResultsTable = MovieTable(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 100))
+    private lazy var matchingResultsView = MatchingResultsView()
     private lazy var registerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
 
     private let friendsLabel: UILabel = {
@@ -34,6 +34,16 @@ class CombineWatchlistController: UIViewController {
     }()
     
     private let friendsView = UIView()
+    
+    private let matchButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        button.setTitle("Combine watchlists", for: .normal)
+        button.layer.cornerRadius = 5
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(showMatchingResults), for: .touchUpInside)
+        return button
+    }()
 
     private let shouldRegisterText: UILabel = {
         let label = UILabel()
@@ -56,6 +66,14 @@ class CombineWatchlistController: UIViewController {
         return button
     }()
     
+    private let backFromResultsButton: UIButton = {
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "arrow.backward", withConfiguration: imageConfig)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(showFriendsView), for: .touchUpInside)
+        return button
+    }()
     
     //MARK: - Lifecycle
     
@@ -110,16 +128,20 @@ class CombineWatchlistController: UIViewController {
         friendsTable.reloadData()
     }
     
-    func showFriendsView() {
+    @objc func showFriendsView() {
         registerView.isHidden = true
-        matchingResultsTable.isHidden = true
+        matchingResultsView.isHidden = true
+        backFromResultsButton.isHidden = true
         friendsView.isHidden = false
-
+        
         friendsView.addSubview(friendsLabel)
         friendsLabel.anchor(top: friendsView.topAnchor, left: friendsView.leftAnchor)
         
+        friendsView.addSubview(matchButton)
+        matchButton.anchor(left: friendsView.leftAnchor, bottom: friendsView.bottomAnchor, right: friendsView.rightAnchor, paddingBottom: 20, height: 45)
+        
         friendsView.addSubview(friendsTable)
-        friendsTable.anchor(top: friendsLabel.bottomAnchor, left: friendsView.leftAnchor, bottom: friendsView.bottomAnchor, right: friendsView.rightAnchor, paddingTop: 10)
+        friendsTable.anchor(top: friendsLabel.bottomAnchor, left: friendsView.leftAnchor, bottom: matchButton.topAnchor, right: friendsView.rightAnchor, paddingTop: 15, paddingBottom: 20)
         
         view.addSubview(friendsView)
         friendsView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 40, paddingLeft: 20, paddingBottom: 30, paddingRight: 20)
@@ -127,11 +149,11 @@ class CombineWatchlistController: UIViewController {
     }
     
     func showRegisterContent() {
-        matchingResultsTable.isHidden = true
+        matchingResultsView.isHidden = true
+        backFromResultsButton.isHidden = true
         friendsView.isHidden = true
         registerView.isHidden = false
         
-        registerView.backgroundColor = .white
         registerView.addSubview(shouldRegisterText)
         shouldRegisterText.anchor(top: registerView.topAnchor, left: registerView.leftAnchor, right: registerView.rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
         registerView.addSubview(registerButton)
@@ -142,13 +164,20 @@ class CombineWatchlistController: UIViewController {
         registerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 150, height: 200)
     }
     
-    func showMatchingResults() {
+    @objc func showMatchingResults() {
+        friendsView.isHidden = true
+        registerView.isHidden = true
+        matchingResultsView.isHidden = false
+        backFromResultsButton.isHidden = false
         
-        view.addSubview(matchingResultsTable)
-        matchingResultsTable.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                                   right: view.rightAnchor, paddingTop: 50, paddingLeft: 30, paddingBottom: 50, paddingRight: 30)
-
+        matchingResultsView.friends = selectedFriends
         
+        view.addSubview(backFromResultsButton)
+        backFromResultsButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20)
+        
+        view.addSubview(matchingResultsView)
+        matchingResultsView.anchor(top: backFromResultsButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                   right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 30, paddingRight: 20)
         
     }
     
@@ -185,7 +214,6 @@ extension CombineWatchlistController: UITableViewDelegate, UITableViewDataSource
             selectedFriends.append(friend)
             cell?.accessoryType = .checkmark
         }
-        print(selectedFriends.count)
         tableView.reloadData()
     }
     

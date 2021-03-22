@@ -23,7 +23,7 @@ class MovieTable: UIView {
         didSet{ loadData() }
     }
     
-    private let tableView: UITableView = {
+    let tableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .white
         table.separatorStyle = .none

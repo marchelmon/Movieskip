@@ -7,19 +7,19 @@
 
 import UIKit
 
+protocol MatchingResultsViewDelegate: class {
+    func tablePresentMovieDetails(movie: Movie)
+}
+
 class MatchingResultsView: UIView {
 
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
+    weak var delegate: MatchingResultsViewDelegate?
     
-    private let backButton: UIButton = {
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 50)
-        let image = UIImage(systemName: "arrow.backward", withConfiguration: imageConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        let button = UIButton(type: .system)
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(handleGoBack), for: .touchUpInside)
-        return button
-    }()
+    var friends: [User]! {
+        didSet{ calculateMovieLists() }
+    }
     
     private let watchlistResultsButton: UIButton = {
         let button = UIButton(type: .system)
@@ -39,18 +39,17 @@ class MatchingResultsView: UIView {
         return button
     }()
     
-    
-    
-    private lazy var watchlistResultsTable = MovieTable()
-    private lazy var excludeResultsTable = MovieTable()
-
+    private let watchlistResultsTable = MovieTable()
+    private let excludeResultsTable = MovieTable()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        excludeResultsTable.isHidden = true
+        watchlistResultsTable.delegate = self
+        excludeResultsTable.delegate = self
         
         configureUI()
+        showWatchlistResults()
         
     }
     
@@ -60,6 +59,52 @@ class MatchingResultsView: UIView {
     
     
     //MARK: - Actions
+    
+    func calculateMovieLists() {
+        
+        guard let user = sceneDelegate.user else { return }
+        
+        var matchedWatchlistMovies = [Movie]()
+        var notExcludedMovies = [Movie]()
+        
+        var matchedInWatchlist = [Int]()
+        var notExcludedList = [Int]()
+        
+        var friendsWatchlist = [Int]()
+        var friendsExcluded = [Int]()
+        
+        friends.forEach({ friend in
+            friendsWatchlist += friend.watchlist
+            friendsExcluded += friend.excluded
+        })
+
+        user.watchlist.forEach { movieId in
+            if friendsWatchlist.contains(movieId) { matchedInWatchlist.append(movieId) }
+            if !friendsExcluded.contains(movieId) { notExcludedList.append(movieId) }
+        }
+        
+        print("Count w: \(matchedInWatchlist.count)")
+        print("Count exc: \(notExcludedList.count)")
+        
+        matchedInWatchlist.forEach { movieId in
+            TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
+                matchedWatchlistMovies.append(movie)
+                if matchedWatchlistMovies.count == matchedInWatchlist.count {
+                    self.watchlistResultsTable.movies = matchedWatchlistMovies
+                }
+            }
+        }
+        
+        notExcludedList.forEach { movieId in
+            TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
+                notExcludedMovies.append(movie)
+                if notExcludedMovies.count == notExcludedList.count {
+                    self.excludeResultsTable.movies = notExcludedMovies
+                }
+            }
+        }
+        
+    }
 
     @objc func showWatchlistResults() {
         excludeResultsTable.isHidden = true
@@ -77,31 +122,29 @@ class MatchingResultsView: UIView {
         watchlistResultsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
     
-    
-    @objc func handleGoBack() {
-        //delegate?.bla()
-    }
-    
-    
     //MARK: - Helpers
     
     func configureUI() {
-        addSubview(backButton)
-        backButton.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, paddingTop: 30, paddingLeft: 20)
         
         let topButtonStack = UIStackView(arrangedSubviews: [UIView(), watchlistResultsButton, excludeResultsButton, UIView()])
         topButtonStack.backgroundColor = .white
         topButtonStack.distribution = .equalSpacing
-        
+
         addSubview(topButtonStack)
-        topButtonStack.anchor(top: backButton.bottomAnchor, left: leftAnchor, right: rightAnchor, width: frame.width, height: 70)
-        
+        topButtonStack.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 70)
+
         addSubview(watchlistResultsTable)
-        watchlistResultsTable.anchor(top: topButtonStack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 50)
-        
+        watchlistResultsTable.anchor(top: topButtonStack.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 15)
+
         addSubview(excludeResultsTable)
-        excludeResultsTable.anchor(top: topButtonStack.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 50)
+        excludeResultsTable.anchor(top: topButtonStack.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 15)
         
     }
     
+}
+
+extension MatchingResultsView: MovieTableDelegate {
+    func tablePresentMovieDetails(movie: Movie) {
+        delegate?tablePresentMovieDetails(movie: movie)
+    }
 }
