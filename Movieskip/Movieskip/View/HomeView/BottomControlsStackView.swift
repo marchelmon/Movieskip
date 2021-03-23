@@ -19,7 +19,11 @@ class BottomControlsStackView: UIStackView {
     
     weak var delegate: BottomControlsStackViewDelegate?
     
-    private let excludeButton = UIButton(type: .system)
+    private let excludeButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        return button
+    }()
     private let skipButton = UIButton(type: .system)
     private let watchlistButton = UIButton(type: .system)
     private let refreshButton = UIButton(type: .system)
@@ -31,24 +35,27 @@ class BottomControlsStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        heightAnchor.constraint(equalToConstant: 100).isActive = true
+        heightAnchor.constraint(equalToConstant: 80).isActive = true
         distribution = .fillEqually
         
-        let gearImage = UIImage(systemName: "gearshape.fill")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
+        let smallImageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let largeImageConfig = UIImage.SymbolConfiguration(pointSize: 50)
         
-        excludeButton.setImage(#imageLiteral(resourceName: "dismiss_circle").withRenderingMode(.alwaysOriginal), for: .normal)
-        skipButton.setImage(#imageLiteral(resourceName: "like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
-        watchlistButton.setImage(#imageLiteral(resourceName: "super_like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
+        let gearImage = UIImage(systemName: "gearshape.fill", withConfiguration: smallImageConfig)?.withTintColor(.gray, renderingMode: .alwaysOriginal)
+        let skipImage = SKIP_ICON?.applyingSymbolConfiguration(largeImageConfig)
+        let excludeImage = EXCLUDE_ICON?.applyingSymbolConfiguration(largeImageConfig)
+        let watchlistImage = WATCHLIST_ICON?.applyingSymbolConfiguration(smallImageConfig)
+        
+        excludeButton.setImage(excludeImage, for: .normal)
+        skipButton.setImage(skipImage, for: .normal)
+        watchlistButton.setImage(watchlistImage, for: .normal)
         filterButton.setImage(gearImage, for: .normal)
 
         
-        //Actions for buttons goes here
         excludeButton.addTarget(self, action: #selector(handleDislike), for: .touchUpInside)
         skipButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         watchlistButton.addTarget(self, action: #selector(handleShowWatchlist), for: .touchUpInside)
         filterButton.addTarget(self, action: #selector(handleShowFilter), for: .touchUpInside)
-
-        
         
         [filterButton, excludeButton, skipButton, watchlistButton].forEach { view in
             addArrangedSubview(view)

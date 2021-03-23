@@ -83,9 +83,6 @@ class MatchingResultsView: UIView {
             if !friendsExcluded.contains(movieId) { notExcludedList.append(movieId) }
         }
         
-        print("Count w: \(matchedInWatchlist.count)")
-        print("Count exc: \(notExcludedList.count)")
-        
         matchedInWatchlist.forEach { movieId in
             TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
                 matchedWatchlistMovies.append(movie)

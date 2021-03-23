@@ -23,15 +23,21 @@ class HomeNavigationStackView: UIStackView {
     private let settingsButton = UIButton(type: .system)
     
     
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let watchlistImage = UIImage(systemName: "text.badge.star", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal)
+        let settingsImage = UIImage(systemName: "person", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal)
         
         heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         movieskipIcon.contentMode = .scaleAspectFit
         
-        watchListButton.setImage(#imageLiteral(resourceName: "super_like_circle").withRenderingMode(.alwaysOriginal), for: .normal)
-        settingsButton.setImage(#imageLiteral(resourceName: "top_left_profile").withRenderingMode(.alwaysOriginal), for: .normal)
+        watchListButton.setImage(watchlistImage, for: .normal)
+        settingsButton.setImage(settingsImage, for: .normal)
         
         watchListButton.addTarget(self, action: #selector(handleShowWatchlist), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(handleShowSettings), for: .touchUpInside)
@@ -43,7 +49,7 @@ class HomeNavigationStackView: UIStackView {
         
         distribution = .equalCentering
         isLayoutMarginsRelativeArrangement = true
-        layoutMargins = .init(top: 0, left: 10, bottom: 0, right: 10)
+        layoutMargins = .init(top: 0, left: 20, bottom: 0, right: 20)
     
     }
     

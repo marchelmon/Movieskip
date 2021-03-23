@@ -8,9 +8,13 @@
 import Firebase
 import UIKit
 
-//MARK: - APP Icon
+//MARK: - APP Icons, colors and images
 
 let MOVIESKIP_ICON: UIImage = #imageLiteral(resourceName: "app_icon").withRenderingMode(.alwaysOriginal)
+let SKIP_ICON = UIImage(systemName: "arrowshape.turn.up.forward.circle")?.withTintColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), renderingMode: .alwaysOriginal)
+let EXCLUDE_ICON = UIImage(systemName: "xmark.circle")?.withTintColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), renderingMode: .alwaysOriginal)
+let WATCHLIST_ICON = UIImage(systemName: "star.fill")?.withTintColor(#colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1), renderingMode: .alwaysOriginal)
+
 let MAIN_COLOR = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
 
 //MARK: - Firebase Collection
