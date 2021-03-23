@@ -10,7 +10,7 @@ import Foundation
 
 struct FilterService  {
     
-    static var filter: Filter = Filter(genres: TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: false, page: 1)
+    static var filter: Filter = Filter(genres: K.TMDB_GENRES, minYear: 2000, maxYear: 2021, popular: false, page: 1)
     
     static var totalPages = 10
     
@@ -18,24 +18,24 @@ struct FilterService  {
         
         let genres = try! JSONEncoder().encode(filter.genres)
         
-        UserDefaults.standard.set(genres, forKey: USER_DEFAULTS_GENRES_KEY)
-        UserDefaults.standard.set(filter.minYear, forKey: USER_DEFAULTS_MINYEAR_KEY)
-        UserDefaults.standard.set(filter.maxYear, forKey: USER_DEFAULTS_MAXYEAR_KEY)
-        UserDefaults.standard.set(filter.popular, forKey: USER_DEFAULTS_POPULAR_KEY)
+        UserDefaults.standard.set(genres, forKey: K.USER_DEFAULTS_GENRES_KEY)
+        UserDefaults.standard.set(filter.minYear, forKey: K.USER_DEFAULTS_MINYEAR_KEY)
+        UserDefaults.standard.set(filter.maxYear, forKey: K.USER_DEFAULTS_MAXYEAR_KEY)
+        UserDefaults.standard.set(filter.popular, forKey: K.USER_DEFAULTS_POPULAR_KEY)
         
         if filter.page != 1 { filter.page -= 1 }
-        UserDefaults.standard.set(filter.page, forKey: USER_DEFAULTS_PAGE_KEY)
+        UserDefaults.standard.set(filter.page, forKey: K.USER_DEFAULTS_PAGE_KEY)
         
     }
     
     static func fetchFilter(completion: @escaping(Filter) -> Void) {
         
-        if  let genresData = UserDefaults.standard.data(forKey: USER_DEFAULTS_GENRES_KEY) {
+        if  let genresData = UserDefaults.standard.data(forKey: K.USER_DEFAULTS_GENRES_KEY) {
             filter.genres = try! JSONDecoder().decode([Genre].self, from: genresData)
-            filter.minYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MINYEAR_KEY)
-            filter.maxYear = UserDefaults.standard.float(forKey: USER_DEFAULTS_MAXYEAR_KEY)
-            filter.popular = UserDefaults.standard.bool(forKey: USER_DEFAULTS_POPULAR_KEY)
-            filter.page = UserDefaults.standard.integer(forKey: USER_DEFAULTS_PAGE_KEY)
+            filter.minYear = UserDefaults.standard.float(forKey: K.USER_DEFAULTS_MINYEAR_KEY)
+            filter.maxYear = UserDefaults.standard.float(forKey: K.USER_DEFAULTS_MAXYEAR_KEY)
+            filter.popular = UserDefaults.standard.bool(forKey: K.USER_DEFAULTS_POPULAR_KEY)
+            filter.page = UserDefaults.standard.integer(forKey: K.USER_DEFAULTS_PAGE_KEY)
         }
                 
         completion(filter)

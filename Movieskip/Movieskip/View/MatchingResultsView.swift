@@ -24,7 +24,7 @@ class MatchingResultsView: UIView {
     private let watchlistResultsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("* VS *", for: .normal)
-        button.setTitleColor(MAIN_COLOR, for: .normal)
+        button.setTitleColor(K.MAIN_COLOR, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.addTarget(self, action: #selector(showWatchlistResults), for: .touchUpInside)
         return button
@@ -107,7 +107,7 @@ class MatchingResultsView: UIView {
         excludeResultsTable.isHidden = true
         watchlistResultsTable.isHidden = false
 
-        watchlistResultsButton.setTitleColor(MAIN_COLOR, for: .normal)
+        watchlistResultsButton.setTitleColor(K.MAIN_COLOR, for: .normal)
         excludeResultsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
 
@@ -115,7 +115,7 @@ class MatchingResultsView: UIView {
         watchlistResultsTable.isHidden = true
         excludeResultsTable.isHidden = false
         
-        excludeResultsButton.setTitleColor(MAIN_COLOR, for: .normal)
+        excludeResultsButton.setTitleColor(K.MAIN_COLOR, for: .normal)
         watchlistResultsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
     

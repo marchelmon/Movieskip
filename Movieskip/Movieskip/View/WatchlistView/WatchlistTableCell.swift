@@ -18,14 +18,14 @@ class WatchlistTableCell: UITableViewCell {
     let movieTitle: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
     let rating: UILabel = {
         let label = UILabel()
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()

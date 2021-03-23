@@ -16,7 +16,7 @@ struct TmdbService {
     
     static func fetchMovies(completion: @escaping([Movie]) -> Void) {
         
-        let urlString = "\(TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"
+        let urlString = "\(K.TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"
                 
         FilterService.filter.page += 1
 
@@ -62,7 +62,7 @@ struct TmdbService {
     }
     
     static func fetchMovieWithDetails(withId id: Int, completion: @escaping(Movie) -> Void) {
-        let url = "\(TMDB_MOVIE_BASE)\(id)?api_key=\(TMDB_API_KEY)&append_to_response=credits,videos,images,reviews"
+        let url = "\(K.TMDB_MOVIE_BASE)\(id)?api_key=\(K.TMDB_API_KEY)&append_to_response=credits,videos,images,reviews"
                                 
         AF.request(url).responseJSON { (response) in
             switch response.result {

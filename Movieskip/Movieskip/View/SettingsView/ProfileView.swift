@@ -27,7 +27,7 @@ class ProfileView: UIView {
         label.text = "\(sceneDelegate.user?.username ?? "No username") "
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         return label
     } ()
     
@@ -73,18 +73,18 @@ class ProfileView: UIView {
         label.text = "The main purpose of this app can only be available with an account. Read more... "
         label.font = UIFont.systemFont(ofSize: 20)
         label.numberOfLines = 0
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         return label
     } ()
     
     private var registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
-        button.setTitleColor(MAIN_COLOR, for: .normal)
+        button.setTitleColor(K.MAIN_COLOR, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
         button.layer.cornerRadius = 8
         button.layer.borderWidth = 3
-        button.layer.borderColor = MAIN_COLOR.cgColor
+        button.layer.borderColor = K.MAIN_COLOR.cgColor
         button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
@@ -133,7 +133,7 @@ class ProfileView: UIView {
     func createCountLabel(count: Int) -> UILabel {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         label.text = String(count)
         return label
     }

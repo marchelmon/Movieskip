@@ -124,7 +124,7 @@ class DetailsView: UIView {
     
     @objc func handleShowTrailer() {
         guard let trailerKey = movie.trailer else { return }
-        if let url = URL(string: "\(YOUTUBE_STARTING_PATH)\(trailerKey)") {
+        if let url = URL(string: "\(K.YOUTUBE_STARTING_PATH)\(trailerKey)") {
             UIApplication.shared.open(url)
         }
     }

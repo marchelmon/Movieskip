@@ -19,7 +19,7 @@ struct AuthService {
                 return
             }
             if let data = data {
-                COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
+                K.COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
                     if let error = error {
                         print("FIREBASE LOGIN FETCH ERROR: \(error.localizedDescription)")
                         return
@@ -63,7 +63,7 @@ struct AuthService {
             let user = User(dictionary: data)
             sceneDelegate.setUser(user: user)
             let userData = user.dictionary
-            COLLECTION_USERS.document(uid).setData(userData, completion: completion)
+            K.COLLECTION_USERS.document(uid).setData(userData, completion: completion)
         
         }
     }
@@ -82,7 +82,7 @@ struct AuthService {
                 return
             }
             if let data = data {
-                COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
+                K.COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
             
                     if let error = error {
                         print("ERROR GETTING DATA: \(error.localizedDescription)")
@@ -112,7 +112,7 @@ struct AuthService {
                             let newUser = User(dictionary: userData)
                             sceneDelegate.setUser(user: newUser)
                             
-                            COLLECTION_USERS.document(data.user.uid).setData(newUser.dictionary) { error in
+                            K.COLLECTION_USERS.document(data.user.uid).setData(newUser.dictionary) { error in
                                 completion(error)
                             }
                         }
@@ -123,11 +123,11 @@ struct AuthService {
     }
     
     static func fetchLoggedInUser(uid: String, completion: @escaping (DocumentSnapshot?, Error?) -> Void) {
-        COLLECTION_USERS.document(uid).getDocument(completion: completion)
+        K.COLLECTION_USERS.document(uid).getDocument(completion: completion)
     }
     
     static func fetchUserByUsername(username: String, completion: @escaping ((QuerySnapshot?, Error?) -> Void)) {
-        COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments(completion: completion)
+        K.COLLECTION_USERS.whereField("username", isEqualTo: username).getDocuments(completion: completion)
     }
     
     static func updateUsername(username: String) {
@@ -135,12 +135,12 @@ struct AuthService {
         sceneDelegate.user?.username = username
         
         guard let uid = sceneDelegate.user?.uid else { return }
-        COLLECTION_USERS.document(uid).updateData(["username" : username])
+        K.COLLECTION_USERS.document(uid).updateData(["username" : username])
             
     }
     
     static func fetchAllUsers(completion: @escaping (QuerySnapshot?, Error?) -> Void) {
-        COLLECTION_USERS.getDocuments(completion: completion)
+        K.COLLECTION_USERS.getDocuments(completion: completion)
     }
     
 }

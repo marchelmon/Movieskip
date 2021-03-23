@@ -161,7 +161,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func updateFirebaseUser() {
         guard let user = user else { return }
-        COLLECTION_USERS.document(user.uid).setData(user.dictionary)
+        K.COLLECTION_USERS.document(user.uid).setData(user.dictionary)
     }
     
     func updateLocalUserDefaults() {

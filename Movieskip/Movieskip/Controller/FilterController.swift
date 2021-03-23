@@ -134,7 +134,7 @@ extension FilterController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return TMDB_GENRES.count + 1
+        return K.TMDB_GENRES.count + 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -144,7 +144,7 @@ extension FilterController {
             cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
             cell.textLabel?.text = "Genre"
         } else {
-            let genreName = TMDB_GENRES[indexPath.row - 1].name
+            let genreName = K.TMDB_GENRES[indexPath.row - 1].name
             cell.textLabel?.text = genreName
             cell.accessoryType = genreFoundInFilter(genreName: genreName) ? .checkmark : .none
         }

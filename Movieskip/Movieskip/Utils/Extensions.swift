@@ -38,12 +38,12 @@ extension UIViewController {
     
     func getGenreByName(genreName: String) -> Genre {
         
-        for (index, genre) in TMDB_GENRES.enumerated() {
+        for (index, genre) in K.TMDB_GENRES.enumerated() {
             if genreName == genre.name {
-                return TMDB_GENRES[index]
+                return K.TMDB_GENRES[index]
             }
         }
-        return TMDB_GENRES[0]
+        return K.TMDB_GENRES[0]
     }
     
 }

@@ -18,13 +18,13 @@ class WatchlistController: UIViewController {
     
     private let collectionIcon: UIImage? = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40)
-        let image = UIImage(systemName: "square.grid.2x2", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "square.grid.2x2", withConfiguration: imageConfig)?.withTintColor(K.MAIN_COLOR, renderingMode: .alwaysOriginal)
         return image
     }()
     
     private let tableIcon: UIImage? = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40)
-        let image = UIImage(systemName: "star.list", withConfiguration: imageConfig)?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "star.list", withConfiguration: imageConfig)?.withTintColor(K.MAIN_COLOR, renderingMode: .alwaysOriginal)
         return image
     }()
     
@@ -88,7 +88,7 @@ class WatchlistController: UIViewController {
         movieTable.alpha = 1
 
         toggleViewModeButton.setImage(collectionIcon, for: .normal)
-        UserDefaults.standard.setValue(true, forKey: WATCHLIST_IS_TABLE)
+        UserDefaults.standard.setValue(true, forKey: K.WATCHLIST_IS_TABLE)
         
     }
     
@@ -97,7 +97,7 @@ class WatchlistController: UIViewController {
         movieCollection.alpha = 1
                 
         toggleViewModeButton.setImage(tableIcon, for: .normal)
-        UserDefaults.standard.setValue(false, forKey: WATCHLIST_IS_TABLE)
+        UserDefaults.standard.setValue(false, forKey: K.WATCHLIST_IS_TABLE)
     }
     
     @objc func toggleViewMode() {
@@ -119,7 +119,7 @@ class WatchlistController: UIViewController {
         movieTable.movies = sceneDelegate.userWatchlist
         movieCollection.movies = sceneDelegate.userWatchlist
                 
-        if UserDefaults.standard.bool(forKey: WATCHLIST_IS_TABLE) {
+        if UserDefaults.standard.bool(forKey: K.WATCHLIST_IS_TABLE) {
             showTableView()
         } else {
             showCollectionView()

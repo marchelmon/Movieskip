@@ -18,7 +18,7 @@ class HomeNavigationStackView: UIStackView {
     
     weak var delegate: HomeNavigationStackViewDelegate?
 
-    private lazy var movieskipIcon = UIImageView(image: MOVIESKIP_ICON)
+    private lazy var movieskipIcon = UIImageView(image: K.MOVIESKIP_ICON)
     private let watchListButton = UIButton(type: .system)
     private let settingsButton = UIButton(type: .system)
     

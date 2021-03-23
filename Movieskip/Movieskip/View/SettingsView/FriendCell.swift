@@ -21,7 +21,7 @@ class FriendCell: UITableViewCell {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         return label
     }()
     

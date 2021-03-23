@@ -32,7 +32,7 @@ struct Movie {
         self.reviews = data["reviews"]["results"].arrayValue.map({ $0["content"].stringValue })
         
         if let posterString = data["poster_path"].string {
-            self.posterPath = URL(string: "\(TMDB_IMAGE_BASE)\(posterString)")
+            self.posterPath = URL(string: "\(K.TMDB_IMAGE_BASE)\(posterString)")
         }
         
         let videos = data["videos"]["results"].arrayValue

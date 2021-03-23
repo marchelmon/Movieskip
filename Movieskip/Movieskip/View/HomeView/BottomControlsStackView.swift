@@ -42,9 +42,9 @@ class BottomControlsStackView: UIStackView {
         let largeImageConfig = UIImage.SymbolConfiguration(pointSize: 50)
         
         let gearImage = UIImage(systemName: "gearshape.fill", withConfiguration: smallImageConfig)?.withTintColor(.gray, renderingMode: .alwaysOriginal)
-        let skipImage = SKIP_ICON?.applyingSymbolConfiguration(largeImageConfig)
-        let excludeImage = EXCLUDE_ICON?.applyingSymbolConfiguration(largeImageConfig)
-        let watchlistImage = WATCHLIST_ICON?.applyingSymbolConfiguration(smallImageConfig)
+        let skipImage = K.SKIP_ICON?.applyingSymbolConfiguration(largeImageConfig)
+        let excludeImage = K.EXCLUDE_ICON?.applyingSymbolConfiguration(largeImageConfig)
+        let watchlistImage = K.WATCHLIST_ICON?.applyingSymbolConfiguration(smallImageConfig)
         
         excludeButton.setImage(excludeImage, for: .normal)
         skipButton.setImage(skipImage, for: .normal)

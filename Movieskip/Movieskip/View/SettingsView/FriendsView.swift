@@ -30,11 +30,11 @@ class FriendsView: UIView {
         tf.backgroundColor = .white
         tf.layer.cornerRadius = 15
         tf.layer.borderWidth = 2
-        tf.layer.borderColor = MAIN_COLOR.cgColor
+        tf.layer.borderColor = K.MAIN_COLOR.cgColor
         tf.leftViewMode = .always
         let leftView = UIView()
         leftView.setDimensions(height: 30, width: 38)
-        let leftViewImage = UIImageView(image: UIImage(systemName: "magnifyingglass")?.withTintColor(MAIN_COLOR, renderingMode: .alwaysOriginal))
+        let leftViewImage = UIImageView(image: UIImage(systemName: "magnifyingglass")?.withTintColor(K.MAIN_COLOR, renderingMode: .alwaysOriginal))
         leftViewImage.setDimensions(height: 28, width: 28)
         leftView.addSubview(leftViewImage)
         leftViewImage.anchor(left: leftView.leftAnchor, paddingLeft: 5)
@@ -58,18 +58,18 @@ class FriendsView: UIView {
         label.text = "The main purpose of this app can only be available with an account. Read more... "
         label.font = UIFont.systemFont(ofSize: 20)
         label.numberOfLines = 0
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         return label
     } ()
         
     private let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
-        button.setTitleColor(MAIN_COLOR, for: .normal)
+        button.setTitleColor(K.MAIN_COLOR, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
         button.layer.cornerRadius = 8
         button.layer.borderWidth = 3
-        button.layer.borderColor = MAIN_COLOR.cgColor
+        button.layer.borderColor = K.MAIN_COLOR.cgColor
         button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
@@ -186,7 +186,7 @@ class FriendsView: UIView {
     func createCountLabel(count: Int) -> UILabel {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
-        label.textColor = MAIN_COLOR
+        label.textColor = K.MAIN_COLOR
         label.text = String(count)
         return label
     }

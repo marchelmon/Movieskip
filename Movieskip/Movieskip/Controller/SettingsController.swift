@@ -25,7 +25,7 @@ class SettingsController: UIViewController {
     private let friendsButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Friends", for: .normal)
-        button.setTitleColor(MAIN_COLOR, for: .normal)
+        button.setTitleColor(K.MAIN_COLOR, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.addTarget(self, action: #selector(showFriends), for: .touchUpInside)
         return button
@@ -62,7 +62,7 @@ class SettingsController: UIViewController {
         friendsView.isHidden = false
         profileView.isHidden = true
         
-        friendsButton.setTitleColor(MAIN_COLOR, for: .normal)
+        friendsButton.setTitleColor(K.MAIN_COLOR, for: .normal)
         profileButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
 
@@ -70,7 +70,7 @@ class SettingsController: UIViewController {
         friendsView.isHidden = true
         profileView.isHidden = false
         
-        profileButton.setTitleColor(MAIN_COLOR, for: .normal)
+        profileButton.setTitleColor(K.MAIN_COLOR, for: .normal)
         friendsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
     }
     
