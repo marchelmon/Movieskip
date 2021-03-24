@@ -80,10 +80,11 @@ class HomeController: UIViewController {
                 }
                 
             } else {
-                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
-                if  userHasSkippedLoginPreviously {
-                    presentLoginController()
-                }
+                presentLoginController()
+//                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
+//                if  userHasSkippedLoginPreviously {
+//                    presentLoginController()
+//                }
             }
         }
     }

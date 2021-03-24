@@ -146,23 +146,26 @@ class RegistrationController: UIViewController {
 
         view.addSubview(failedAuthMessage)
         failedAuthMessage.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor,
-                                 paddingTop: 40, paddingLeft: 30, paddingRight: 30, height: 100)
+                                 paddingTop: 80, paddingLeft: 30, paddingRight: 30, height: 100)
         
+        view.addSubview(googleButton)
+        googleButton.anchor(top: failedAuthMessage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                            paddingTop: 80, paddingLeft: 40, paddingRight: 40)
         
-        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, authButton])
+        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField])
         stack.axis = .vertical
         stack.spacing = 12
         view.addSubview(stack)
-        stack.anchor(top: failedAuthMessage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
-                     paddingTop: 100, paddingLeft: 40, paddingRight: 40)
+        stack.anchor(top: googleButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                     paddingTop: 50, paddingLeft: 40, paddingRight: 40)
         
-        view.addSubview(googleButton)
-        googleButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
-                            paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 50)
+        view.addSubview(authButton)
+        authButton.anchor(top: stack.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 22, paddingLeft: 60, paddingRight: 60)
+        
         
         view.addSubview(goToLoginButton)
-        goToLoginButton.anchor(top: googleButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
-                               paddingTop: 30, paddingLeft: 32, paddingRight: 32)
+        goToLoginButton.anchor(top: authButton.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
+                               paddingTop: 15, paddingLeft: 32, paddingRight: 32)
     }
     
     func configureTextFieldObservers() {

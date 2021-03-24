@@ -166,7 +166,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func updateLocalUserDefaults() {
         if let user = localUser {
-            print("SAVE TO USER DEFAUTLS")
             UserDefaults.standard.set(user.watchlist, forKey: "watchlist")
             UserDefaults.standard.set(user.excluded, forKey: "excluded")
             UserDefaults.standard.set(user.skipped, forKey: "skipped")

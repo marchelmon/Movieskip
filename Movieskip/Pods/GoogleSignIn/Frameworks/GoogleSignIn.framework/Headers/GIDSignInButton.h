@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, GIDSignInButtonColorScheme) {
 /// additional scopes, implement the delegate methods for `GIDSignIn`, and add
 /// this button to your view hierarchy.
 @interface GIDSignInButton : UIControl
-
+    
 /// The layout style for the sign-in button.
 /// Possible values:
 /// - kGIDSignInButtonStyleStandard: 230 x 48 (default)
