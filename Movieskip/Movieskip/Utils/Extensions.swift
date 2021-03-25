@@ -12,9 +12,23 @@ public struct AnchoredConstraints {
 }
 
 extension String {
+
     func isAlphanumeric() -> Bool {
         return self.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil && self != ""
     }
+    
+    func isValidUsername(username: String) -> Bool {
+        if username.count < 4 { return false }
+
+        let allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789_-"
+        let usernameLowerCased = username.lowercased()
+        
+        for char in usernameLowerCased {
+            if !allowedChars.contains(char) { return false }
+        }
+        return true
+    }
+    
 }
 
 extension UIColor {

@@ -78,7 +78,8 @@ class UsernameController: UIViewController {
     //MARK: - Actions
     
     @objc func handleUserTyped(sender: UITextField) {
-
+        self.errorLabel.alpha = 0
+        
         if usernameIsTaken(username: sender.text) {
             self.errorLabel.text = "The username is already taken"
             self.errorLabel.alpha = 1
@@ -90,8 +91,8 @@ class UsernameController: UIViewController {
        
         guard let username = usernameTextfield.text else { return }
             
-        if !username.isAlphanumeric() || username.count < 4 {
-            errorLabel.text = "Must be 4 characters or longer, only letters and numbers are allowed"
+        if !username.isValidUsername(username: username) || username.count < 4 {
+            errorLabel.text = "Must be 4 characters or longer, only letters, numbers and _- are allowed"
             errorLabel.alpha = 1
             return
         }
