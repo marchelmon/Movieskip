@@ -55,7 +55,6 @@ class RegistrationController: UIViewController {
             attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 16)]
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(handleSkipLogin), for: .touchUpInside)
         return button
     }()
     
@@ -74,19 +73,10 @@ class RegistrationController: UIViewController {
         GIDSignIn.sharedInstance().delegate = self
 
         configureUI()
-        configureTextFieldObservers()
+        
     }
     
     //MARK: - Actions
-    
-    @objc func textDidChange(sender: UITextField) {
-        if sender == emailTextField {
-            viewModel.email = sender.text
-        } else if sender == passwordTextField {
-            viewModel.password = sender.text
-        }
-        checkFormStatus()
-    }
         
     @objc func handleRegisterUser() {
         guard let email = emailTextField.text else { return }
@@ -111,7 +101,6 @@ class RegistrationController: UIViewController {
                     return
                 }
             }
-            print("Registered user: \(self.sceneDelegate.user ?? User(dictionary: ["": ""]))")
             //hud.dismiss() TODO
             self.delegate?.authenticationComplete()
         }
@@ -122,23 +111,8 @@ class RegistrationController: UIViewController {
         controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
     }
-    
-    @objc func handleSkipLogin() {
-        //dismiss(animated: true, completion: nil)
-        print("SHOULD DISMISS LOGIN CONTROLLER")
-    }
-    
+
     //MARK: - Helpers
-    
-    func checkFormStatus() {
-        if viewModel.formIsValid {
-            authButton.isEnabled = true
-            authButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
-        } else {
-            authButton.isEnabled = false
-            authButton.backgroundColor = #colorLiteral(red: 0.3406828936, green: 0.02802316744, blue: 0.7429608185, alpha: 1)
-        }
-    }
     
     func configureUI() {
         
@@ -168,11 +142,6 @@ class RegistrationController: UIViewController {
                                paddingTop: 15, paddingLeft: 32, paddingRight: 32)
     }
     
-    func configureTextFieldObservers() {
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
 }
 
 
@@ -182,8 +151,9 @@ extension RegistrationController: GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 
-        if let error = error {
-            print("ERROR: \(error.localizedDescription)")
+        if  error != nil {
+            failedAuthMessage.text = "An error occured, close the app and try again"
+            failedAuthMessage.alpha = 1
             return
         }
         
@@ -192,8 +162,8 @@ extension RegistrationController: GIDSignInDelegate {
      
         AuthService.socialSignIn(credential: credential) { error in
             if let error = error {
-                //TODO: HANDLE ERROR
-                print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
+                self.failedAuthMessage.text = "An error occured, close the app and try again"
+                self.failedAuthMessage.alpha = 1
                 return
             }
             self.delegate?.authenticationComplete()

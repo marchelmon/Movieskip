@@ -53,7 +53,7 @@ class LoginController: UIViewController {
     private let goToRegistrationButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(
-            string: "Sign up with email",
+            string: "Sign up",
             attributes: [.foregroundColor: UIColor.white, .font: UIFont.boldSystemFont(ofSize: 16)]
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
@@ -181,7 +181,7 @@ class LoginController: UIViewController {
                     if errorCode.rawValue == 17008 {
                         self.failedAuthMessage.text = "*Enter a valid email address"
                     } else if errorCode.rawValue == 17011 {
-                        self.failedAuthMessage.text = "*No match found with this email address"
+                        self.failedAuthMessage.text = "*No user found with this email address"
                     } else {
                         self.failedAuthMessage.text = "*An undefined error occured, please check your email and try again"
                     }
@@ -200,7 +200,6 @@ class LoginController: UIViewController {
         } else if sender == passwordTextField {
             viewModel.password = sender.text
         }
-        checkFormStatus()
     }
     
     @objc func handleShowLogin() {
@@ -272,16 +271,6 @@ class LoginController: UIViewController {
         loginView.fillSuperview()
     }
     
-    func checkFormStatus() {
-        if viewModel.formIsValid {
-            authButton.isEnabled = true
-            authButton.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
-        } else {
-            authButton.isEnabled = false
-            authButton.backgroundColor = #colorLiteral(red: 0.3406828936, green: 0.02802316744, blue: 0.7429608185, alpha: 1)
-        }
-    }
-    
     func configureTextFieldObservers() {
         emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
@@ -295,8 +284,9 @@ extension LoginController: GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 
-        if let error = error {
-            print("ERROR: \(error.localizedDescription)")
+        if error != nil {
+            failedAuthMessage.text = "An error occured, close the app and try again"
+            failedAuthMessage.alpha = 1
             return
         }
         
@@ -304,9 +294,9 @@ extension LoginController: GIDSignInDelegate {
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
      
         AuthService.socialSignIn(credential: credential) { error in
-            if let error = error {
-                //TODO: HANDLE ERROR
-                print("There was an error signing user in an creatingfetching from direbase; \(error.localizedDescription)")
+            if error != nil {
+                self.failedAuthMessage.text = "An error occured, close the app and try again"
+                self.failedAuthMessage.alpha = 1
                 return
             }
             self.delegate?.authenticationComplete()
