@@ -133,12 +133,14 @@ class FriendsView: UIView {
     
     func searchAndShowResults(username: String) {
         guard let allUsers = sceneDelegate.allUsers else { return }
+        guard let authUser = sceneDelegate.user else { return }
         usersToDisplay = []
         
         allUsers.forEach { user in
+            if user.username == authUser.username { return }
             if user.username.starts(with: username) { usersToDisplay.append(user) }
         }
-        tableView.reloadData()//showAllFriends()
+        tableView.reloadData()
     }
     
     func configureAndShowFriends() {
