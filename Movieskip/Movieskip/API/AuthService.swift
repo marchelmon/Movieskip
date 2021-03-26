@@ -12,25 +12,10 @@ struct AuthService {
     
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
 
-    static func logUserIn(withEmail email: String, withPassword password: String, completion: AuthDataResultCallback?) {
+    static func logUserIn(withEmail email: String, withPassword password: String, completion: @escaping (DocumentSnapshot?, Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (data, error) in
-            if let error = error {
-                print("FIREBASE LOGIN ERROR: \(error.localizedDescription)")
-                return
-            }
             if let data = data {
-                K.COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
-                    if let error = error {
-                        print("FIREBASE LOGIN FETCH ERROR: \(error.localizedDescription)")
-                        return
-                    }
-                    if let snapshot = snapshot {
-                        if let userData = snapshot.data() {
-                            print("LOGGED IN USER SET IN sceneDelegate")
-                            sceneDelegate.setUser(user: User(dictionary: userData))
-                        }
-                    }
-                }
+                K.COLLECTION_USERS.document(data.user.uid).getDocument(completion: completion)
             }
         }
     }

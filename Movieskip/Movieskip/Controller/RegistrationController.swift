@@ -152,7 +152,7 @@ extension RegistrationController: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 
         if  error != nil {
-            failedAuthMessage.text = "An error occured, close the app and try again"
+            failedAuthMessage.text = "An error occured, please close the app and try again"
             failedAuthMessage.alpha = 1
             return
         }
@@ -161,8 +161,8 @@ extension RegistrationController: GIDSignInDelegate {
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
      
         AuthService.socialSignIn(credential: credential) { error in
-            if let error = error {
-                self.failedAuthMessage.text = "An error occured, close the app and try again"
+            if error != nil {
+                self.failedAuthMessage.text = "An error occured, please close the app and try again"
                 self.failedAuthMessage.alpha = 1
                 return
             }

@@ -142,10 +142,11 @@ class LoginController: UIViewController {
                     } else if errorCode.rawValue == 17011 {
                         self.failedAuthMessage.text = "No match found with those credentials"
                     } else if errorCode.rawValue == 17009 {
-                        print("ERROR: \(error.localizedDescription)")
                         self.failedAuthMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
+                    } else if errorCode.rawValue == 17009 {
+                        self.failedAuthMessage.text = "You've made too many attempts. Try again later"
                     } else {
-                        self.failedAuthMessage.text = "Unknown error, please try closing the app and starting again"
+                        self.failedAuthMessage.text = "An error occured: please try closing the app and starting again"
                     }
                 }
                 return
