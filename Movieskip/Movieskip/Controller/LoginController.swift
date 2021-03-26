@@ -13,6 +13,8 @@ class LoginController: UIViewController {
     
     //MARK: - Properties
     
+    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+
     private var viewModel = LoginViewModel()
     weak var delegate: AuthenticationDelegate?
     
@@ -114,7 +116,6 @@ class LoginController: UIViewController {
         
         configureGradientLayer()
         displayLoginView()
-        configureTextFieldObservers()
     }
     
     
@@ -132,27 +133,33 @@ class LoginController: UIViewController {
         //        let hud = JGProgressHUD(style: .dark)
         //        hud.show(in: view)
         
-        AuthService.logUserIn(withEmail: email, withPassword: password) { (data, error) in
+        AuthService.logUserIn(withEmail: email, withPassword: password) { (snapshot, error) in
             if let error = error {
                 if let errorCode = AuthErrorCode(rawValue: error._code) {
                     //hud.dismiss
                     self.failedAuthMessage.alpha = 1
                     if errorCode.rawValue == 17008 {
-                        self.failedAuthMessage.text = "Enter a valid email address"
+                        self.failedAuthMessage.text = "Please enter a valid email address"
                     } else if errorCode.rawValue == 17011 {
                         self.failedAuthMessage.text = "No match found with those credentials"
                     } else if errorCode.rawValue == 17009 {
                         self.failedAuthMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
                     } else if errorCode.rawValue == 17009 {
-                        self.failedAuthMessage.text = "You've made too many attempts. Try again later"
+                        self.failedAuthMessage.text = "You've made too many attempts to login. Please try again later"
                     } else {
                         self.failedAuthMessage.text = "An error occured: please try closing the app and starting again"
                     }
                 }
                 return
             }
-                //hud.dismiss
-                self.delegate?.authenticationComplete()
+            if let snapshot = snapshot {
+                if let userData = snapshot.data() {
+                    print("LOGGED IN USER SET IN sceneDelegate")
+                    self.sceneDelegate.setUser(user: User(dictionary: userData))
+                }
+            }
+            //hud.dismiss
+            self.delegate?.authenticationComplete()
         }
     }
     
@@ -240,11 +247,11 @@ class LoginController: UIViewController {
         
         loginView.addSubview(failedAuthMessage)
         failedAuthMessage.anchor(top: loginView.topAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
-                                 paddingTop: 80, paddingLeft: 30, paddingRight: 30, height: 100)
+                                 paddingTop: 110, paddingLeft: 30, paddingRight: 30, height: 100)
         
         loginView.addSubview(googleButton)
         googleButton.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
-                            paddingTop: 80, paddingLeft: 40, paddingRight: 40)
+                            paddingTop: 70, paddingLeft: 40, paddingRight: 40)
         
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField])
         stack.axis = .vertical
@@ -271,12 +278,6 @@ class LoginController: UIViewController {
         view.addSubview(loginView)
         loginView.fillSuperview()
     }
-    
-    func configureTextFieldObservers() {
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
 }
 
 //MARK: - GIDSignInDelegate Google

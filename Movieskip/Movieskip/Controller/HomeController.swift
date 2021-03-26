@@ -38,7 +38,7 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         bottomStack.delegate = self
         topStack.delegate = self
         configureUI()
@@ -47,12 +47,12 @@ class HomeController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
+        print(sceneDelegate.user?.username)
         if topCardView == nil {
             configureUserAndFetchMovies()
         }
     }
 
-    
     //MARK: - API
     
     func configureUserAndFetchMovies() {
@@ -67,9 +67,9 @@ class HomeController: UIViewController {
                 AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (snapshot, error) in
                     
                     if let error = error {
-                        print("ERROR-home: \(error.localizedDescription)")
+                        //TODO: Alert till usern att något gick fel med hämtningen
+                        print("ERROR-login-home: \(error.localizedDescription)")
                     }
-                    
                     if let snapshot = snapshot {
                         if let userData = snapshot.data() {
                             self.sceneDelegate.user = User(dictionary: userData)
@@ -78,7 +78,6 @@ class HomeController: UIViewController {
                         }
                     }
                 }
-                
             } else {
                 presentLoginController()
 //                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
@@ -110,9 +109,18 @@ class HomeController: UIViewController {
     }
     
     func logout() {
+        print("Should log out")
         do {
             try Auth.auth().signOut()
             presentLoginController()
+            print("USER LOGGED OUT")
+            sceneDelegate.user = nil
+            sceneDelegate.allUsers = nil
+            sceneDelegate.userFriends = []
+            topCardView = nil
+            cardViews = []
+            moviesToDisplay = []
+            viewModels = []
         } catch {
             print("Failed to log user out")
         }

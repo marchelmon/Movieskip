@@ -14,6 +14,10 @@ struct AuthService {
 
     static func logUserIn(withEmail email: String, withPassword password: String, completion: @escaping (DocumentSnapshot?, Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (data, error) in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
             if let data = data {
                 K.COLLECTION_USERS.document(data.user.uid).getDocument(completion: completion)
             }
