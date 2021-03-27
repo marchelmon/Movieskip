@@ -33,6 +33,10 @@ class HomeController: UIViewController {
         view.layer.cornerRadius = 10
         return view
     }()
+    
+    lazy var watchlistStat = createStatIcon(statIcon: K.WATCHLIST_ICON)
+    lazy var excludeStat = createStatIcon(statIcon: K.EXCLUDE_ICON)
+    lazy var skipStat = createStatIcon(statIcon: K.SKIP_ICON)
 
     //MARK: - Lifecycle
     
@@ -72,8 +76,12 @@ class HomeController: UIViewController {
                     if let snapshot = snapshot {
                         if let userData = snapshot.data() {
                             self.sceneDelegate.user = User(dictionary: userData)
+                            let user = User(dictionary: userData)
                             if self.sceneDelegate.user?.username == "" { self.presentUsernameSelectionView() }
                             self.fetchFilterAndMovies()
+                            self.excludeStat.setTitle(String(user.excludedCount), for: .normal)
+                            self.watchlistStat.setTitle(String(user.watchListCount), for: .normal)
+                            self.skipStat.setTitle(String(user.skippedCount), for: .normal)
                         }
                     }
                 }
@@ -192,21 +200,38 @@ class HomeController: UIViewController {
         
         let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
+        let statsStack = UIStackView(arrangedSubviews: [excludeStat, watchlistStat, skipStat])
         
-        let stack = UIStackView(arrangedSubviews: [topStack, midStack, bottomStack])
-        stack.spacing = 20
+        statsStack.alignment = .trailing
+        statsStack.spacing = 30
         
-        view.addSubview(stack)
+        let alignmentStack = UIStackView()
+        alignmentStack.axis = .vertical
+        alignmentStack.alignment = .center
+        alignmentStack.addArrangedSubview(statsStack)
+        alignmentStack.heightAnchor.constraint(equalToConstant: 30).isActive = true
+
         
+        let stack = UIStackView(arrangedSubviews: [topStack, alignmentStack, midStack, bottomStack])
+        stack.spacing = 12
         stack.axis = .vertical
-        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
-        
-        bottomStack.anchor(bottom: view.bottomAnchor, paddingBottom: 35)
-        
+
+        view.addSubview(stack)
+        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+                
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         stack.bringSubviewToFront(deckView)
+    }
+    
+    func createStatIcon(statIcon: UIImage?) -> UIButton {
+        let statView = UIButton(type: .system)
+        statView.isEnabled = false
+        statView.setImage(statIcon, for: .normal)
+        statView.setTitleColor(.black, for: .normal)
+        statView.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        return statView
     }
     
 }

@@ -78,17 +78,6 @@ class FriendCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        friendButton.setImage(nil, for: .normal)
-        friendButton.titleLabel?.text = nil
-        watchlistCount.text = ""
-        excludeCount.text = ""
-        usernameLabel.text = ""
-        
-    }
-    
     //MARK: - Actions
     
     @objc func toggleFriend() {

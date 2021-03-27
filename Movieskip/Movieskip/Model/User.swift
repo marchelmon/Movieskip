@@ -24,6 +24,10 @@ struct User {
         return excluded.count
     }
     
+    var skippedCount: Int {
+        return skipped.count
+    }
+    
     init(dictionary: [String: Any]) {
         self.uid = dictionary["uid"] as? String ?? ""
         self.username = dictionary["username"] as? String ?? ""

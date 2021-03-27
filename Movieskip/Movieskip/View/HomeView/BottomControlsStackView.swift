@@ -19,11 +19,7 @@ class BottomControlsStackView: UIStackView {
     
     weak var delegate: BottomControlsStackViewDelegate?
     
-    private let excludeButton: UIButton = {
-        let button = UIButton(type: .system)
-        
-        return button
-    }()
+    private let excludeButton = UIButton(type: .system)
     private let skipButton = UIButton(type: .system)
     private let watchlistButton = UIButton(type: .system)
     private let refreshButton = UIButton(type: .system)
