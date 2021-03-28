@@ -83,21 +83,14 @@ class HomeController: UIViewController {
                     }
                 }
             } else {
-                presentLoginController()
-//                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
-//                if  userHasSkippedLoginPreviously {
-//                    presentLoginController()
-//                }
-                //TODO: för continue without login
+                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
+                if  !userHasSkippedLoginPreviously {
+                    presentLoginController()
+                } else {
+                    fetchFilterAndMovies()
+                }
             }
         }
-    }
-    
-    func setStatLabels() {
-        guard let user = self.sceneDelegate.user else { return }
-        self.excludeStat.setTitle(" \(user.excludedCount)", for: .normal)
-        self.watchlistStat.setTitle(" \(user.watchListCount)", for: .normal)
-        self.skipStat.setTitle(" \(user.skippedCount)", for: .normal)
     }
     
     func fetchFilterAndMovies() {
@@ -157,32 +150,17 @@ class HomeController: UIViewController {
         }
     }
     
-    //Animation, remove topcard and add movieid to skipped or excluded in sceneDelegate.user
     func performSwipeAnimation(topCard: CardView, shouldExclude: Bool) {
-//        guard let topCard = self.topCardView else { return }
         
         swipeAnimationReady = false
         
         let translation: CGFloat = shouldExclude ? -700 : 700
         UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .transitionCurlDown) {
-            topCard.frame = CGRect(x: translation, y: 0,
-                                             width: (topCard.frame.width),
-                                             height: (topCard.frame.height))
+            topCard.frame = CGRect(x: translation, y: 0, width: (topCard.frame.width), height: (topCard.frame.height))
         } completion: { _ in
+            
             self.swipeAnimationReady = true
-            
-//            shouldExclude ?
-//                self.sceneDelegate.addToExcluded(movie: topCard.viewModel.movie.id) :
-//                self.sceneDelegate.addToSkipped(movie: topCard.viewModel.movie.id)
-            
             self.updateCardView()
-            
-            
-//            self.topCardView?.removeFromSuperview()
-//            guard !self.cardViews.isEmpty else { return }
-//            self.cardViews.remove(at: self.cardViews.count - 1)
-//            self.topCardView = self.cardViews.last
-            
         }
     }
     
@@ -207,6 +185,23 @@ class HomeController: UIViewController {
         guard !self.cardViews.isEmpty else { return }
         self.cardViews.remove(at: self.cardViews.count - 1)
         self.topCardView = self.cardViews.last
+    }
+    
+    func setStatLabels() {
+        if let user = sceneDelegate.user {
+            
+            self.excludeStat.setTitle(" \(user.excludedCount)", for: .normal)
+            self.watchlistStat.setTitle(" \(user.watchListCount)", for: .normal)
+            self.skipStat.setTitle(" \(user.skippedCount)", for: .normal)
+            
+        } else if let user = sceneDelegate.localUser {
+            
+            self.excludeStat.setTitle(" \(user.excluded.count)", for: .normal)
+            self.watchlistStat.setTitle(" \(user.watchlist.count)", for: .normal)
+            self.skipStat.setTitle(" \(user.skipped.count)", for: .normal)
+            
+        }
+
     }
     
     func configureUI() {
