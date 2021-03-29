@@ -51,6 +51,8 @@ class HomeController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
+        print("user: \(Auth.auth().currentUser?.uid)")
+        
         if topCardView == nil {
             configureUserAndFetchMovies()
         }
@@ -83,10 +85,12 @@ class HomeController: UIViewController {
                     }
                 }
             } else {
-                let userHasSkippedLoginPreviously = !UserDefaults.standard.bool(forKey: "skippedLogin")
+                let userHasSkippedLoginPreviously = UserDefaults.standard.bool(forKey: "skippedLogin")
                 if  !userHasSkippedLoginPreviously {
+                    print("has not skipped login: \(userHasSkippedLoginPreviously)")
                     presentLoginController()
                 } else {
+                    if sceneDelegate.localUser != nil { sceneDelegate.fetchLocalUser() }
                     fetchFilterAndMovies()
                 }
             }

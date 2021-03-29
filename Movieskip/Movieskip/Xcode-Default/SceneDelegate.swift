@@ -88,11 +88,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let skipped = UserDefaults.standard.object(forKey: "skipped") as? [Int] ?? []
         
         let data = ["watchlist": watchlist, "excluded": excluded, "skipped": skipped]
+        localUser = LocalUser(data: data)
         
-        if watchlist.count != 0 || excluded.count != 0 || skipped.count != 0 {
-            print("THERE IS A USER DEFAULTS USER")
-            localUser = LocalUser(data: data)
-        }
+        print("Set USER DEFAULTS USER")
     }
 
     //MARK: - Update user data

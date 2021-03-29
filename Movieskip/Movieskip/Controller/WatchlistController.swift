@@ -54,19 +54,26 @@ class WatchlistController: UIViewController {
         movieCollection.delegate = self
                 
         configureUI()
-        sceneDelegate.userWatchlist.count == 0 ? fetchMoviesInWatchlist() : configureAndDisplayMovies()
+        
+        fetchAndConfigureMovies()
         
     }
     
     //MARK: - Actions
     
-    func fetchMoviesInWatchlist() {
-        guard let user = sceneDelegate.user else { return }         //TODO: error to user
-        user.watchlist.forEach { movieId in
+    func fetchAndConfigureMovies() {
+        let watchlist = sceneDelegate.user != nil ? sceneDelegate.user!.watchlist : sceneDelegate.localUser!.watchlist
+        
+        if watchlist.count == sceneDelegate.userWatchlist.count {
+            displayMovies()
+            return
+        }
+        sceneDelegate.userWatchlist = []
+        watchlist.forEach { movieId in
             TmdbService.fetchMovieWithDetails(withId: movieId) { movie in
                 self.sceneDelegate.userWatchlist.append(movie)
-                if self.sceneDelegate.userWatchlist.count == user.watchlist.count {
-                    self.configureAndDisplayMovies()
+                if self.sceneDelegate.userWatchlist.count == watchlist.count {
+                    self.displayMovies()
                 }
             }
         }
@@ -115,7 +122,7 @@ class WatchlistController: UIViewController {
     
     //MARK: - Helpers
     
-    func configureAndDisplayMovies() {
+    func displayMovies() {
         movieTable.movies = sceneDelegate.userWatchlist
         movieCollection.movies = sceneDelegate.userWatchlist
                 
