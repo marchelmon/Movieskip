@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+        //GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         
         return true
     }

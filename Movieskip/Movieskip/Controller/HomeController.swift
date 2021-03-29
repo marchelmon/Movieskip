@@ -87,7 +87,7 @@ class HomeController: UIViewController {
             } else {
                 let userHasSkippedLoginPreviously = UserDefaults.standard.bool(forKey: "skippedLogin")
                 if  !userHasSkippedLoginPreviously {
-                    print("has not skipped login: \(userHasSkippedLoginPreviously)")
+                    print("has skipped login: \(userHasSkippedLoginPreviously)")
                     presentLoginController()
                 } else {
                     if sceneDelegate.localUser != nil { sceneDelegate.fetchLocalUser() }
