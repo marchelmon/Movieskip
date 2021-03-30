@@ -15,7 +15,6 @@ class LoginController: UIViewController {
     
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
 
-    private var viewModel = LoginViewModel()
     weak var delegate: AuthenticationDelegate?
     
     private let loginView: UIView = {
@@ -29,10 +28,19 @@ class LoginController: UIViewController {
         return view
     }()
     
-    private let emailTextField = CustomTextField(placeholder: "Email")
-    private let passwordTextField = CustomTextField(placeholder: "Password", secureText: true)
-    private let failedAuthMessage = FailedAuthMessageView()
+    private let emailTextField: CustomTextField = {
+        let tf = CustomTextField(placeholder: "Email")
+        //tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        return tf
+    }()
     
+    private let passwordTextField: CustomTextField = {
+        let tf = CustomTextField(placeholder: "Password", secureText: true)
+        //tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        return tf
+    }()
+    
+    private let failedAuthMessage = FailedAuthMessageView()
     
     private let authButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -41,7 +49,6 @@ class LoginController: UIViewController {
         button.addTarget(self, action: #selector(handleLoginUser), for: .touchUpInside)
         return button
     }()
-    
     
     private let resetPasswordButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -86,9 +93,13 @@ class LoginController: UIViewController {
         return button
     }()
     
-    private let googleButton: GIDSignInButton = {
-        let button = GIDSignInButton()
+    private let googleButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .white
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Sign in", for: .normal)
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(signInGoogle), for: .touchUpInside)
         return button
     }()
     
@@ -121,46 +132,24 @@ class LoginController: UIViewController {
     
     //MARK: - Actions
     
+    @objc func signInGoogle() {
+        GIDSignIn.sharedInstance()?.signIn()
+    }
+    
     @objc func handleSkipLogin() {
         UserDefaults.standard.set(true, forKey: "skippedLogin")
+        sceneDelegate.fetchLocalUser()
         dismiss(animated: true, completion: nil)
     }
     
     @objc func handleLoginUser() {
-        guard let email = viewModel.email else { return }
-        guard let password = viewModel.password else { return }
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
         
         //        let hud = JGProgressHUD(style: .dark)
         //        hud.show(in: view)
         
-        AuthService.logUserIn(withEmail: email, withPassword: password) { (snapshot, error) in
-            if let error = error {
-                if let errorCode = AuthErrorCode(rawValue: error._code) {
-                    //hud.dismiss
-                    self.failedAuthMessage.alpha = 1
-                    if errorCode.rawValue == 17008 {
-                        self.failedAuthMessage.text = "Please enter a valid email address"
-                    } else if errorCode.rawValue == 17011 {
-                        self.failedAuthMessage.text = "No match found with those credentials"
-                    } else if errorCode.rawValue == 17009 {
-                        self.failedAuthMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
-                    } else if errorCode.rawValue == 17009 {
-                        self.failedAuthMessage.text = "You've made too many attempts to login. Please try again later"
-                    } else {
-                        self.failedAuthMessage.text = "An error occured: please try closing the app and starting again"
-                    }
-                }
-                return
-            }
-            if let snapshot = snapshot {
-                if let userData = snapshot.data() {
-                    print("LOGGED IN USER SET IN sceneDelegate")
-                    self.sceneDelegate.setUser(user: User(dictionary: userData))
-                }
-            }
-            //hud.dismiss
-            self.delegate?.authenticationComplete()
-        }
+        AuthService.logUserIn(withEmail: email, withPassword: password, completion: handleUserLoggedIn)
     }
     
     @objc func handleShowRegister() {
@@ -202,16 +191,38 @@ class LoginController: UIViewController {
         
     }
     
-    @objc func textDidChange(sender: UITextField) {
-        if sender == emailTextField {
-            viewModel.email = sender.text
-        } else if sender == passwordTextField {
-            viewModel.password = sender.text
-        }
-    }
-    
     @objc func handleShowLogin() {
         displayLoginView()
+    }
+    
+    func handleUserLoggedIn(snapshot: DocumentSnapshot?, error: Error?) {
+        if let error = error {
+            if let errorCode = AuthErrorCode(rawValue: error._code) {
+                //hud.dismiss
+                self.failedAuthMessage.alpha = 1
+                if errorCode.rawValue == 17008 {
+                    self.failedAuthMessage.text = "Please enter a valid email address"
+                } else if errorCode.rawValue == 17011 {
+                    self.failedAuthMessage.text = "No match found with those credentials"
+                } else if errorCode.rawValue == 17009 {
+                    self.failedAuthMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
+                } else if errorCode.rawValue == 17009 {
+                    self.failedAuthMessage.text = "You've made too many attempts to login. Please try again later"
+                } else {
+                    self.failedAuthMessage.text = "An error occured: please try closing the app and starting again"
+                }
+            }
+            return
+        }
+        print("Handle user logged in")
+        if let snapshot = snapshot {
+            if let userData = snapshot.data() {
+                print("LOGGED IN USER SET IN sceneDelegate")
+                self.sceneDelegate.setUser(user: User(dictionary: userData))
+            }
+        }
+        //hud.dismiss
+        self.delegate?.authenticationComplete()
     }
     
     //MARK: - Helpers
@@ -251,7 +262,7 @@ class LoginController: UIViewController {
         
         loginView.addSubview(googleButton)
         googleButton.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
-                            paddingTop: 70, paddingLeft: 40, paddingRight: 40)
+                            paddingTop: 70, paddingLeft: 40, paddingRight: 40, height: 50)
         
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField])
         stack.axis = .vertical
@@ -301,7 +312,9 @@ extension LoginController: GIDSignInDelegate {
                 self.failedAuthMessage.alpha = 1
                 return
             }
-            self.delegate?.authenticationComplete()
+            if let user = Auth.auth().currentUser {
+                AuthService.fetchLoggedInUser(uid: user.uid, completion: self.handleUserLoggedIn)
+            }
         }
     }
 

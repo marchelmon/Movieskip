@@ -50,7 +50,6 @@
 		3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */; };
 		3CF5B73725E804BA007A18B7 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */; };
 		3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75125E81986007A18B7 /* LoginController.swift */; };
-		3CF5B75525E8233B007A18B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */; };
 		3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75725E90137007A18B7 /* SettingsController.swift */; };
 		3CF5B76725EA6C29007A18B7 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B76625EA6C28007A18B7 /* FriendsView.swift */; };
 		3CF5B76A25EBFFB7007A18B7 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */; };
@@ -103,7 +102,6 @@
 		3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		3CF5B75125E81986007A18B7 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		3CF5B75725E90137007A18B7 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		3CF5B76625EA6C28007A18B7 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -199,7 +197,6 @@
 				3C7DC87B25DABC6900FE7A61 /* CardViewModel.swift */,
 				3C49BA6225DC2FC60069782B /* FilterViewModel.swift */,
 				3CF5B73625E804BA007A18B7 /* RegistrationViewModel.swift */,
-				3CF5B75425E8233B007A18B7 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -477,7 +474,6 @@
 				3CF5B71F25E6B775007A18B7 /* ActorCollection.swift in Sources */,
 				3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */,
 				3C7DC7D225D67B5B00FE7A61 /* HomeController.swift in Sources */,
-				3CF5B75525E8233B007A18B7 /* LoginViewModel.swift in Sources */,
 				3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */,
 				3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */,
 				3C7DC7E625D6C27700FE7A61 /* CardView.swift in Sources */,

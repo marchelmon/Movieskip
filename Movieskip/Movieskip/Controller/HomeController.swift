@@ -51,7 +51,6 @@ class HomeController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        print("user: \(Auth.auth().currentUser?.uid)")
         
         if topCardView == nil {
             configureUserAndFetchMovies()
@@ -90,8 +89,9 @@ class HomeController: UIViewController {
                     print("has skipped login: \(userHasSkippedLoginPreviously)")
                     presentLoginController()
                 } else {
-                    if sceneDelegate.localUser != nil { sceneDelegate.fetchLocalUser() }
+                    if sceneDelegate.localUser == nil { sceneDelegate.fetchLocalUser() }
                     fetchFilterAndMovies()
+                    setStatLabels()
                 }
             }
         }
@@ -129,7 +129,7 @@ class HomeController: UIViewController {
             moviesToDisplay = []
             viewModels = []
         } catch {
-            //TODO: ALERT?
+            //TODO: ALERT? nä
             print("Failed to log user out")
         }
     }
