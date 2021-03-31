@@ -214,10 +214,8 @@ class LoginController: UIViewController {
             }
             return
         }
-        print("Handle user logged in")
         if let snapshot = snapshot {
             if let userData = snapshot.data() {
-                print("LOGGED IN USER SET IN sceneDelegate")
                 self.sceneDelegate.setUser(user: User(dictionary: userData))
             }
         }

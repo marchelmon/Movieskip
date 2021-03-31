@@ -107,9 +107,7 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleShowLogin() {
-        let controller = LoginController()
-        controller.delegate = delegate
-        navigationController?.pushViewController(controller, animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     //MARK: - Helpers

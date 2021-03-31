@@ -46,12 +46,12 @@ class HomeController: UIViewController {
         bottomStack.delegate = self
         topStack.delegate = self
         configureUI()
-        
+                    
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        
+                
         if topCardView == nil {
             configureUserAndFetchMovies()
         }
@@ -122,7 +122,6 @@ class HomeController: UIViewController {
             try Auth.auth().signOut()
             presentLoginController()
             sceneDelegate.user = nil
-            sceneDelegate.allUsers = nil
             sceneDelegate.userFriends = []
             topCardView = nil
             cardViews = []

@@ -24,13 +24,14 @@ class WatchlistController: UIViewController {
     
     private let tableIcon: UIImage? = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 40)
-        let image = UIImage(systemName: "star.list", withConfiguration: imageConfig)?.withTintColor(K.MAIN_COLOR, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "list.dash", withConfiguration: imageConfig)?.withTintColor(K.MAIN_COLOR, renderingMode: .alwaysOriginal)
         return image
     }()
     
-    private let toggleViewModeButton: UIButton = {
+    private lazy var toggleViewModeButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(toggleViewMode), for: .touchUpInside)
+        button.setImage(collectionIcon, for: .normal)
         return button
     }()
     
@@ -109,6 +110,7 @@ class WatchlistController: UIViewController {
     
     @objc func toggleViewMode() {
         let currentIcon = toggleViewModeButton.imageView?.image
+        toggleViewModeButton.setImage(nil, for: .normal)
         currentIcon == tableIcon ? showTableView() : showCollectionView()
         
     }
@@ -138,17 +140,19 @@ class WatchlistController: UIViewController {
         navigationItem.title = "Watchlist"
         navigationController?.navigationBar.tintColor = .black
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(handleDone))
-                
-        let stack = UIStackView(arrangedSubviews: [matchButton, toggleViewModeButton])
-        stack.distribution = .fillProportionally
-        view.addSubview(stack)
-        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 10)
-                
+  
+        
+        view.addSubview(matchButton)
+        matchButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20)
+        
+        view.addSubview(toggleViewModeButton)
+        toggleViewModeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: matchButton.rightAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 15, paddingRight: 15, width: 60)
+
         view.addSubview(movieTable)
-        movieTable.anchor(top: stack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
+        movieTable.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
         
         view.addSubview(movieCollection)
-        movieCollection.anchor(top: stack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
+        movieCollection.anchor(top: matchButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 20, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
         
     }
     

@@ -57,7 +57,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func fetchAllUsers() {
         AuthService.fetchAllUsers { (snapshot, error) in
+            if let error = error {
+                print("Error fetching all users: \(error.localizedDescription)")
+            }
+            print("Fetched all users")
             if let snapshot = snapshot {
+                print("Fetched all users 2")
                 self.allUsers = snapshot.documents.map({ User(dictionary: $0.data()) })
             }
         }
