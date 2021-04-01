@@ -24,9 +24,8 @@ class ProfileView: UIView {
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(sceneDelegate.user?.username ?? "No username") "
+        label.text = "\(sceneDelegate.user?.username ?? "John Doe") "
         label.font = UIFont.boldSystemFont(ofSize: 20)
-        label.numberOfLines = 0
         label.textColor = K.MAIN_COLOR
         return label
     } ()
@@ -88,6 +87,10 @@ class ProfileView: UIView {
         button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
+    
+    lazy var watchlistCountLabel = createCountLabel(count: sceneDelegate.user?.watchListCount ?? 0)
+    lazy var excludedCountLabel = createCountLabel(count: sceneDelegate.user?.excludedCount ?? 0)
+    lazy var friendsCountLabel = createCountLabel(count: sceneDelegate.user?.friendIds.count ?? 0)
 
     //MARK: - Lifecycle
     
@@ -141,10 +144,6 @@ class ProfileView: UIView {
     func addUserData() {
         addSubview(userStatsView)
         userStatsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 200)
-        
-        let watchlistCountLabel = createCountLabel(count: sceneDelegate.user?.watchListCount ?? 0)
-        let excludedCountLabel = createCountLabel(count: sceneDelegate.user?.excludedCount ?? 0)
-        let friendsCountLabel = createCountLabel(count: sceneDelegate.user?.friendIds.count ?? 0)
         
         userStatsView.addSubview(usernameLabel)
         userStatsView.addSubview(watchlistCountLabel)

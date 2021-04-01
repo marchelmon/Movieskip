@@ -72,6 +72,9 @@ class SettingsController: UIViewController {
         
         profileButton.setTitleColor(K.MAIN_COLOR, for: .normal)
         friendsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
+        
+        profileView.friendsCountLabel.text = "\(profileView.sceneDelegate.user?.friendIds.count ?? 0)"
+        
     }
     
     //MARK: - Helpers
