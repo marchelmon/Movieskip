@@ -104,7 +104,7 @@ class HomeController: UIViewController {
     }
     
     func fetchMovies(filter: Filter) {
-        if FilterService.filter.page == FilterService.totalPages { return }  //TODO: Present message about changing filter
+        if filter.page == filter.totalPages { return }  //TODO: Present message about changing filter
         
         TmdbService.fetchMovies(completion: { movies in
             self.moviesToDisplay.append(contentsOf: movies)
@@ -112,7 +112,7 @@ class HomeController: UIViewController {
             if self.moviesToDisplay.count > 15 {
                 self.viewModels = self.moviesToDisplay.map({ CardViewModel(movie: $0) })
             } else {
-                self.fetchMovies(filter: FilterService.filter)
+                self.fetchMovies(filter: filter)
             }
         })
     }
@@ -296,6 +296,7 @@ extension HomeController: FilterControllerDelegate {
     
     func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter) {
         FilterService.filter = filter
+        moviesToDisplay = []
         self.fetchMovies(filter: filter)
         controller.dismiss(animated: true, completion: nil)
     }

@@ -32,9 +32,19 @@ class FilterController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         
-        configureUI()
+        navigationItem.title = "Filter"
+        navigationController?.navigationBar.tintColor = .black
+        tableView.separatorStyle = .none
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
+        filterView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 270)
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.tableHeaderView = filterView
         
     }
     
@@ -61,20 +71,6 @@ class FilterController: UITableViewController {
     }
     
     //MARK: - Helpers
-    
-    func configureUI() {
-        navigationItem.title = "Filter"
-        navigationController?.navigationBar.tintColor = .black
-        tableView.separatorStyle = .none
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSave))
-        filterView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 270)
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.tableHeaderView = filterView
-                
-    }
     
     func addGenreToFilter(pressedGenre: String) -> Bool {
         

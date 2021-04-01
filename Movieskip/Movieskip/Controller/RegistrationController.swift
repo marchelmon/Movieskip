@@ -20,7 +20,6 @@ class RegistrationController: UIViewController {
     
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
 
-    
     private var viewModel = RegistrationViewModel()
     weak var delegate: AuthenticationDelegate?
     

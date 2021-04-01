@@ -28,7 +28,7 @@ struct TmdbService {
                                         
                     let data = JSON(value)["results"]
                     
-                    FilterService.totalPages = data["pages"].int ?? 10
+                    FilterService.filter.totalPages = JSON(value)["total_pages"].int ?? 10
                     
                     let moviesResult = data.arrayValue.map({ Movie(data: $0) })
                     removeAlreadySwiped(allMovies: moviesResult) { newMovies in

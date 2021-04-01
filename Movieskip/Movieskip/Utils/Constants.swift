@@ -26,12 +26,12 @@ class K {
 
     //MARK: - User defaults
 
-    static let USER_DEFAULTS_FILTER_KEY = "filter"
-    static let USER_DEFAULTS_GENRES_KEY = "genres"
-    static let USER_DEFAULTS_MINYEAR_KEY = "minYear"
-    static let USER_DEFAULTS_MAXYEAR_KEY = "maxYear"
-    static let USER_DEFAULTS_POPULAR_KEY = "popular"
-    static let USER_DEFAULTS_PAGE_KEY = "page"
+    static let FILTER_GENRES_KEY = "genres"
+    static let FILTER_MINYEAR_KEY = "minYear"
+    static let FILTER_MAXYEAR_KEY = "maxYear"
+    static let FILTER_POPULAR_KEY = "popular"
+    static let FILTER_PAGE_KEY = "page"
+    static let FILTER_TOTAL_PAGES = "totalPages"
 
     static let WATCHLIST_IS_TABLE = "tableOrCollection"
 

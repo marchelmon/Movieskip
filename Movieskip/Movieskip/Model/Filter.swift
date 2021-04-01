@@ -13,6 +13,7 @@ struct Filter {
     var maxYear: Float
     var popular: Bool
     var page: Int
+    var totalPages: Int
     
     var minYearString: String {
         let string = "\(String(Int(minYear) + 1))-01-01"
