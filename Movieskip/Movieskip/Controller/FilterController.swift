@@ -17,22 +17,12 @@ class FilterController: UITableViewController {
         
     weak var delegate: FilterControllerDelegate?
     
-    var filterView: FilterView
+    private let filterView = FilterView()
     
     //MARK: - Lifecycle
-    
-    init(filterView: FilterView) {
-        self.filterView = filterView
-        super.init(style: .plain)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         view.backgroundColor = .white
         
         navigationItem.title = "Filter"
@@ -60,7 +50,7 @@ class FilterController: UITableViewController {
     }
     
     @objc func handleSave() {
-        var filter = filterView.viewModel.filter
+        var filter = filterView.filter
         
         filter.page = 1
         if filter.minYear >= filter.maxYear - 1 {
@@ -75,20 +65,20 @@ class FilterController: UITableViewController {
     func addGenreToFilter(pressedGenre: String) -> Bool {
         
         let genreFromName = getGenreByName(genreName: pressedGenre)
-        let genresArray = filterView.viewModel.filter.genres
+        let genresArray = filterView.filter.genres
 
         if genresArray.count == 0 {
-            filterView.viewModel.filter.genres.append(genreFromName)
+            filterView.filter.genres.append(genreFromName)
             return true
         }
         
         for (index, genre) in genresArray.enumerated() {
             if genre.name == pressedGenre {
-                filterView.viewModel.filter.genres.remove(at: index)
+                filterView.filter.genres.remove(at: index)
                 return false
             }
             if index == genresArray.endIndex - 1 {
-                filterView.viewModel.filter.genres.append(genreFromName)
+                filterView.filter.genres.append(genreFromName)
                 return true
             }
         }
@@ -96,7 +86,7 @@ class FilterController: UITableViewController {
     }
     
     func genreFoundInFilter(genreName: String) -> Bool {
-        for genre in filterView.viewModel.filter.genres {
+        for genre in filterView.filter.genres {
             if genre.name == genreName {
                 return true
             }

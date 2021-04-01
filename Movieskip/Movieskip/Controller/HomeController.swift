@@ -278,11 +278,8 @@ extension HomeController: BottomControlsStackViewDelegate {
     }
     
     func handleShowFilter() {
-        let filterView = FilterView()
-        filterView.viewModel = FilterViewModel(filter: FilterService.filter)
-        let controller = FilterController(filterView: filterView)
+        let controller = FilterController()
         controller.delegate = self
-                
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)

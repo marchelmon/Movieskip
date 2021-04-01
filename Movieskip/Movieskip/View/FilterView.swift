@@ -9,9 +9,7 @@ import UIKit
 
 class FilterView: UIView {
     
-    var viewModel: FilterViewModel! {
-        didSet { configure() }
-    }
+    var filter = FilterService.filter
         
     var minYearLabel: UILabel = {
         let label = UILabel()
@@ -47,10 +45,39 @@ class FilterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
                 
+        configureUI()
+        configureFilter()
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Actions
+    
+    @objc func handleTogglePopular(sender: UISwitch) {
+        filter.popular = sender.isOn
+    }
+    
+    @objc func handleSliderChanged(sender: UISlider) {
+        if sender == minYearSlider {
+            minYearValueLabel.text = "\(Int(filter.minYear))"
+            filter.minYear = sender.value
+        } else {
+            maxYearValueLabel.text = "\(Int(filter.maxYear))"
+            filter.maxYear = sender.value
+        }
+    }
+    
+    
+    //MARK: - Helpers
+    
+    func configureUI() {
+        
         let minYearStack = UIStackView(arrangedSubviews: [minYearLabel, minYearValueLabel])
         let maxYearStack = UIStackView(arrangedSubviews: [maxYearLabel, maxYearValueLabel])
 
-        
         addSubview(minYearStack)
         minYearStack.centerX(inView: self)
         minYearStack.anchor(top: safeAreaLayoutGuide.topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
@@ -77,41 +104,15 @@ class FilterView: UIView {
         
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: - Actions
-    
-    @objc func handleTogglePopular(sender: UISwitch) {
-        viewModel.filter.popular = sender.isOn
-    }
-    
-    @objc func handleSliderChanged(sender: UISlider) {
-        let newValue = sender.value
-        
-        if sender == minYearSlider {
-            minYearValueLabel.text = viewModel.minYearText(forValue: newValue)
-            viewModel.filter.minYear = sender.value
-        } else {
-            maxYearValueLabel.text = viewModel.maxYearText(forValue: newValue)
-            viewModel.filter.maxYear = sender.value
-        }
-    }
-    
-    
-    //MARK: - Helpers
-    
-    func configure() {
+    func configureFilter() {
 
-        minYearValueLabel.text = viewModel.minYearText(forValue: viewModel.minYearSliderValue)
-        maxYearValueLabel.text = viewModel.maxYearText(forValue: viewModel.maxYearSliderValue)
+        minYearValueLabel.text = "\(Int(filter.minYear))"
+        maxYearValueLabel.text = "\(Int(filter.maxYear))"
 
-        
-        minYearSlider.setValue(viewModel.minYearSliderValue, animated: true)
-        maxYearSlider.setValue(viewModel.maxYearSliderValue, animated: true)
+        minYearSlider.setValue(filter.minYear, animated: true)
+        maxYearSlider.setValue(filter.maxYear, animated: true)
     
-        popularToggle.setOn(viewModel.popular, animated: true)
+        popularToggle.setOn(filter.popular, animated: true)
         
     }
     
