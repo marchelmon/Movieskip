@@ -214,12 +214,11 @@ class HomeController: UIViewController {
         let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
         let statsStack = UIStackView(arrangedSubviews: [excludeStat, watchlistStat, skipStat])
         
-        statsStack.alignment = .trailing
-        statsStack.spacing = 30
+        statsStack.spacing = 10
         
         let alignmentStack = UIStackView()
         alignmentStack.axis = .vertical
-        alignmentStack.alignment = .center
+        alignmentStack.alignment = .leading
         alignmentStack.addArrangedSubview(statsStack)
         alignmentStack.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
@@ -238,11 +237,12 @@ class HomeController: UIViewController {
     }
     
     func createStatIcon(statIcon: UIImage?) -> UIButton {
+        let icon = statIcon?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12))
         let statView = UIButton(type: .system)
         statView.isEnabled = false
-        statView.setImage(statIcon, for: .normal)
+        statView.setImage(icon, for: .normal)
         statView.setTitleColor(.black, for: .normal)
-        statView.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        statView.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         return statView
     }
     
