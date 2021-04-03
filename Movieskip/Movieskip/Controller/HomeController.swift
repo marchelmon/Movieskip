@@ -331,6 +331,7 @@ extension HomeController: CardViewDelegate {
 extension HomeController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true) {
+            self.setStatLabels()
             if self.sceneDelegate.user?.username == "" {
                 self.presentUsernameSelectionView()
             }
