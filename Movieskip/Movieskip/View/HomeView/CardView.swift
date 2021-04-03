@@ -23,7 +23,7 @@ class CardView: UIView {
     
     //MARK: - Properties
     
-    var viewModel: CardViewModel
+    let viewModel: CardViewModel
     weak var delegate: CardViewDelegate?
     
     private let gradientLayer = CAGradientLayer()
@@ -48,6 +48,17 @@ class CardView: UIView {
         return button
     }()
     
+    private lazy var ratingLabel:UIButton = {
+        let rating = UIButton(type: .system)
+        rating.isEnabled = false
+        rating.setTitle(" \(viewModel.movie.rating)", for: .normal)
+        let image = K.WATCHLIST_ICON?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 14))
+        rating.setImage(image, for: .normal)
+        rating.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .normal)
+        rating.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        return rating
+    }()
+    
     //MARK: - Lifecycle
     
     init(viewModel: CardViewModel) {
@@ -66,9 +77,12 @@ class CardView: UIView {
         configureGestureRecognizers()
         configureGradientLayer()
         
-        addSubview(infoLabel)
-        infoLabel.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 25, paddingRight: 16)
-        
+        addSubview(ratingLabel)
+        ratingLabel.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 12, paddingBottom: 12)
+//
+//        addSubview(infoLabel)
+//        infoLabel.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 25, paddingRight: 60)
+//
         addSubview(infoButton)
         infoButton.setDimensions(height: 35, width: 35)
         infoButton.anchor(bottom: bottomAnchor, right: rightAnchor, paddingBottom: 12, paddingRight: 12)
@@ -148,7 +162,7 @@ class CardView: UIView {
     
     func configureGradientLayer() {
         gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
-        gradientLayer.locations = [0.5, 1.1]
+        gradientLayer.locations = [0.7, 1.1]
         layer.addSublayer(gradientLayer)
     }
     

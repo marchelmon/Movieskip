@@ -220,7 +220,7 @@ class HomeController: UIViewController {
         alignmentStack.axis = .vertical
         alignmentStack.alignment = .leading
         alignmentStack.addArrangedSubview(statsStack)
-        alignmentStack.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        alignmentStack.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
         
         let stack = UIStackView(arrangedSubviews: [topStack, alignmentStack, midStack, bottomStack])
