@@ -14,8 +14,8 @@ class HomeController: UIViewController {
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     var swipeAnimationReady = true
-        
-    private var viewModels = [CardViewModel]() {
+  
+    private var movies = [Movie]() {
         didSet { configureCards() }
     }
     
@@ -110,7 +110,7 @@ class HomeController: UIViewController {
             self.moviesToDisplay.append(contentsOf: movies)
             
             if self.moviesToDisplay.count > 15 {
-                self.viewModels = self.moviesToDisplay.map({ CardViewModel(movie: $0) })
+                self.movies = self.moviesToDisplay
             } else {
                 self.fetchMovies(filter: filter)
             }
@@ -126,7 +126,7 @@ class HomeController: UIViewController {
             topCardView = nil
             cardViews = []
             moviesToDisplay = []
-            viewModels = []
+            movies = []
         } catch {
             //TODO: ALERT? nä
             print("Failed to log user out")
@@ -173,12 +173,13 @@ class HomeController: UIViewController {
         for view in deckView.subviews {
             view.removeFromSuperview()
         }
-        for viewModel in viewModels {
-            let cardView = CardView(viewModel: viewModel)
+        for movie in movies {
+            let cardView = CardView(movie: movie)
             cardView.delegate = self
             deckView.addSubview(cardView)
             cardView.fillSuperview()
         }
+
         cardViews = deckView.subviews.map({ ($0 as? CardView)! })
         topCardView = cardViews.last
     }
@@ -255,7 +256,7 @@ extension HomeController: BottomControlsStackViewDelegate {
     func handleSkip() {
         if swipeAnimationReady {
             guard let topCard = topCardView else { return }
-            sceneDelegate.addToSkipped(movie: topCard.viewModel.movie.id)
+            sceneDelegate.addToSkipped(movie: topCard.movie.id)
             performSwipeAnimation(topCard: topCard, shouldExclude: false)
             setStatLabels()
         }
@@ -264,7 +265,7 @@ extension HomeController: BottomControlsStackViewDelegate {
     func handleExclude() {
         if swipeAnimationReady {
             guard let topCard = topCardView else { return }
-            sceneDelegate.addToExcluded(movie: topCard.viewModel.movie.id)
+            sceneDelegate.addToExcluded(movie: topCard.movie.id)
             performSwipeAnimation(topCard: topCard, shouldExclude: true)
             setStatLabels()
         }
@@ -272,7 +273,7 @@ extension HomeController: BottomControlsStackViewDelegate {
     
     func handleAddWatchlist() {
         guard let topCard = topCardView else { return }
-        sceneDelegate.addToWatchlist(movie: topCard.viewModel.movie.id)
+        sceneDelegate.addToWatchlist(movie: topCard.movie.id)
         setStatLabels()
         updateCardView()
     }
@@ -312,7 +313,7 @@ extension HomeController: CardViewDelegate {
     }
     
     func cardView(_ view: CardView, didLikeMovie: Bool) {
-        let movieId = view.viewModel.movie.id
+        let movieId = view.movie.id
                 
         didLikeMovie ? sceneDelegate.addToSkipped(movie: movieId) : sceneDelegate.addToExcluded(movie: movieId)
         

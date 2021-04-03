@@ -23,7 +23,7 @@ class CardView: UIView {
     
     //MARK: - Properties
     
-    let viewModel: CardViewModel
+    let movie: Movie
     weak var delegate: CardViewDelegate?
     
     private let gradientLayer = CAGradientLayer()
@@ -33,13 +33,6 @@ class CardView: UIView {
         iv.contentMode = .scaleAspectFill
         return iv
     }()
-    
-    private lazy var infoLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = viewModel.movieInfoText
-        label.numberOfLines = 2
-        return label
-    } ()
     
     private lazy var infoButton: UIButton = {
         let button = UIButton(type: .system)
@@ -51,7 +44,7 @@ class CardView: UIView {
     private lazy var ratingLabel:UIButton = {
         let rating = UIButton(type: .system)
         rating.isEnabled = false
-        rating.setTitle(" \(viewModel.movie.rating)", for: .normal)
+        rating.setTitle(" \(movie.rating)", for: .normal)
         let image = K.WATCHLIST_ICON?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 14))
         rating.setImage(image, for: .normal)
         rating.setTitleColor(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1), for: .normal)
@@ -61,15 +54,15 @@ class CardView: UIView {
     
     //MARK: - Lifecycle
     
-    init(viewModel: CardViewModel) {
-        self.viewModel = viewModel
+    init(movie: Movie) {
+        self.movie = movie
         super.init(frame: .zero)
         
         layer.cornerRadius = 10
         clipsToBounds = true
         backgroundColor = .white
         
-        imageView.sd_setImage(with: viewModel.movie.posterPath)
+        imageView.sd_setImage(with: movie.posterPath)
         
         addSubview(imageView)
         imageView.fillSuperview()
@@ -79,10 +72,7 @@ class CardView: UIView {
         
         addSubview(ratingLabel)
         ratingLabel.anchor(left: leftAnchor, bottom: bottomAnchor, paddingLeft: 12, paddingBottom: 12)
-//
-//        addSubview(infoLabel)
-//        infoLabel.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingLeft: 16, paddingBottom: 25, paddingRight: 60)
-//
+
         addSubview(infoButton)
         infoButton.setDimensions(height: 35, width: 35)
         infoButton.anchor(bottom: bottomAnchor, right: rightAnchor, paddingBottom: 12, paddingRight: 12)
@@ -115,7 +105,7 @@ class CardView: UIView {
     }
     
     @objc func handleShowMovieDetails() {
-        TmdbService.fetchMovieWithDetails(withId: viewModel.movie.id) { movie in
+        TmdbService.fetchMovieWithDetails(withId: movie.id) { movie in
             self.delegate?.cardView(self, wantsToShowDetailsFor: movie)
         }
     }
