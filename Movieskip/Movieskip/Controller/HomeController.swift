@@ -7,6 +7,7 @@
 import Firebase
 import UIKit
 
+
 class HomeController: UIViewController {
     
     //MARK: - Properties
@@ -18,7 +19,7 @@ class HomeController: UIViewController {
     private var movies = [Movie]() {
         didSet { configureCards() }
     }
-    
+        
     private var moviesToDisplay = [Movie]()
     
     private var topCardView: CardView?

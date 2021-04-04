@@ -62,6 +62,8 @@ class RegistrationController: UIViewController {
         return button
     }()
     
+    
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {

@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import FBSDKLoginKit
 
 class LoginController: UIViewController {
     
@@ -103,6 +104,16 @@ class LoginController: UIViewController {
         return button
     }()
     
+    private let facebookButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .blue
+        button.setTitleColor(.white, for: .normal)
+        button.setTitle("Sign in", for: .normal)
+        button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(signInFacebook), for: .touchUpInside)
+        return button
+    }()
+    
     private let signUpLaterButton: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(
@@ -127,13 +138,32 @@ class LoginController: UIViewController {
         
         configureGradientLayer()
         displayLoginView()
+        
     }
-    
     
     //MARK: - Actions
     
     @objc func signInGoogle() {
         GIDSignIn.sharedInstance()?.signIn()
+    }
+    
+    @objc func signInFacebook() {
+        let loginManager = LoginManager()
+        
+        loginManager.logIn(permissions: [], viewController: self) { result in
+            switch result {
+            case .success(token: let token):
+                if let token = token.token?.tokenString {
+                    let credential = FacebookAuthProvider.credential(withAccessToken: token)
+                    self.socialSignIn(credential: credential)
+                }
+                print("FACEBOOK LOGIN SUCCEEDED")
+            case .cancelled:
+                print("USER cancelled facebook login")
+            case .failed(_):
+                print("DEBUG ERROR: FACEBOOK LOGIN FAILED")
+            }
+        }
     }
     
     @objc func handleSkipLogin() {
@@ -223,6 +253,19 @@ class LoginController: UIViewController {
         self.delegate?.authenticationComplete()
     }
     
+    func socialSignIn(credential: AuthCredential) {
+        AuthService.socialSignIn(credential: credential) { error in
+            if error != nil {
+                self.failedAuthMessage.text = "An error occured, close the app and try again"
+                self.failedAuthMessage.alpha = 1
+                return
+            }
+            if let user = Auth.auth().currentUser {
+                AuthService.fetchLoggedInUser(uid: user.uid, completion: self.handleUserLoggedIn)
+            }
+        }
+    }
+    
     //MARK: - Helpers
     
     func displayResetPasswordView() {
@@ -262,11 +305,14 @@ class LoginController: UIViewController {
         googleButton.anchor(top: failedAuthMessage.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
                             paddingTop: 70, paddingLeft: 40, paddingRight: 40, height: 50)
         
+        loginView.addSubview(facebookButton)
+        facebookButton.anchor(top: googleButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingTop: 20, paddingLeft: 40, paddingRight: 40, height: 50)
+        
         let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField])
         stack.axis = .vertical
         stack.spacing = 12
         loginView.addSubview(stack)
-        stack.anchor(top: googleButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
+        stack.anchor(top: facebookButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
                      paddingTop: 50, paddingLeft: 40, paddingRight: 40)
         
         loginView.addSubview(authButton)
@@ -304,16 +350,8 @@ extension LoginController: GIDSignInDelegate {
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
      
-        AuthService.socialSignIn(credential: credential) { error in
-            if error != nil {
-                self.failedAuthMessage.text = "An error occured, close the app and try again"
-                self.failedAuthMessage.alpha = 1
-                return
-            }
-            if let user = Auth.auth().currentUser {
-                AuthService.fetchLoggedInUser(uid: user.uid, completion: self.handleUserLoggedIn)
-            }
-        }
+        socialSignIn(credential: credential)
+    
     }
 
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

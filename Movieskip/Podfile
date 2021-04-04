@@ -13,6 +13,7 @@ target 'Movieskip' do
     pod 'Firebase/Core'
     pod 'FirebaseUI/Auth'
     pod 'FirebaseUI/Google'
+    pod 'FBSDKLoginKit'
     
     pod 'SDWebImage', '~>4.4.2'
     pod 'SwiftyJSON', '~> 4.0'
