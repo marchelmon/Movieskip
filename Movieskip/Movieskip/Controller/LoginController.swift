@@ -97,20 +97,28 @@ class LoginController: UIViewController {
     private let googleButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Sign in", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.6176958476, green: 0.05836011096, blue: 0.1382402272, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitle("     Continue with google", for: .normal)
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(signInGoogle), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "google-icon"), for: .normal)
+        button.imageView?.anchor(top: button.topAnchor, left: button.leftAnchor, bottom: button.bottomAnchor, paddingTop: 10, paddingLeft: 6, paddingBottom: 10, width: 30)
+        button.titleLabel?.anchor(right: button.rightAnchor, paddingRight: 10)
         return button
     }()
     
     private let facebookButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .blue
-        button.setTitleColor(.white, for: .normal)
-        button.setTitle("Sign in", for: .normal)
+        button.backgroundColor = .white
+        button.setTitleColor(#colorLiteral(red: 0.09664548344, green: 0.05595414365, blue: 0.5788586612, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitle("     Continue with facebook", for: .normal)
         button.layer.cornerRadius = 8
         button.addTarget(self, action: #selector(signInFacebook), for: .touchUpInside)
+        button.setImage(#imageLiteral(resourceName: "fb-icon"), for: .normal)
+        button.imageView?.anchor(top: button.topAnchor, left: button.leftAnchor, bottom: button.bottomAnchor, paddingTop: 10, paddingLeft: 6, paddingBottom: 10, width: 30)
+        button.titleLabel?.anchor(right: button.rightAnchor, paddingRight: 10)
         return button
     }()
     
