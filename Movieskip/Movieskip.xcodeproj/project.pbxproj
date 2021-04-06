@@ -36,6 +36,7 @@
 		3CB20CBE2604E26C006D869A /* WatchlistCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CBD2604E26C006D869A /* WatchlistCollectionCell.swift */; };
 		3CB20CC126051111006D869A /* CombineWatchlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CC026051111006D869A /* CombineWatchlistController.swift */; };
 		3CB20CC826077CFC006D869A /* MatchingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CC726077CFC006D869A /* MatchingResultsView.swift */; };
+		3CB20CF4261B9D47006D869A /* EmailAuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CF3261B9D47006D869A /* EmailAuthController.swift */; };
 		3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B6B425DD8E00007A18B7 /* Genre.swift */; };
 		3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70825E15BA8007A18B7 /* DetailsController.swift */; };
 		3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70C25E16312007A18B7 /* Actor.swift */; };
@@ -85,6 +86,7 @@
 		3CB20CBD2604E26C006D869A /* WatchlistCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistCollectionCell.swift; sourceTree = "<group>"; };
 		3CB20CC026051111006D869A /* CombineWatchlistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineWatchlistController.swift; sourceTree = "<group>"; };
 		3CB20CC726077CFC006D869A /* MatchingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingResultsView.swift; sourceTree = "<group>"; };
+		3CB20CF3261B9D47006D869A /* EmailAuthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthController.swift; sourceTree = "<group>"; };
 		3CF5B6B425DD8E00007A18B7 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		3CF5B70825E15BA8007A18B7 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
 		3CF5B70C25E16312007A18B7 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				3CF5B70825E15BA8007A18B7 /* DetailsController.swift */,
 				3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */,
 				3CF5B75125E81986007A18B7 /* LoginController.swift */,
+				3CB20CF3261B9D47006D869A /* EmailAuthController.swift */,
 				3CF5B75725E90137007A18B7 /* SettingsController.swift */,
 				3C66623B25F64C9900759552 /* UsernameController.swift */,
 				3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */,
@@ -426,6 +429,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CB20CF4261B9D47006D869A /* EmailAuthController.swift in Sources */,
 				3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */,
 				3C7DC87F25DBE12500FE7A61 /* FilterController.swift in Sources */,
 				3C66623825F4D59700759552 /* AuthService.swift in Sources */,
