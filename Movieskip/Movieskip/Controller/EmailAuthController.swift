@@ -103,7 +103,7 @@ class EmailAuthController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        configureUI()
         
     }
     
@@ -235,6 +235,53 @@ class EmailAuthController: UIViewController {
         //hud.dismiss
         self.delegate?.authenticationComplete()
     }
+    
+    
+    //MARK: - UI Config
+    
+    
+    func configureUI() {
+        
+        view.addSubview(backButton)
+        backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20)
+        
+        configureLoginView()
+        configureRegisterView()
+        configureResetPasswordView()
+    }
+    
+    
+    func configureLoginView() {
+        
+        let loginView = UIView()
+        view.addSubview(loginView)
+        
+        loginView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
+        
+        loginView.addSubview(resetPasswordButton)
+        resetPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor, paddingBottom: 20)
+        
+        loginView.addSubview(showRegisterButton)
+        showRegisterButton.anchor(left: loginView.leftAnchor, bottom: resetPasswordButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 150)
+        
+        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
+        stack.axis = .vertical
+        stack.spacing = 15
+        
+        loginView.addSubview(stack)
+        stack.anchor(left: loginView.leftAnchor, bottom: showRegisterButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 20)
+        
+        
+    }
+    
+    func configureRegisterView() {
+        
+    }
+    
+    func configureResetPasswordView() {
+        
+    }
+    
     
     
     //

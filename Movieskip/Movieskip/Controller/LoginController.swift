@@ -130,7 +130,7 @@ class LoginController: UIViewController {
     
     
     @objc func showEmailAuth() {
-        let controller = RegistrationController()
+        let controller = EmailAuthController()
         controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
     }

@@ -43,7 +43,6 @@
 		3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B71525E40ED4007A18B7 /* DetailsView.swift */; };
 		3CF5B71F25E6B775007A18B7 /* ActorCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B71E25E6B774007A18B7 /* ActorCollection.swift */; };
 		3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72125E6BA1A007A18B7 /* ActorCell.swift */; };
-		3CF5B72925E7DB06007A18B7 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */; };
 		3CF5B72C25E7DEDF007A18B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CF5B72B25E7DEDF007A18B7 /* GoogleService-Info.plist */; };
 		3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */; };
 		3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */; };
@@ -93,7 +92,6 @@
 		3CF5B71525E40ED4007A18B7 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		3CF5B71E25E6B774007A18B7 /* ActorCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCollection.swift; sourceTree = "<group>"; };
 		3CF5B72125E6BA1A007A18B7 /* ActorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActorCell.swift; sourceTree = "<group>"; };
-		3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		3CF5B72B25E7DEDF007A18B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 				3C7DC7D125D67B5B00FE7A61 /* HomeController.swift */,
 				3C7DC87E25DBE12500FE7A61 /* FilterController.swift */,
 				3CF5B70825E15BA8007A18B7 /* DetailsController.swift */,
-				3CF5B72825E7DB06007A18B7 /* RegistrationController.swift */,
 				3CF5B75125E81986007A18B7 /* LoginController.swift */,
 				3CB20CF3261B9D47006D869A /* EmailAuthController.swift */,
 				3CF5B75725E90137007A18B7 /* SettingsController.swift */,
@@ -461,7 +458,6 @@
 				3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */,
 				3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */,
 				3C7DC7E625D6C27700FE7A61 /* CardView.swift in Sources */,
-				3CF5B72925E7DB06007A18B7 /* RegistrationController.swift in Sources */,
 				3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */,
 				3C7DC7DE25D688AF00FE7A61 /* BottomControlsStackView.swift in Sources */,
 				3CF5B76A25EBFFB7007A18B7 /* ProfileView.swift in Sources */,
