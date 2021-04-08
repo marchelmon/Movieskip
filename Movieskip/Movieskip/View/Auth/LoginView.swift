@@ -11,8 +11,8 @@ class LoginView: UIView {
     
     //MARK: - Properties
     
-    private let emailTextField = CustomTextField(placeholder: "Email")
-    private let passwordTextField = CustomTextField(placeholder: "Password")
+    private let email = CustomTextField(placeholder: "Email")
+    private let password = CustomTextField(placeholder: "Password")
     
     private let failedAuthMessage: UILabel = {
         let label = UILabel()
@@ -73,14 +73,14 @@ class LoginView: UIView {
         addSubview(loginButton)
         loginButton.anchor(left: leftAnchor, bottom: showRegisterButton.topAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
         
-        addSubview(passwordTextField)
-        passwordTextField.anchor(left: leftAnchor, bottom: loginButton.topAnchor, right: rightAnchor, paddingBottom: 15)
+        addSubview(password)
+        password.anchor(left: leftAnchor, bottom: loginButton.topAnchor, right: rightAnchor, paddingBottom: 15)
         
-        addSubview(emailTextField)
-        emailTextField.anchor(left: leftAnchor, bottom: passwordTextField.topAnchor, right: rightAnchor, paddingBottom: 12)
+        addSubview(email)
+        email.anchor(left: leftAnchor, bottom: password.topAnchor, right: rightAnchor, paddingBottom: 12)
         
         addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(left: leftAnchor, bottom: emailTextField.topAnchor, right: rightAnchor, paddingBottom: 20)
+        failedAuthMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 20)
         
     }
     
