@@ -14,16 +14,7 @@ class EmailAuthController: UIViewController {
     
     weak var delegate: AuthenticationDelegate?
     
-    private let loginView: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
-    private let resetPasswordView: UIView = {
-        let view = UIView()
-        view.isHidden = true
-        return view
-    }()
+    private let loginView = LoginView()
     
     private let emailTextField = CustomTextField(placeholder: "Email")
     private let passwordTextField = CustomTextField(placeholder: "Password")
@@ -34,14 +25,6 @@ class EmailAuthController: UIViewController {
         label.textColor = UIColor.white
         label.numberOfLines = 0
         return label
-    }()
-    
-    private let loginButton: AuthButton = {
-        let button = AuthButton(type: .system)
-        button.setTitle("Login", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        button.addTarget(self, action: #selector(handleLoginUser), for: .touchUpInside)
-        return button
     }()
     
     private let registerButton: AuthButton = {
@@ -71,15 +54,6 @@ class EmailAuthController: UIViewController {
         return button
     }()
     
-    private let showRegisterButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Sign up", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.addTarget(self, action: #selector(showRegister), for: .touchUpInside)
-        return button
-    }()
-    
     private let showLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Go to Login", for: .normal)
@@ -89,19 +63,6 @@ class EmailAuthController: UIViewController {
         return button
     }()
 
-    private let showResetPasswordButton: UIButton = {
-        let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(
-            string: "Forgot password?",
-            attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)]
-        )
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(showResetPassword), for: .touchUpInside)
-
-        return button
-    }()
-    
-    
     
     //MARK: - Lifecycle
     
@@ -252,40 +213,33 @@ class EmailAuthController: UIViewController {
         view.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20)
         
-        configureLoginView()
-        configureRegisterView()
-        configureResetPasswordView()
+        view.addSubview(loginView)
+        loginView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
+        
     }
     
     
-    func configureLoginView() {
+    func configureRegisterView() {
+       
+        let registerView = UIView()
+        view.addSubview(registerView)
         
-        let loginView = UIView()
-        view.addSubview(loginView)
+        registerView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
+
+        registerView.addSubview(showLoginButton)
+        showLoginButton.anchor(left: registerView.leftAnchor, bottom: registerView.bottomAnchor, right: registerView.rightAnchor, paddingBottom: 170)
         
-        loginView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
+        registerView.addSubview(registerButton)
+        registerButton.anchor(left: registerView.leftAnchor, bottom: showLoginButton.topAnchor, right: registerView.rightAnchor, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
         
-        loginView.addSubview(showResetPasswordButton)
-        showResetPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor, paddingBottom: 25)
-        
-        loginView.addSubview(showRegisterButton)
-        showRegisterButton.anchor(left: loginView.leftAnchor, bottom: showResetPasswordButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 150)
-        
-        loginView.addSubview(loginButton)
-        loginButton.anchor(left: loginView.leftAnchor, bottom: showRegisterButton.topAnchor, right: loginView.rightAnchor, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
-        
-        loginView.addSubview(passwordTextField)
-        passwordTextField.anchor(left: loginView.leftAnchor, bottom: loginButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 15)
+        registerView.addSubview(passwordTextField)
+        passwordTextField.anchor(left: registerView.leftAnchor, bottom: registerButton.topAnchor, right: registerView.rightAnchor, paddingBottom: 15)
         
         loginView.addSubview(emailTextField)
         emailTextField.anchor(left: loginView.leftAnchor, bottom: passwordTextField.topAnchor, right: loginView.rightAnchor, paddingBottom: 12)
         
         loginView.addSubview(failedAuthMessage)
         failedAuthMessage.anchor(left: loginView.leftAnchor, bottom: emailTextField.topAnchor, right: loginView.rightAnchor, paddingBottom: 40)
-        
-    }
-    
-    func configureRegisterView() {
         
     }
     
