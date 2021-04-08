@@ -11,7 +11,7 @@ class RegisterView: UIView {
     
     //MARK: - Properties
     
-    weak var delegate: EmailAuthViewDelegate?
+    weak var delegate: EmailAuthDelegate?
     
     private let email = CustomTextField(placeholder: "Email")
     private let password1 = CustomTextField(placeholder: "Password")
@@ -28,7 +28,7 @@ class RegisterView: UIView {
         let button = AuthButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        button.addTarget(self, action: #selector(handleRegisterUser), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
     
@@ -77,8 +77,33 @@ class RegisterView: UIView {
         delegate?.showLogin()
     }
     
-    @objc func handleRegisterUser() {
-        
+    @objc func handleRegister() {
+        delegate?.handleRegister()
+        //        guard let email = emailTextField.text else { return }
+        //        guard let password = passwordTextField.text else { return }
+        //
+        //        //let hud = JGProgressHUD(style: .dark)
+        //        //hud.show(in: view)
+        //        AuthService.registerUser(email: email, password: password) { error in
+        //            if let error = error {
+        //                if let errorCode = AuthErrorCode(rawValue: error._code) {
+        //                    if errorCode.rawValue == 17008 {
+        //                        self.failedAuthMessage.text = "*Enter a valid email address."
+        //                    } else if errorCode.rawValue == 17026 {
+        //                        self.failedAuthMessage.text = "*The password must be 6 characters long."
+        //                    } else if errorCode.rawValue == 17007 {
+        //                        self.failedAuthMessage.text = "*The email address is already in use."
+        //                    } else {
+        //                        self.failedAuthMessage.text = "An undefined error occured, please close the app and try again or login with another provider."
+        //                    }
+        //                    self.failedAuthMessage.alpha = 1
+        //                    //hud.dismiss()
+        //                    return
+        //                }
+        //            }
+        //            //hud.dismiss() TODO
+        //            self.delegate?.authenticationComplete()
+
     }
     
     

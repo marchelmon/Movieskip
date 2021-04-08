@@ -6,18 +6,13 @@
 //
 
 import UIKit
-
-protocol EmailAuthViewDelegate: class {
-    func showLogin()
-    func showRegister()
-    func showResetPassword()
-}
+import Firebase
 
 class LoginView: UIView {
     
     //MARK: - Properties
     
-    weak var delegate: EmailAuthViewDelegate?
+    weak var delegate: EmailAuthDelegate?
     
     private let email = CustomTextField(placeholder: "Email")
     private let password = CustomTextField(placeholder: "Password")
@@ -33,7 +28,7 @@ class LoginView: UIView {
         let button = AuthButton(type: .system)
         button.setTitle("Login", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        button.addTarget(self, action: #selector(handleLoginUser), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -46,15 +41,6 @@ class LoginView: UIView {
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(showResetPassword), for: .touchUpInside)
 
-        return button
-    }()
-    
-    private let resetPasswordButton: AuthButton = {
-        let button = AuthButton(type: .system)
-        button.setTitle("Reset password", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        button.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
-        button.isEnabled = true
         return button
     }()
     
@@ -105,15 +91,48 @@ class LoginView: UIView {
     @objc func showResetPassword() {
         delegate?.showResetPassword()
     }
-    
-    @objc func resetPassword() {
+
+    @objc func handleLogin() {
+        guard let email = email.text else { return }
+        guard let password = password.text else { return }
         
+        //        let hud = JGProgressHUD(style: .dark)
+        //        hud.show(in: view)
+        AuthService.logUserIn(withEmail: email, withPassword: password, completion: handleUserLoggedIn)
     }
     
-    @objc func handleLoginUser() {
-        
+    func handleUserLoggedIn(snapshot: DocumentSnapshot?, error: Error?) {
+        if let error = error {
+            if let errorCode = AuthErrorCode(rawValue: error._code) {
+                //hud.dismiss
+                self.errorMessage.alpha = 1
+                
+                switch errorCode.rawValue {
+                case 17007:
+                    self.errorMessage.text = "The email is already in use"
+                case 17008:
+                    self.errorMessage.text = "Please enter a valid email address"
+                case 17009:
+                    self.errorMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
+                case 17010:
+                    self.errorMessage.text = "You've made too many attempts to login. Please try again later"
+                case 17011:
+                    self.errorMessage.text = "No user found with those credentials"
+                case 17012:
+                    self.errorMessage.text = "Please use the same login method as you have previously"
+                default:
+                    print("ERRORCODE: \(errorCode.rawValue)")
+                    print("ERROR \(error.localizedDescription)")
+                    self.errorMessage.text = "An error occured: please try closing the app and starting again"
+                }
+            }
+            return
+        }
+        if let snapshot = snapshot {
+            if let userData = snapshot.data() {
+                self.delegate?.handleLogin(user: User(dictionary: userData))
+            }
+        }
     }
-    
-    
     
 }

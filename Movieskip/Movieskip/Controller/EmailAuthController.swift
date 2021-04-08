@@ -8,6 +8,15 @@
 import UIKit
 import Firebase
 
+protocol EmailAuthDelegate: class {
+    func showLogin()
+    func showRegister()
+    func showResetPassword()
+    func handleLogin(user: User)
+    func handleRegister()
+    func handleResetPassword() // TODO ta bort
+}
+
 class EmailAuthController: UIViewController {
     
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
@@ -61,48 +70,8 @@ class EmailAuthController: UIViewController {
     @objc func goToLoginController() {
         navigationController?.popViewController(animated: true)
     }
-//
-//    @objc func handleLoginUser() {
-//        guard let email = email.text else { return }
-//        guard let password = email.text else { return }
-//
-//        //        let hud = JGProgressHUD(style: .dark)
-//        //        hud.show(in: view)
-//
-//        AuthService.logUserIn(withEmail: email, withPassword: password, completion: handleUserLoggedIn)
-//    }
-//
-//
-//    @objc func handleRegisterUser() {
-//
-//        //        guard let email = emailTextField.text else { return }
-//        //        guard let password = passwordTextField.text else { return }
-//        //
-//        //        //let hud = JGProgressHUD(style: .dark)
-//        //        //hud.show(in: view)
-//        //        AuthService.registerUser(email: email, password: password) { error in
-//        //            if let error = error {
-//        //                if let errorCode = AuthErrorCode(rawValue: error._code) {
-//        //                    if errorCode.rawValue == 17008 {
-//        //                        self.failedAuthMessage.text = "*Enter a valid email address."
-//        //                    } else if errorCode.rawValue == 17026 {
-//        //                        self.failedAuthMessage.text = "*The password must be 6 characters long."
-//        //                    } else if errorCode.rawValue == 17007 {
-//        //                        self.failedAuthMessage.text = "*The email address is already in use."
-//        //                    } else {
-//        //                        self.failedAuthMessage.text = "An undefined error occured, please close the app and try again or login with another provider."
-//        //                    }
-//        //                    self.failedAuthMessage.alpha = 1
-//        //                    //hud.dismiss()
-//        //                    return
-//        //                }
-//        //            }
-//        //            //hud.dismiss() TODO
-//        //            self.delegate?.authenticationComplete()
-//
-//    }
-//
-//
+
+
 //    //    @objc func handleForgotPassword() {
 //    //        displayResetPasswordView()
 //    //    }
@@ -166,46 +135,12 @@ class EmailAuthController: UIViewController {
 //        //hud.dismiss
 //        self.delegate?.authenticationComplete()
 //    }
-//
-//
-//    //
-//    //    func displayResetPasswordView() {
-//    //        loginView.isHidden = true
-//    //        resetPasswordView.isHidden = false
-//    //        failedAuthMessage.alpha = 0
-//    //
-//    //        resetPasswordView.addSubview(backButton)
-//    //        backButton.anchor(top: resetPasswordView.topAnchor, left: resetPasswordView.leftAnchor, paddingTop: 45, paddingLeft: 20)
-//    //
-//    //        resetPasswordView.addSubview(failedAuthMessage)
-//    //        failedAuthMessage.anchor(top: resetPasswordView.topAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor, paddingTop: 110, paddingLeft: 30, paddingRight: 30, height: 100)
-//    //
-//    //        resetPasswordView.addSubview(emailTextField)
-//    //        emailTextField.anchor(top: failedAuthMessage.bottomAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor, paddingTop: 120, paddingLeft: 32, paddingRight: 32)
-//    //
-//    //        resetPasswordView.addSubview(resetPasswordButton)
-//    //        resetPasswordButton.anchor(top: emailTextField.bottomAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor, paddingTop: 20, paddingLeft: 60, paddingRight: 60)
-//    //
-//    //        resetPasswordView.addSubview(goToRegistrationButton)
-//    //        goToRegistrationButton.anchor(top: resetPasswordButton.bottomAnchor, left: resetPasswordView.leftAnchor, right: resetPasswordView.rightAnchor,                                    paddingTop: 15, paddingLeft: 60, paddingRight: 60)
-//    //
-//    //        view.addSubview(resetPasswordView)
-//    //        resetPasswordView.fillSuperview()
-//    //    }
-//
-//
-//    //        loginView.addSubview(goToRegistrationButton)
-//    //        goToRegistrationButton.anchor(top: authButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor,
-//    //                                      paddingTop: 15, paddingLeft: 32, paddingRight: 32)
-//    //
-//    //        loginView.addSubview(forgotPasswordButton)
-//    //        forgotPasswordButton.anchor(top: goToRegistrationButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingLeft: 32, paddingRight: 32)
-//
-//
+
 }
 
 
-extension EmailAuthController: EmailAuthViewDelegate {
+extension EmailAuthController: EmailAuthDelegate {
+    
     func showLogin() {
         registerView.isHidden = true
         resetPasswordView.isHidden = true
@@ -224,5 +159,17 @@ extension EmailAuthController: EmailAuthViewDelegate {
         resetPasswordView.isHidden = false
     }
     
+    func handleLogin(user: User) {
+        print("Should handle login: \(user.username)")
+        sceneDelegate.setUser(user: user)
+        delegate?.authenticationComplete()
+    }
     
+    func handleRegister() {
+        print("Should handle register")
+    }
+    
+    func handleResetPassword() {
+        print("Should handle reset")
+    }
 }

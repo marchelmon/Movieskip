@@ -11,7 +11,7 @@ class ResetPasswordView: UIView {
     
     //MARK: - Properties
     
-    weak var delegate: EmailAuthViewDelegate?
+    weak var delegate: EmailAuthDelegate?
     
     private let email = CustomTextField(placeholder: "Email")
     
@@ -62,7 +62,7 @@ class ResetPasswordView: UIView {
     //MARK: - Actions
     
     @objc func resetPassword() {
-        
+        delegate?.handleResetPassword()
     }
     
     @objc func showLogin() {
