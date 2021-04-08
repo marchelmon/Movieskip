@@ -29,7 +29,12 @@ class EmailAuthController: UIViewController {
     private let passwordTextField = CustomTextField(placeholder: "Password")
     private let resetPasswordTextField = CustomTextField(placeholder: "Email")
     
-    private let failedAuthMessage = FailedAuthMessageView()
+    private let failedAuthMessage: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.white
+        label.numberOfLines = 0
+        return label
+    }()
     
     private let loginButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -88,7 +93,7 @@ class EmailAuthController: UIViewController {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(
             string: "Forgot password?",
-            attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14)]
+            attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)]
         )
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(showResetPassword), for: .touchUpInside)
@@ -242,6 +247,8 @@ class EmailAuthController: UIViewController {
     
     func configureUI() {
         
+        configureGradientLayer()
+        
         view.addSubview(backButton)
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, paddingTop: 20, paddingLeft: 20)
         
@@ -258,19 +265,23 @@ class EmailAuthController: UIViewController {
         
         loginView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
         
-        loginView.addSubview(resetPasswordButton)
-        resetPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor, paddingBottom: 20)
+        loginView.addSubview(showResetPasswordButton)
+        showResetPasswordButton.anchor(left: loginView.leftAnchor, bottom: loginView.bottomAnchor, right: loginView.rightAnchor, paddingBottom: 25)
         
         loginView.addSubview(showRegisterButton)
-        showRegisterButton.anchor(left: loginView.leftAnchor, bottom: resetPasswordButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 150)
+        showRegisterButton.anchor(left: loginView.leftAnchor, bottom: showResetPasswordButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 150)
         
-        let stack = UIStackView(arrangedSubviews: [emailTextField, passwordTextField, loginButton])
-        stack.axis = .vertical
-        stack.spacing = 15
+        loginView.addSubview(loginButton)
+        loginButton.anchor(left: loginView.leftAnchor, bottom: showRegisterButton.topAnchor, right: loginView.rightAnchor, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
         
-        loginView.addSubview(stack)
-        stack.anchor(left: loginView.leftAnchor, bottom: showRegisterButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 20)
+        loginView.addSubview(passwordTextField)
+        passwordTextField.anchor(left: loginView.leftAnchor, bottom: loginButton.topAnchor, right: loginView.rightAnchor, paddingBottom: 15)
         
+        loginView.addSubview(emailTextField)
+        emailTextField.anchor(left: loginView.leftAnchor, bottom: passwordTextField.topAnchor, right: loginView.rightAnchor, paddingBottom: 12)
+        
+        loginView.addSubview(failedAuthMessage)
+        failedAuthMessage.anchor(left: loginView.leftAnchor, bottom: emailTextField.topAnchor, right: loginView.rightAnchor, paddingBottom: 40)
         
     }
     
