@@ -11,6 +11,8 @@ class RegisterView: UIView {
     
     //MARK: - Properties
     
+    weak var delegate: EmailAuthViewDelegate?
+    
     private let email = CustomTextField(placeholder: "Email")
     private let password1 = CustomTextField(placeholder: "Password")
     private let password2 = CustomTextField(placeholder: "Repeat password")
@@ -49,13 +51,13 @@ class RegisterView: UIView {
         showLoginButton.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingBottom: 170)
         
         addSubview(registerButton)
-        registerButton.anchor(left: leftAnchor, bottom: showLoginButton.topAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
+        registerButton.anchor(left: leftAnchor, bottom: showLoginButton.topAnchor, right: rightAnchor, paddingLeft: 40, paddingBottom: 10, paddingRight: 40)
 
         addSubview(password2)
         password2.anchor(left: leftAnchor, bottom: registerButton.topAnchor, right: rightAnchor, paddingBottom: 15)
 
         addSubview(password1)
-        password1.anchor(left: leftAnchor, bottom: password2.topAnchor, right: rightAnchor, paddingBottom: 15)
+        password1.anchor(left: leftAnchor, bottom: password2.topAnchor, right: rightAnchor, paddingBottom: 12)
         
         addSubview(email)
         email.anchor(left: leftAnchor, bottom: password1.topAnchor, right: rightAnchor, paddingBottom: 12)
@@ -72,7 +74,7 @@ class RegisterView: UIView {
     //MARK: - Actions
     
     @objc func showLogin() {
-        
+        delegate?.showLogin()
     }
     
     @objc func handleRegisterUser() {

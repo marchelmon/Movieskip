@@ -33,7 +33,12 @@ class EmailAuthController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginView.isHidden = true
+        loginView.delegate = self
+        registerView.delegate = self
+        resetPasswordView.delegate = self
+        
+        registerView.isHidden = true
+        resetPasswordView.isHidden = true
         
         configureGradientLayer()
         
@@ -45,6 +50,9 @@ class EmailAuthController: UIViewController {
         
         view.addSubview(registerView)
         registerView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
+        
+        view.addSubview(resetPasswordView)
+        resetPasswordView.anchor(top: backButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 30, paddingRight: 30)
         
     }
     
@@ -194,4 +202,27 @@ class EmailAuthController: UIViewController {
 //    //        forgotPasswordButton.anchor(top: goToRegistrationButton.bottomAnchor, left: loginView.leftAnchor, right: loginView.rightAnchor, paddingLeft: 32, paddingRight: 32)
 //
 //
+}
+
+
+extension EmailAuthController: EmailAuthViewDelegate {
+    func showLogin() {
+        registerView.isHidden = true
+        resetPasswordView.isHidden = true
+        loginView.isHidden = false
+    }
+    
+    func showRegister() {
+        resetPasswordView.isHidden = true
+        loginView.isHidden = true
+        registerView.isHidden = false
+    }
+    
+    func showResetPassword() {
+        loginView.isHidden = true
+        registerView.isHidden = true
+        resetPasswordView.isHidden = false
+    }
+    
+    
 }

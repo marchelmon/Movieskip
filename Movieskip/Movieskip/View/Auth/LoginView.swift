@@ -7,14 +7,22 @@
 
 import UIKit
 
+protocol EmailAuthViewDelegate: class {
+    func showLogin()
+    func showRegister()
+    func showResetPassword()
+}
+
 class LoginView: UIView {
     
     //MARK: - Properties
     
+    weak var delegate: EmailAuthViewDelegate?
+    
     private let email = CustomTextField(placeholder: "Email")
     private let password = CustomTextField(placeholder: "Password")
     
-    private let failedAuthMessage: UILabel = {
+    private let errorMessage: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white
         label.numberOfLines = 0
@@ -71,7 +79,7 @@ class LoginView: UIView {
         showRegisterButton.anchor(left: leftAnchor, bottom: showResetPasswordButton.topAnchor, right: rightAnchor, paddingBottom: 150)
         
         addSubview(loginButton)
-        loginButton.anchor(left: leftAnchor, bottom: showRegisterButton.topAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 10, paddingRight: 30)
+        loginButton.anchor(left: leftAnchor, bottom: showRegisterButton.topAnchor, right: rightAnchor, paddingLeft: 40, paddingBottom: 10, paddingRight: 40)
         
         addSubview(password)
         password.anchor(left: leftAnchor, bottom: loginButton.topAnchor, right: rightAnchor, paddingBottom: 15)
@@ -79,8 +87,8 @@ class LoginView: UIView {
         addSubview(email)
         email.anchor(left: leftAnchor, bottom: password.topAnchor, right: rightAnchor, paddingBottom: 12)
         
-        addSubview(failedAuthMessage)
-        failedAuthMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 20)
+        addSubview(errorMessage)
+        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 20)
         
     }
     
@@ -91,14 +99,14 @@ class LoginView: UIView {
     //MARK: - Actions
     
     @objc func showRegister() {
-        
-    }
-    
-    @objc func resetPassword() {
-        
+        delegate?.showRegister()
     }
     
     @objc func showResetPassword() {
+        delegate?.showResetPassword()
+    }
+    
+    @objc func resetPassword() {
         
     }
     
