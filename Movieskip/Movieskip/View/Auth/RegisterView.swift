@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterView: UIView {
     
@@ -78,34 +79,41 @@ class RegisterView: UIView {
     }
     
     @objc func handleRegister() {
-        delegate?.handleRegister()
-        //        guard let email = emailTextField.text else { return }
-        //        guard let password = passwordTextField.text else { return }
-        //
-        //        //let hud = JGProgressHUD(style: .dark)
-        //        //hud.show(in: view)
-        //        AuthService.registerUser(email: email, password: password) { error in
-        //            if let error = error {
-        //                if let errorCode = AuthErrorCode(rawValue: error._code) {
-        //                    if errorCode.rawValue == 17008 {
-        //                        self.failedAuthMessage.text = "*Enter a valid email address."
-        //                    } else if errorCode.rawValue == 17026 {
-        //                        self.failedAuthMessage.text = "*The password must be 6 characters long."
-        //                    } else if errorCode.rawValue == 17007 {
-        //                        self.failedAuthMessage.text = "*The email address is already in use."
-        //                    } else {
-        //                        self.failedAuthMessage.text = "An undefined error occured, please close the app and try again or login with another provider."
-        //                    }
-        //                    self.failedAuthMessage.alpha = 1
-        //                    //hud.dismiss()
-        //                    return
-        //                }
-        //            }
-        //            //hud.dismiss() TODO
-        //            self.delegate?.authenticationComplete()
-
-    }
+        guard let email = email.text else { return }
+        guard let password1 = password1.text else { return }
+        guard let password2 = password2.text else { return }
     
+        if email == "" || password1 == "" || password2 == "" { return }
+        if password1 != password2 {
+            errorMessage.alpha = 1
+            errorMessage.text = "Passwords do not match"
+            return
+        }
+
+        AuthService.registerUser(email: email, password: password1) { error in
+            if let error = error {
+                if let errorCode = AuthErrorCode(rawValue: error._code) {
+                    //hud.dismiss
+                    self.errorMessage.alpha = 1
+            
+                    switch errorCode.rawValue {
+                    case 17007:
+                        self.errorMessage.text = "The email is already in use"
+                    case 17008:
+                        self.errorMessage.text = "Please enter a valid email address"
+                    case 17026:
+                        self.errorMessage.text = "The password must be 6 characters longer."
+                    default:
+                        print("ERRORCODE: \(errorCode.rawValue)")
+                        print("ERROR \(error.localizedDescription)")
+                        self.errorMessage.text = "An error occured: please try closing the app and starting again"
+                    }
+                }
+                return
+            }
+            self.delegate?.handleRegister()
+        }
+    }
     
     
 }

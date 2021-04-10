@@ -62,7 +62,22 @@ class ResetPasswordView: UIView {
     //MARK: - Actions
     
     @objc func resetPassword() {
-        delegate?.handleResetPassword()
+        guard let email = email.text else { return }
+        if !email.isValidEmail(){
+            errorMessage.text = "Please enter a valid email address"
+            errorMessage.alpha = 1
+            return
+        }
+        AuthService.resetUserPassword(email: email) { error in
+            if let error = error {
+                print("ERROR RESET PASSWORD: \(error.localizedDescription)")
+                self.errorMessage.text = "Something went wrong, check your email or try again"
+                self.errorMessage.alpha = 1
+                return
+            }
+            //TODO: alert som säger "Check your email to restore password"
+            self.delegate?.showLogin()
+        }
     }
     
     @objc func showLogin() {

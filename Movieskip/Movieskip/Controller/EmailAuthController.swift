@@ -14,7 +14,6 @@ protocol EmailAuthDelegate: class {
     func showResetPassword()
     func handleLogin(user: User)
     func handleRegister()
-    func handleResetPassword() // TODO ta bort
 }
 
 class EmailAuthController: UIViewController {
@@ -160,16 +159,12 @@ extension EmailAuthController: EmailAuthDelegate {
     }
     
     func handleLogin(user: User) {
-        print("Should handle login: \(user.username)")
         sceneDelegate.setUser(user: user)
         delegate?.authenticationComplete()
     }
     
     func handleRegister() {
-        print("Should handle register")
+        delegate?.authenticationComplete()
     }
     
-    func handleResetPassword() {
-        print("Should handle reset")
-    }
 }
