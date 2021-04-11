@@ -53,6 +53,9 @@ class ResetPasswordView: UIView {
         
         addSubview(email)
         email.anchor(left: leftAnchor, bottom: resetPasswordButton.topAnchor, right: rightAnchor, paddingBottom: 12)
+        
+        addSubview(errorMessage)
+        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 60)
 
     }
     required init?(coder: NSCoder) {
@@ -75,8 +78,9 @@ class ResetPasswordView: UIView {
                 self.errorMessage.alpha = 1
                 return
             }
-            //TODO: alert som säger "Check your email to restore password"
-            self.delegate?.showLogin()
+            let alert = UIAlertController(title: "Check your email", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.delegate?.showAlert(alert: alert)
         }
     }
     

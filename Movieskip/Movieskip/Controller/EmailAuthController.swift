@@ -14,6 +14,7 @@ protocol EmailAuthDelegate: class {
     func showResetPassword()
     func handleLogin(user: User)
     func handleRegister()
+    func showAlert(alert: UIAlertController)
 }
 
 class EmailAuthController: UIViewController {
@@ -70,71 +71,6 @@ class EmailAuthController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
-
-//    //    @objc func handleForgotPassword() {
-//    //        displayResetPasswordView()
-//    //    }
-//    //
-//    //    @objc func handleResetPassword() {
-//    //        guard let email = emailTextField.text else { return }
-//    //
-//    //        if email.count < 3 {
-//    //            failedAuthMessage.alpha = 1
-//    //            failedAuthMessage.text = "*Enter a valid email address"
-//    //            return
-//    //        }
-//    //
-//    //        AuthService.resetUserPassword(email: email) { error in
-//    //            if let error = error {
-//    //                if let errorCode = AuthErrorCode(rawValue: error._code) {
-//    //                    self.failedAuthMessage.alpha = 1
-//    //                    if errorCode.rawValue == 17008 {
-//    //                        self.failedAuthMessage.text = "*Enter a valid email address"
-//    //                    } else if errorCode.rawValue == 17011 {
-//    //                        self.failedAuthMessage.text = "*No user found with this email address"
-//    //                    } else {
-//    //                        self.failedAuthMessage.text = "*An undefined error occured, please check your email and try again"
-//    //                    }
-//    //                }
-//    //                return
-//    //            }
-//    //            self.failedAuthMessage.alpha = 1
-//    //            self.failedAuthMessage.text = "*Check your email to continue"
-//    //        }
-//    //
-//    //    }
-//
-//
-//    func handleUserLoggedIn(snapshot: DocumentSnapshot?, error: Error?) {
-//        if let error = error {
-//            if let errorCode = AuthErrorCode(rawValue: error._code) {
-//                //hud.dismiss
-//                self.failedAuthMessage.alpha = 1
-//                if errorCode.rawValue == 17008 {
-//                    self.failedAuthMessage.text = "Please enter a valid email address"
-//                } else if errorCode.rawValue == 17011 {
-//                    self.failedAuthMessage.text = "No match found with those credentials"
-//                } else if errorCode.rawValue == 17009 {
-//                    self.failedAuthMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
-//                } else if errorCode.rawValue == 17009 {
-//                    self.failedAuthMessage.text = "You've made too many attempts to login. Please try again later"
-//                } else {
-//                    print("ERRORCODE: \(errorCode.rawValue)")
-//                    print("ERROR \(error.localizedDescription)")
-//                    self.failedAuthMessage.text = "An error occured: please try closing the app and starting again"
-//                }
-//            }
-//            return
-//        }
-//        if let snapshot = snapshot {
-//            if let userData = snapshot.data() {
-//                self.sceneDelegate.setUser(user: User(dictionary: userData))
-//            }
-//        }
-//        //hud.dismiss
-//        self.delegate?.authenticationComplete()
-//    }
-
 }
 
 
@@ -165,6 +101,12 @@ extension EmailAuthController: EmailAuthDelegate {
     
     func handleRegister() {
         delegate?.authenticationComplete()
+    }
+    
+    func showAlert(alert: UIAlertController) {
+        present(alert, animated: true) {
+            self.showLogin()
+        }
     }
     
 }

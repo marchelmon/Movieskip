@@ -64,7 +64,7 @@ class RegisterView: UIView {
         email.anchor(left: leftAnchor, bottom: password1.topAnchor, right: rightAnchor, paddingBottom: 12)
         
         addSubview(errorMessage)
-        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 20)
+        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 60)
         
     }
     
