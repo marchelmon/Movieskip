@@ -104,9 +104,7 @@ extension EmailAuthController: EmailAuthDelegate {
     }
     
     func showAlert(alert: UIAlertController) {
-        present(alert, animated: true) {
-            self.showLogin()
-        }
+        present(alert, animated: true, completion: nil)
     }
     
 }

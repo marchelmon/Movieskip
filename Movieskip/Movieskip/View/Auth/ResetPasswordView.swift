@@ -78,8 +78,14 @@ class ResetPasswordView: UIView {
                 self.errorMessage.alpha = 1
                 return
             }
-            let alert = UIAlertController(title: "Check your email", message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            let alert = UIAlertController(title: "Check your email to continue password restoration", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action {
+                
+                default:
+                    self.delegate?.showLogin()
+                }
+            }))
             self.delegate?.showAlert(alert: alert)
         }
     }
