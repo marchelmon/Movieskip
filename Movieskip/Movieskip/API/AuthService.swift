@@ -66,7 +66,6 @@ struct AuthService {
     static func socialSignIn(credential: AuthCredential, completion: @escaping (Error?) -> Void) {
         Auth.auth().signIn(with: credential) { (data, error) in
             if let error = error {
-                print("ERROR signing in: \(error.localizedDescription)")
                 completion(error)
                 return
             }
@@ -74,7 +73,6 @@ struct AuthService {
                 K.COLLECTION_USERS.document(data.user.uid).getDocument { (snapshot, error) in
             
                     if let error = error {
-                        print("ERROR GETTING DATA: \(error.localizedDescription)")
                         completion(error)
                         return
                     }

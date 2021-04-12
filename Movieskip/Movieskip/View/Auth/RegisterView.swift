@@ -17,13 +17,6 @@ class RegisterView: UIView {
     private let email = CustomTextField(placeholder: "Email")
     private let password1 = CustomTextField(placeholder: "Password")
     private let password2 = CustomTextField(placeholder: "Repeat password")
-
-    private let errorMessage: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.white
-        label.numberOfLines = 0
-        return label
-    }()
     
     private let registerButton: AuthButton = {
         let button = AuthButton(type: .system)
@@ -63,9 +56,6 @@ class RegisterView: UIView {
         addSubview(email)
         email.anchor(left: leftAnchor, bottom: password1.topAnchor, right: rightAnchor, paddingBottom: 12)
         
-        addSubview(errorMessage)
-        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 60)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -85,8 +75,7 @@ class RegisterView: UIView {
     
         if email == "" || password1 == "" || password2 == "" { return }
         if password1 != password2 {
-            errorMessage.alpha = 1
-            errorMessage.text = "Passwords do not match"
+            delegate?.showAlert(text: "Passwords do not match", alertAction: nil)
             return
         }
 
@@ -94,20 +83,18 @@ class RegisterView: UIView {
             if let error = error {
                 if let errorCode = AuthErrorCode(rawValue: error._code) {
                     //hud.dismiss
-                    self.errorMessage.alpha = 1
-            
+                    var errorText = ""
                     switch errorCode.rawValue {
                     case 17007:
-                        self.errorMessage.text = "The email is already in use"
+                        errorText = "The email is already in use"
                     case 17008:
-                        self.errorMessage.text = "Please enter a valid email address"
+                        errorText = "Please enter a valid email address"
                     case 17026:
-                        self.errorMessage.text = "The password must be 6 characters longer."
+                        errorText = "The password must be 6 characters longer."
                     default:
-                        print("ERRORCODE: \(errorCode.rawValue)")
-                        print("ERROR \(error.localizedDescription)")
-                        self.errorMessage.text = "An error occured: please try closing the app and starting again"
+                        errorText = "An error occured: please try closing the app and starting again"
                     }
+                    self.delegate?.showAlert(text: errorText, alertAction: nil)
                 }
                 return
             }
