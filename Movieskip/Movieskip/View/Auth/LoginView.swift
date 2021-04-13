@@ -104,11 +104,11 @@ class LoginView: UIView {
                 case 17009:
                     errorText = "The password is not correct"
                 case 17010:
-                    errorText = "You've made too many attempts to login. Please try again later"
+                    errorText = "You've made too many attempts to login. Restore your password or try again later"
                 case 17011:
                     errorText = "No user found with this email"
                 case 17012:
-                    errorText = "Please use the same login method as you have previously"
+                    errorText = "Please log in with the same auth method as when you created your account "
                 default:
                     errorText = "An unknown error occured: please try closing the app and starting again"
                 }

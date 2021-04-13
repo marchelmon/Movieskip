@@ -150,7 +150,7 @@ class LoginController: UIViewController {
     func socialSignIn(credential: AuthCredential) {
         AuthService.socialSignIn(credential: credential) { error in
             if let error = error {
-                self.showAlert(text: "ERROR SOCIELA SIGNIN: \(error.localizedDescription)") //TODO
+                self.showAlert(text: error.localizedDescription)
                 return
             }
             if let user = Auth.auth().currentUser {

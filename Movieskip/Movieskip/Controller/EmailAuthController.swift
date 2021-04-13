@@ -106,7 +106,7 @@ extension EmailAuthController: EmailAuthDelegate {
     func showAlert(text: String, alertAction: UIAlertAction?) {
         
         let action = alertAction != nil ? alertAction! : UIAlertAction(title: "OK", style: .default, handler: nil)
-        let alert = UIAlertController(title: text, message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
         
         alert.addAction(action)
         present(alert, animated: true, completion: nil)

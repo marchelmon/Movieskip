@@ -40,6 +40,7 @@
 		3CB20CFA261EF227006D869A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CF9261EF227006D869A /* LoginView.swift */; };
 		3CB20CFE261EF241006D869A /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CFD261EF241006D869A /* ResetPasswordView.swift */; };
 		3CB20D01261EF250006D869A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D00261EF250006D869A /* RegisterView.swift */; };
+		3CB20D062626334D006D869A /* ShouldRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D052626334C006D869A /* ShouldRegisterView.swift */; };
 		3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B6B425DD8E00007A18B7 /* Genre.swift */; };
 		3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70825E15BA8007A18B7 /* DetailsController.swift */; };
 		3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70C25E16312007A18B7 /* Actor.swift */; };
@@ -92,6 +93,7 @@
 		3CB20CF9261EF227006D869A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3CB20CFD261EF241006D869A /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		3CB20D00261EF250006D869A /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		3CB20D052626334C006D869A /* ShouldRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShouldRegisterView.swift; sourceTree = "<group>"; };
 		3CF5B6B425DD8E00007A18B7 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		3CF5B70825E15BA8007A18B7 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
 		3CF5B70C25E16312007A18B7 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				3CF5B76C25EE6029007A18B7 /* SettingsView */,
 				3C37DB5425FFBC67006A35FB /* WatchlistView */,
 				3CB20CC726077CFC006D869A /* MatchingResultsView.swift */,
+				3CB20D052626334C006D869A /* ShouldRegisterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				3C7DC7B125D6755B00FE7A61 /* AppDelegate.swift in Sources */,
 				3C7DC81025D8336800FE7A61 /* TmdbService.swift in Sources */,
 				3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */,
+				3CB20D062626334D006D869A /* ShouldRegisterView.swift in Sources */,
 				3CB20CFE261EF241006D869A /* ResetPasswordView.swift in Sources */,
 				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
 				3CB20CC826077CFC006D869A /* MatchingResultsView.swift in Sources */,
