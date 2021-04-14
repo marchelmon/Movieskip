@@ -17,8 +17,8 @@ class CombineWatchlistController: UIViewController {
     
     private var selectedFriends = [User]()
     
-    private lazy var matchingResultsView = MatchingResultsView()
-    private lazy var registerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 200))
+    private let matchingResultsView = MatchingResultsView()
+    private let shouldRegisterView = ShouldRegisterView()
 
     private let friendsLabel: UILabel = {
         let label = UILabel()
@@ -44,27 +44,6 @@ class CombineWatchlistController: UIViewController {
         button.addTarget(self, action: #selector(showMatchingResults), for: .touchUpInside)
         return button
     }()
-
-    private let shouldRegisterText: UILabel = {
-        let label = UILabel()
-        label.text = "The main purpose of this app can only be available with an account. Read more... "
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.numberOfLines = 0
-        label.textColor = K.MAIN_COLOR
-        return label
-    } ()
-        
-    private let registerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Register", for: .normal)
-        button.setTitleColor(K.MAIN_COLOR, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
-        button.layer.cornerRadius = 8
-        button.layer.borderWidth = 3
-        button.layer.borderColor = K.MAIN_COLOR.cgColor
-        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
-        return button
-    }()
     
     private let backFromResultsButton: UIButton = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
@@ -79,6 +58,8 @@ class CombineWatchlistController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        shouldRegisterView.delegate = self
         
         friendsTable.delegate = self
         friendsTable.dataSource = self
@@ -129,7 +110,7 @@ class CombineWatchlistController: UIViewController {
     }
     
     @objc func showFriendsView() {
-        registerView.isHidden = true
+        shouldRegisterView.isHidden = true
         matchingResultsView.isHidden = true
         backFromResultsButton.isHidden = true
         friendsView.isHidden = false
@@ -152,21 +133,15 @@ class CombineWatchlistController: UIViewController {
         matchingResultsView.isHidden = true
         backFromResultsButton.isHidden = true
         friendsView.isHidden = true
-        registerView.isHidden = false
+        shouldRegisterView.isHidden = false
         
-        registerView.addSubview(shouldRegisterText)
-        shouldRegisterText.anchor(top: registerView.topAnchor, left: registerView.leftAnchor, right: registerView.rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
-        registerView.addSubview(registerButton)
-        registerButton.centerX(inView: registerView)
-        registerButton.anchor(top: shouldRegisterText.bottomAnchor, paddingTop: 20, width: 170)
-        
-        view.addSubview(registerView)
-        registerView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 150, height: 200)
+        view.addSubview(shouldRegisterView)
+        shouldRegisterView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20, height: 200)
     }
     
     @objc func showMatchingResults() {
         friendsView.isHidden = true
-        registerView.isHidden = true
+        shouldRegisterView.isHidden = true
         matchingResultsView.isHidden = false
         backFromResultsButton.isHidden = false
         
@@ -229,4 +204,12 @@ extension CombineWatchlistController: MatchingResultsViewDelegate {
     }
 }
 
+
+//MARK: - ShouldRegisterDelegate
+
+extension CombineWatchlistController: ShouldRegisterDelegate {
+    func goToRegister() {
+        //TODO: GO to register
+    }
+}
 

@@ -67,26 +67,7 @@ class ProfileView: UIView {
         return button
     }()
     
-    private let shouldRegisterText: UILabel = {
-        let label = UILabel()
-        label.text = "The main purpose of this app can only be available with an account. Read more... "
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.numberOfLines = 0
-        label.textColor = K.MAIN_COLOR
-        return label
-    } ()
-    
-    private var registerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Register", for: .normal)
-        button.setTitleColor(K.MAIN_COLOR, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
-        button.layer.cornerRadius = 8
-        button.layer.borderWidth = 3
-        button.layer.borderColor = K.MAIN_COLOR.cgColor
-        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
-        return button
-    }()
+    private let shouldRegisterView = ShouldRegisterView()
     
     lazy var watchlistCountLabel = createCountLabel(count: sceneDelegate.user?.watchListCount ?? 0)
     lazy var excludedCountLabel = createCountLabel(count: sceneDelegate.user?.excludedCount ?? 0)
@@ -97,6 +78,8 @@ class ProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
     
+        shouldRegisterView.delegate = self
+        
         configureUI()
 
     }
@@ -124,11 +107,8 @@ class ProfileView: UIView {
     func configureUI() {
         backgroundColor = .white
         
-        if Auth.auth().currentUser != nil {
-            addUserData()
-        } else {
-            showRegisterContent()
-        }
+        Auth.auth().currentUser != nil ? addUserData() : showRegisterContent()
+        
         addLogoutAndRestore()
         addTmdbAttribution()
     }
@@ -157,16 +137,8 @@ class ProfileView: UIView {
     }
     
     func showRegisterContent() {
-        let registerView = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 200))
-        registerView.backgroundColor = .white
-        registerView.addSubview(shouldRegisterText)
-        shouldRegisterText.anchor(top: registerView.topAnchor, left: registerView.leftAnchor, right: registerView.rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
-        registerView.addSubview(registerButton)
-        registerButton.centerX(inView: registerView)
-        registerButton.anchor(top: shouldRegisterText.bottomAnchor, paddingTop: 20, width: 170)
-        
-        addSubview(registerView)
-        registerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, height: 200)
+        addSubview(shouldRegisterView)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20, height: 200)
     }
     
     func addTmdbAttribution() {
@@ -198,4 +170,10 @@ class ProfileView: UIView {
         }
     }
     
+}
+
+extension ProfileView: ShouldRegisterDelegate {
+    func goToRegister() {
+        delegate?.profileViewGoToRegister()
+    }
 }
