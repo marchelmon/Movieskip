@@ -9,11 +9,17 @@ import UIKit
 
 private let cellIdentifier = "FriendCell"
 
+protocol CombineWatchlistDelegate: class {
+    func goToRegister()
+}
+
 class CombineWatchlistController: UIViewController {
     
     //MARK: - Properties
     
     private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
+    weak var delegate: CombineWatchlistDelegate?
     
     private var selectedFriends = [User]()
     
@@ -77,7 +83,7 @@ class CombineWatchlistController: UIViewController {
     }
     
     @objc func handleRegister() {
-        
+        delegate?.goToRegister()
     }
     
     //MARK: - Helpers
@@ -136,7 +142,7 @@ class CombineWatchlistController: UIViewController {
         shouldRegisterView.isHidden = false
         
         view.addSubview(shouldRegisterView)
-        shouldRegisterView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20, height: 200)
+        shouldRegisterView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 250, paddingLeft: 20, paddingRight: 20, height: 200)
     }
     
     @objc func showMatchingResults() {
