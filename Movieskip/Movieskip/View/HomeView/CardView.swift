@@ -16,7 +16,7 @@ enum SwipeDirection: Int {
 
 protocol CardViewDelegate: class {
     func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie)
-    func cardView(_ View: CardView, didLikeMovie: Bool)
+    func cardView(_ view: CardView, didLikeMovie: Bool)
 }
     
 class CardView: UIView {

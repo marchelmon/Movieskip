@@ -1,0 +1,272 @@
+//
+//  SwipeView.swift
+//  Movieskip
+//
+//  Created by marchelmon on 2021-04-15.
+//
+
+import UIKit
+import Firebase
+
+protocol SwipeViewDelegate: class {
+    func showMovieDetails(for movie: Movie)
+    func showFilter()
+    func presentLoginController()
+    func presentUsernameSelectionView()
+}
+
+class SwipeView: UIView {
+    
+    //MARK: - Properties
+    
+    let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
+    weak var delegate: SwipeViewDelegate?
+    
+    private var swipeAnimationReady = true
+    
+    private var movies = [Movie]() {
+        didSet { configureCards() }
+    }
+        
+    var moviesToDisplay = [Movie]()
+    
+    var topCardView: CardView?
+    private var cardViews = [CardView]()
+    
+    private let bottomStack = BottomControlsStackView()
+
+    private let deckView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBlue
+        view.layer.cornerRadius = 10
+        return view
+    }()
+    
+    lazy var watchlistStat = createStatIcon(statIcon: K.WATCHLIST_ICON)
+    lazy var excludeStat = createStatIcon(statIcon: K.EXCLUDE_ICON)
+    lazy var skipStat = createStatIcon(statIcon: K.SKIP_ICON)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureUI()
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func fetchMoviesAndConfigureCards() {
+        
+    }
+    
+    func configureUserAndFetchMovies() {
+        
+        if let user = sceneDelegate.user {
+            fetchFilterAndMovies()
+            if user.username == "" { delegate?.presentUsernameSelectionView() }
+        } else {
+            
+            if let loggedInUser = Auth.auth().currentUser {
+            
+                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (snapshot, error) in
+                    
+                    if let error = error {
+                        //TODO: Alert till usern att något gick fel med hämtningen
+                        print("ERROR-login-home: \(error.localizedDescription)")
+                    }
+                    if let snapshot = snapshot {
+                        if let userData = snapshot.data() {
+                            self.sceneDelegate.user = User(dictionary: userData)
+                            if self.sceneDelegate.user?.username == "" { self.delegate?.presentUsernameSelectionView() }
+                            self.fetchFilterAndMovies()
+                            self.setStatLabels()
+                        }
+                    }
+                }
+            } else {
+                let userHasSkippedLoginPreviously = UserDefaults.standard.bool(forKey: "skippedLogin")
+                if  !userHasSkippedLoginPreviously {
+                    print("has skipped login: \(userHasSkippedLoginPreviously)")
+                    delegate?.presentLoginController()
+                } else {
+                    if sceneDelegate.localUser == nil { sceneDelegate.fetchLocalUser() }
+                    fetchFilterAndMovies()
+                    setStatLabels()
+                }
+            }
+        }
+    }
+    
+    func resetMovieData() {
+        topCardView = nil
+        cardViews = []
+        moviesToDisplay = []
+        movies = []
+    }
+    
+    func performSwipeAnimation(topCard: CardView, shouldExclude: Bool) {
+        
+        swipeAnimationReady = false
+        
+        let translation: CGFloat = shouldExclude ? -700 : 700
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.2, options: .transitionCurlDown) {
+            topCard.frame = CGRect(x: translation, y: 0, width: (topCard.frame.width), height: (topCard.frame.height))
+        } completion: { _ in
+            
+            self.swipeAnimationReady = true
+            self.updateCardView()
+        }
+    }
+    
+    
+    func configureCards() {
+        for view in deckView.subviews {
+            view.removeFromSuperview()
+        }
+        for movie in movies {
+            let cardView = CardView(movie: movie)
+            cardView.delegate = self
+            deckView.addSubview(cardView)
+            cardView.fillSuperview()
+        }
+
+        cardViews = deckView.subviews.map({ ($0 as? CardView)! })
+        topCardView = cardViews.last
+    }
+    
+    func updateCardView() {
+        self.topCardView?.removeFromSuperview()
+        guard !self.cardViews.isEmpty else { return }
+        self.cardViews.remove(at: self.cardViews.count - 1)
+        self.topCardView = self.cardViews.last
+    }
+    
+    func setStatLabels() {
+        if let user = sceneDelegate.user {
+            
+            self.excludeStat.setTitle(" \(user.excludedCount)", for: .normal)
+            self.watchlistStat.setTitle(" \(user.watchListCount)", for: .normal)
+            self.skipStat.setTitle(" \(user.skippedCount)", for: .normal)
+            
+        } else if let user = sceneDelegate.localUser {
+            
+            self.excludeStat.setTitle(" \(user.excluded.count)", for: .normal)
+            self.watchlistStat.setTitle(" \(user.watchlist.count)", for: .normal)
+            self.skipStat.setTitle(" \(user.skipped.count)", for: .normal)
+            
+        }
+
+    }
+    
+    
+    func fetchFilterAndMovies() {
+        FilterService.fetchFilter { filter in
+            self.fetchMovies(filter: filter)
+        }
+    }
+    
+    func fetchMovies(filter: Filter) {
+        if filter.page == filter.totalPages { return }  //TODO: Present message about changing filter
+        
+        TmdbService.fetchMovies(completion: { movies in
+            self.moviesToDisplay.append(contentsOf: movies)
+            
+            if self.moviesToDisplay.count > 15 {
+                self.movies = self.moviesToDisplay
+            } else {
+                self.fetchMovies(filter: filter)
+            }
+        })
+    }
+    
+    func configureUI() {
+        backgroundColor = .white
+        
+        let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
+        let statsStack = UIStackView(arrangedSubviews: [excludeStat, watchlistStat, skipStat])
+        
+        statsStack.spacing = 10
+        
+        let alignmentStack = UIStackView()
+        alignmentStack.axis = .vertical
+        alignmentStack.alignment = .leading
+        alignmentStack.addArrangedSubview(statsStack)
+        alignmentStack.heightAnchor.constraint(equalToConstant: 20).isActive = true
+
+        
+        let stack = UIStackView(arrangedSubviews: [alignmentStack, midStack, bottomStack])
+        stack.spacing = 12
+        stack.axis = .vertical
+
+        addSubview(stack)
+        stack.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+                
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
+        
+        stack.bringSubviewToFront(deckView)
+    }
+    
+    func createStatIcon(statIcon: UIImage?) -> UIButton {
+        let icon = statIcon?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 12))
+        let statView = UIButton(type: .system)
+        statView.isEnabled = false
+        statView.setImage(icon, for: .normal)
+        statView.setTitleColor(.black, for: .normal)
+        statView.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        return statView
+    }
+    
+}
+
+extension SwipeView: CardViewDelegate {
+    func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie) {
+        delegate?.showMovieDetails(for: movie)
+    }
+    
+    func cardView(_ view: CardView, didLikeMovie: Bool) {
+        let movieId = view.movie.id
+                
+        didLikeMovie ? sceneDelegate.addToSkipped(movie: movieId) : sceneDelegate.addToExcluded(movie: movieId)
+        
+        setStatLabels()
+        
+        view.removeFromSuperview()
+        self.cardViews.removeAll(where: { view == $0 })
+        self.topCardView = cardViews.last
+    }
+    
+}
+
+extension SwipeView: BottomControlsStackViewDelegate {
+    func handleSkip() {
+        if swipeAnimationReady {
+            guard let topCard = topCardView else { return }
+            sceneDelegate.addToSkipped(movie: topCard.movie.id)
+            performSwipeAnimation(topCard: topCard, shouldExclude: false)
+            setStatLabels()
+        }
+    }
+    func handleExclude() {
+        if swipeAnimationReady {
+            guard let topCard = topCardView else { return }
+            sceneDelegate.addToExcluded(movie: topCard.movie.id)
+            performSwipeAnimation(topCard: topCard, shouldExclude: true)
+            setStatLabels()
+        }
+    }
+    func handleAddWatchlist() {
+        guard let topCard = topCardView else { return }
+        sceneDelegate.addToWatchlist(movie: topCard.movie.id)
+        setStatLabels()
+        updateCardView()
+    }
+    func handleShowFilter() {
+        delegate?.showFilter()
+    }
+
+}

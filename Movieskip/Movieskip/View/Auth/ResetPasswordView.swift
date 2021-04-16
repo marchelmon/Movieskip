@@ -61,7 +61,7 @@ class ResetPasswordView: UIView {
             return
         }
         AuthService.resetUserPassword(email: email) { error in
-            if let error = error {
+            if error != nil {
                 self.delegate?.showAlert(text: "Something went wrong, check your email or try again", alertAction: nil)
                 return
             }
