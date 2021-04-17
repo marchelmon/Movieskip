@@ -19,6 +19,7 @@ class MovieskipController: UIViewController {
     private let topStack = HomeNavigationStackView()
     
     let swipeView = SwipeView()
+    let watchlistView = WatchlistView()
         
     //MARK: - Lifecycle
     
@@ -76,9 +77,13 @@ class MovieskipController: UIViewController {
         topStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
         swipeView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        
         view.addSubview(swipeView)
         swipeView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 20, paddingBottom: 20)
-                
+             
+        
+        
     }
     
 }
