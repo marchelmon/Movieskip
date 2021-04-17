@@ -20,6 +20,7 @@ class MovieskipController: UIViewController {
     
     let swipeView = SwipeView()
     let watchlistView = WatchlistView()
+    let userView = UserView()
         
     //MARK: - Lifecycle
     
@@ -29,6 +30,8 @@ class MovieskipController: UIViewController {
         configureUI()
         
         swipeView.delegate = self
+        watchlistView.delegate = self
+        //userView.delegate = self
         
     }
     
@@ -73,17 +76,26 @@ class MovieskipController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         
+        userView.isHidden = true
+        watchlistView.isHidden = false
+        swipeView.isHidden = true
+        
         view.addSubview(topStack)
         topStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
         swipeView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
+        watchlistView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        userView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
         view.addSubview(swipeView)
-        swipeView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 20, paddingBottom: 20)
-             
-        
-        
+        swipeView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5)
+
+        view.addSubview(watchlistView)
+        watchlistView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5)
+
+        view.addSubview(userView)
+        userView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5)
+
     }
     
 }
@@ -129,5 +141,21 @@ extension MovieskipController: AuthenticationDelegate {
                 self.presentUsernameSelectionView()
             }
         }
+    }
+}
+
+extension MovieskipController: WatchlistViewDelegate {
+    func goToCombineWatchlist() {
+        let controller = CombineWatchlistController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func presentMovieDetails(movie: Movie) {
+        let controller = DetailsController(movie: movie)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
 }
