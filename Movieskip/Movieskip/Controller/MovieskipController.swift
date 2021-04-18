@@ -31,7 +31,7 @@ class MovieskipController: UIViewController {
         
         swipeView.delegate = self
         watchlistView.delegate = self
-        //userView.delegate = self
+        userView.delegate = self
         
     }
     
@@ -76,26 +76,22 @@ class MovieskipController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         
-        userView.isHidden = true
-        watchlistView.isHidden = false
+        userView.isHidden = false
+        watchlistView.isHidden = true
         swipeView.isHidden = true
         
         view.addSubview(topStack)
         topStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
         
-        swipeView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        watchlistView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        userView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
         view.addSubview(swipeView)
-        swipeView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5)
+        swipeView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5, width: view.frame.width)
 
         view.addSubview(watchlistView)
-        watchlistView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5)
+        watchlistView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5, width: view.frame.width)
 
         view.addSubview(userView)
-        userView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5)
-
+        userView.anchor(top: topStack.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, paddingTop: 5, width: view.frame.width)
+        
     }
     
 }
@@ -116,10 +112,10 @@ extension MovieskipController: SwipeViewDelegate {
     }
     
     func presentSelectUsername() {
-        
+        presentUsernameSelectionView()
     }
     func presentLogin() {
-        
+        presentLoginController()
     }
 }
 
@@ -157,5 +153,15 @@ extension MovieskipController: WatchlistViewDelegate {
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+}
+
+extension MovieskipController: UserViewDelegate {
+    func userPressedLogout() {
+        logout()
+    }
+    
+    func userPressedRegister() {
+        presentLoginController()
     }
 }

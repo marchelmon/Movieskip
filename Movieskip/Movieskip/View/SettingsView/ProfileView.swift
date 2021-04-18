@@ -9,9 +9,9 @@ import UIKit
 import Firebase
 
 
-protocol SettingsProfileDelegate: class {
+protocol ProfileDelegate: class {
     func handleLogout()
-    func profileViewGoToRegister()
+    func profileGoToRegister()
 }
 
 class ProfileView: UIView {
@@ -20,7 +20,7 @@ class ProfileView: UIView {
         
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    weak var delegate: SettingsProfileDelegate?
+    weak var delegate: ProfileDelegate?
     
     private lazy var usernameLabel: UILabel = {
         let label = UILabel()
@@ -77,7 +77,8 @@ class ProfileView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-    
+        
+        
         shouldRegisterView.delegate = self
         
         configureUI()
@@ -91,7 +92,7 @@ class ProfileView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
-        delegate?.profileViewGoToRegister()
+        delegate?.profileGoToRegister()
     }
     
     @objc func handleLogout() {
@@ -138,12 +139,11 @@ class ProfileView: UIView {
     
     func showRegisterContent() {
         addSubview(shouldRegisterView)
-        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20, height: 200)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
     }
     
     func addTmdbAttribution() {
         addSubview(tmdbImage)
-        tmdbImage.centerX(inView: self)
         tmdbImage.anchor(left: leftAnchor, bottom: restoreButton.topAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 30, paddingRight: 30)
         
         let sourceLabel = UILabel()
@@ -174,6 +174,6 @@ class ProfileView: UIView {
 
 extension ProfileView: ShouldRegisterDelegate {
     func goToRegister() {
-        delegate?.profileViewGoToRegister()
+        delegate?.profileGoToRegister()
     }
 }

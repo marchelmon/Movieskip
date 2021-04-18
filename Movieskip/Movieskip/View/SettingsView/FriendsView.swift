@@ -10,8 +10,8 @@ import Firebase
 
 private let cellIdentifier = "FriendsCell"
 
-protocol SettingsFriendsDelegate: class {
-    func friendsViewGoToRegister()
+protocol FriendsDelegate: class {
+    func friendsGoToRegister()
 }
 
 class FriendsView: UIView {
@@ -20,7 +20,7 @@ class FriendsView: UIView {
 
     private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    weak var delegate: SettingsFriendsDelegate?
+    weak var delegate: FriendsDelegate?
     
     var usersToDisplay = [User]()
         
@@ -81,7 +81,7 @@ class FriendsView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
-        delegate?.friendsViewGoToRegister()
+        delegate?.friendsGoToRegister()
     }
     
     @objc func handleSearchTextChanged(sender: UITextField) {
@@ -245,6 +245,6 @@ extension FriendsView: FriendCellDelegate {
 
 extension FriendsView: ShouldRegisterDelegate {
     func goToRegister() {
-        delegate?.friendsViewGoToRegister()
+        delegate?.friendsGoToRegister()
     }
 }
