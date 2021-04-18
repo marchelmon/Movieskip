@@ -10,8 +10,8 @@ import Firebase
 
 private let cellIdentifier = "FriendsCell"
 
-protocol SettingsFriendsDelegate: class {
-    func friendsViewGoToRegister()
+protocol FriendsDelegate: class {
+    func friendsGoToRegister()
 }
 
 class FriendsView: UIView {
@@ -20,7 +20,7 @@ class FriendsView: UIView {
 
     private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    weak var delegate: SettingsFriendsDelegate?
+    weak var delegate: FriendsDelegate?
     
     var usersToDisplay = [User]()
         
@@ -52,40 +52,26 @@ class FriendsView: UIView {
         table.separatorStyle = .none
         return table
     }()
+   
+    private let shouldRegisterView = ShouldRegisterView()
     
-    private let shouldRegisterText: UILabel = {
-        let label = UILabel()
-        label.text = "The main purpose of this app can only be available with an account. Read more... "
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.numberOfLines = 0
-        label.textColor = K.MAIN_COLOR
-        return label
-    } ()
-        
-    private let registerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Register", for: .normal)
-        button.setTitleColor(K.MAIN_COLOR, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
-        button.layer.cornerRadius = 8
-        button.layer.borderWidth = 3
-        button.layer.borderColor = K.MAIN_COLOR.cgColor
-        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
-        return button
-    }()
 
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
-        configureAndShowFriends()
-        
-        configureUI()
+
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
+        
+        shouldRegisterView.delegate = self
+        
+        configureAndShowFriends()
+                
+        Auth.auth().currentUser != nil ? showFriendsView() : showRegisterContent()
+
     }
     
     required init?(coder: NSCoder) {
@@ -95,7 +81,7 @@ class FriendsView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
-        delegate?.friendsViewGoToRegister()
+        delegate?.friendsGoToRegister()
     }
     
     @objc func handleSearchTextChanged(sender: UITextField) {
@@ -161,16 +147,6 @@ class FriendsView: UIView {
         tableView.reloadData()
     }
     
-    func configureUI() {
-        backgroundColor = .systemGroupedBackground
-        
-        if Auth.auth().currentUser != nil {
-            showFriendsView()
-        } else {
-            showRegisterContent()
-        }
-    }
-    
     func showFriendsView() {
         addSubview(searchTextField)
         searchTextField.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 25, paddingRight: 25, height: 40)
@@ -194,16 +170,8 @@ class FriendsView: UIView {
     }
     
     func showRegisterContent() {
-        let registerView = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 200))
-        registerView.backgroundColor = .white
-        registerView.addSubview(shouldRegisterText)
-        shouldRegisterText.anchor(top: registerView.topAnchor, left: registerView.leftAnchor, right: registerView.rightAnchor, paddingTop: 30, paddingLeft: 20, paddingRight: 20)
-        registerView.addSubview(registerButton)
-        registerButton.centerX(inView: registerView)
-        registerButton.anchor(top: shouldRegisterText.bottomAnchor, paddingTop: 20, width: 170)
-        
-        addSubview(registerView)
-        registerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, height: 200)
+        addSubview(shouldRegisterView)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20, height: 200)
     }
     
 }
@@ -269,5 +237,14 @@ extension FriendsView: FriendCellDelegate {
         removeFriendFromUser(user: user)
         
         cell.friendButton.setImage(cell.addFriendImage, for: .normal)
+    }
+}
+
+
+//MARK: - ShoudlRegisterDelegate
+
+extension FriendsView: ShouldRegisterDelegate {
+    func goToRegister() {
+        delegate?.friendsGoToRegister()
     }
 }

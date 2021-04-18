@@ -40,6 +40,11 @@
 		3CB20CFA261EF227006D869A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CF9261EF227006D869A /* LoginView.swift */; };
 		3CB20CFE261EF241006D869A /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20CFD261EF241006D869A /* ResetPasswordView.swift */; };
 		3CB20D01261EF250006D869A /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D00261EF250006D869A /* RegisterView.swift */; };
+		3CB20D062626334D006D869A /* ShouldRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D052626334C006D869A /* ShouldRegisterView.swift */; };
+		3CB20D092628B284006D869A /* MovieskipController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D082628B284006D869A /* MovieskipController.swift */; };
+		3CB20D0E2628B7B8006D869A /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D0D2628B7B8006D869A /* SwipeView.swift */; };
+		3CB20D11262B7A63006D869A /* WatchlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D10262B7A63006D869A /* WatchlistView.swift */; };
+		3CB20D14262B7AAD006D869A /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB20D13262B7AAD006D869A /* UserView.swift */; };
 		3CF5B6B525DD8E00007A18B7 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B6B425DD8E00007A18B7 /* Genre.swift */; };
 		3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70825E15BA8007A18B7 /* DetailsController.swift */; };
 		3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B70C25E16312007A18B7 /* Actor.swift */; };
@@ -92,6 +97,11 @@
 		3CB20CF9261EF227006D869A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3CB20CFD261EF241006D869A /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		3CB20D00261EF250006D869A /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		3CB20D052626334C006D869A /* ShouldRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShouldRegisterView.swift; sourceTree = "<group>"; };
+		3CB20D082628B284006D869A /* MovieskipController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieskipController.swift; sourceTree = "<group>"; };
+		3CB20D0D2628B7B8006D869A /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
+		3CB20D10262B7A63006D869A /* WatchlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistView.swift; sourceTree = "<group>"; };
+		3CB20D13262B7AAD006D869A /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		3CF5B6B425DD8E00007A18B7 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		3CF5B70825E15BA8007A18B7 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
 		3CF5B70C25E16312007A18B7 /* Actor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actor.swift; sourceTree = "<group>"; };
@@ -187,6 +197,10 @@
 				3CF5B76C25EE6029007A18B7 /* SettingsView */,
 				3C37DB5425FFBC67006A35FB /* WatchlistView */,
 				3CB20CC726077CFC006D869A /* MatchingResultsView.swift */,
+				3CB20D052626334C006D869A /* ShouldRegisterView.swift */,
+				3CB20D0D2628B7B8006D869A /* SwipeView.swift */,
+				3CB20D10262B7A63006D869A /* WatchlistView.swift */,
+				3CB20D13262B7AAD006D869A /* UserView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -203,6 +217,7 @@
 				3C66623B25F64C9900759552 /* UsernameController.swift */,
 				3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */,
 				3CB20CC026051111006D869A /* CombineWatchlistController.swift */,
+				3CB20D082628B284006D869A /* MovieskipController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -454,12 +469,15 @@
 				3CB20CBE2604E26C006D869A /* WatchlistCollectionCell.swift in Sources */,
 				3C7DC80325D81EAA00FE7A61 /* Movie.swift in Sources */,
 				3CB20CC126051111006D869A /* CombineWatchlistController.swift in Sources */,
+				3CB20D092628B284006D869A /* MovieskipController.swift in Sources */,
 				3C7DC7B125D6755B00FE7A61 /* AppDelegate.swift in Sources */,
 				3C7DC81025D8336800FE7A61 /* TmdbService.swift in Sources */,
 				3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */,
+				3CB20D062626334D006D869A /* ShouldRegisterView.swift in Sources */,
 				3CB20CFE261EF241006D869A /* ResetPasswordView.swift in Sources */,
 				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
 				3CB20CC826077CFC006D869A /* MatchingResultsView.swift in Sources */,
+				3CB20D14262B7AAD006D869A /* UserView.swift in Sources */,
 				3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */,
 				3C66623F25F79B0200759552 /* LocalUser.swift in Sources */,
 				3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */,
@@ -478,12 +496,14 @@
 				3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */,
 				3C7DC7E625D6C27700FE7A61 /* CardView.swift in Sources */,
 				3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */,
+				3CB20D11262B7A63006D869A /* WatchlistView.swift in Sources */,
 				3C7DC7DE25D688AF00FE7A61 /* BottomControlsStackView.swift in Sources */,
 				3CF5B76A25EBFFB7007A18B7 /* ProfileView.swift in Sources */,
 				3C37DB5825FFBC81006A35FB /* MovieTable.swift in Sources */,
 				3CF5B70D25E16312007A18B7 /* Actor.swift in Sources */,
 				3CF5B77525EE60C3007A18B7 /* FriendCell.swift in Sources */,
 				3CF5B77825EFF823007A18B7 /* FailedAuthMessageView.swift in Sources */,
+				3CB20D0E2628B7B8006D869A /* SwipeView.swift in Sources */,
 				3CB20CFA261EF227006D869A /* LoginView.swift in Sources */,
 				3C37DB5225FFBC5C006A35FB /* MovieCollection.swift in Sources */,
 			);

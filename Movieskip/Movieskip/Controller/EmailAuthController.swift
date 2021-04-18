@@ -14,7 +14,7 @@ protocol EmailAuthDelegate: class {
     func showResetPassword()
     func handleLogin(user: User)
     func handleRegister()
-    func showAlert(alert: UIAlertController)
+    func showAlert(text: String, alertAction: UIAlertAction?)
 }
 
 class EmailAuthController: UIViewController {
@@ -103,10 +103,13 @@ extension EmailAuthController: EmailAuthDelegate {
         delegate?.authenticationComplete()
     }
     
-    func showAlert(alert: UIAlertController) {
-        present(alert, animated: true) {
-            self.showLogin()
-        }
+    func showAlert(text: String, alertAction: UIAlertAction?) {
+        
+        let action = alertAction != nil ? alertAction! : UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
 }

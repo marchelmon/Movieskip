@@ -113,11 +113,10 @@ class LoginController: UIViewController {
                     let credential = FacebookAuthProvider.credential(withAccessToken: token)
                     self.socialSignIn(credential: credential)
                 }
-                print("FACEBOOK LOGIN SUCCEEDED")
             case .cancelled:
-                print("USER cancelled facebook login")
+                print("FB cancel")
             case .failed(_):
-                print("DEBUG ERROR: FACEBOOK LOGIN FAILED")
+                self.showAlert(text: "DEBUG ERROR: FACEBOOK LOGIN FAILED") //TODO
             }
         }
     }
@@ -136,6 +135,9 @@ class LoginController: UIViewController {
     }
     
     func handleUserLoggedIn(snapshot: DocumentSnapshot?, error: Error?) {
+        if let error = error {
+            showAlert(text: "handleuserloggedIn: \(error.localizedDescription)") //TODO
+        }
         if let snapshot = snapshot {
             if let userData = snapshot.data() {
                 self.sceneDelegate.setUser(user: User(dictionary: userData))
@@ -147,17 +149,26 @@ class LoginController: UIViewController {
     
     func socialSignIn(credential: AuthCredential) {
         AuthService.socialSignIn(credential: credential) { error in
-            if error != nil {
-                //TODO: Show alert
+            if let error = error {
+                self.showAlert(text: error.localizedDescription)
                 return
             }
             if let user = Auth.auth().currentUser {
                 AuthService.fetchLoggedInUser(uid: user.uid, completion: self.handleUserLoggedIn)
+            } else {
+                self.showAlert(text: "Something went wrong, please try again or restart the app")
             }
         }
     }
     
     //MARK: - Helpers
+    
+    func showAlert(text: String) {
+        let alert = UIAlertController(title: text, message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
     
     func configureUI() {
         
@@ -180,26 +191,14 @@ class LoginController: UIViewController {
 //MARK: - GIDSignInDelegate Google
 
 extension LoginController: GIDSignInDelegate {
-
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
 
-        if error != nil {
-            //TODO: Show alert
-            return
-        }
+        if error != nil { return }
         
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
      
         socialSignIn(credential: credential)
-    
     }
-
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
-        print("DID DISCONNECT GOOGLE")
-    }
-
 }
 

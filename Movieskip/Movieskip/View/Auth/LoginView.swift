@@ -16,14 +16,7 @@ class LoginView: UIView {
     
     private let email = CustomTextField(placeholder: "Email")
     private let password = CustomTextField(placeholder: "Password")
-    
-    private let errorMessage: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.white
-        label.numberOfLines = 0
-        return label
-    }()
-    
+
     private let loginButton: AuthButton = {
         let button = AuthButton(type: .system)
         button.setTitle("Login", for: .normal)
@@ -72,10 +65,7 @@ class LoginView: UIView {
         
         addSubview(email)
         email.anchor(left: leftAnchor, bottom: password.topAnchor, right: rightAnchor, paddingBottom: 12)
-        
-        addSubview(errorMessage)
-        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 60)
-        
+         
     }
     
     required init?(coder: NSCoder) {
@@ -105,26 +95,25 @@ class LoginView: UIView {
         if let error = error {
             if let errorCode = AuthErrorCode(rawValue: error._code) {
                 //hud.dismiss
-                self.errorMessage.alpha = 1
-                
+                var errorText = ""
                 switch errorCode.rawValue {
                 case 17007:
-                    self.errorMessage.text = "The email is already in use"
+                    errorText = "The email is already in use"
                 case 17008:
-                    self.errorMessage.text = "Please enter a valid email address"
+                    errorText = "Please enter a valid email address"
                 case 17009:
-                    self.errorMessage.text = "The password is not correct. If you have logged in with google previously, please do so again."
+                    errorText = "The password is not correct"
                 case 17010:
-                    self.errorMessage.text = "You've made too many attempts to login. Please try again later"
+                    errorText = "You've made too many attempts to login. Restore your password or try again later"
                 case 17011:
-                    self.errorMessage.text = "No user found with those credentials"
+                    errorText = "No user found with this email"
                 case 17012:
-                    self.errorMessage.text = "Please use the same login method as you have previously"
+                    errorText = "Please log in with the same auth method as when you created your account "
                 default:
-                    print("ERRORCODE: \(errorCode.rawValue)")
-                    print("ERROR \(error.localizedDescription)")
-                    self.errorMessage.text = "An error occured: please try closing the app and starting again"
+                    errorText = "An unknown error occured: please try closing the app and starting again"
                 }
+                self.delegate?.showAlert(text: errorText, alertAction: nil)
+
             }
             return
         }

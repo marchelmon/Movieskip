@@ -15,13 +15,6 @@ class ResetPasswordView: UIView {
     
     private let email = CustomTextField(placeholder: "Email")
     
-    private let errorMessage: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.white
-        label.numberOfLines = 0
-        return label
-    }()
-    
     private let resetPasswordButton: AuthButton = {
         let button = AuthButton(type: .system)
         button.setTitle("Reset password", for: .normal)
@@ -54,9 +47,6 @@ class ResetPasswordView: UIView {
         addSubview(email)
         email.anchor(left: leftAnchor, bottom: resetPasswordButton.topAnchor, right: rightAnchor, paddingBottom: 12)
         
-        addSubview(errorMessage)
-        errorMessage.anchor(left: leftAnchor, bottom: email.topAnchor, right: rightAnchor, paddingBottom: 60)
-
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -67,20 +57,16 @@ class ResetPasswordView: UIView {
     @objc func resetPassword() {
         guard let email = email.text else { return }
         if !email.isValidEmail(){
-            errorMessage.text = "Please enter a valid email address"
-            errorMessage.alpha = 1
+            delegate?.showAlert(text: "Please enter a valid email address", alertAction: nil)
             return
         }
         AuthService.resetUserPassword(email: email) { error in
-            if let error = error {
-                print("ERROR RESET PASSWORD: \(error.localizedDescription)")
-                self.errorMessage.text = "Something went wrong, check your email or try again"
-                self.errorMessage.alpha = 1
+            if error != nil {
+                self.delegate?.showAlert(text: "Something went wrong, check your email or try again", alertAction: nil)
                 return
             }
-            let alert = UIAlertController(title: "Check your email", message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.delegate?.showAlert(alert: alert)
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: { _ in self.delegate?.showLogin() })
+            self.delegate?.showAlert(text: "Check your email to continue password restoration", alertAction: alertAction)
         }
     }
     
