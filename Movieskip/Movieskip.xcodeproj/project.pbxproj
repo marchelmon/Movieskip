@@ -22,7 +22,7 @@
 		3C7DC7BA25D6755E00FE7A61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C7DC7B925D6755E00FE7A61 /* Assets.xcassets */; };
 		3C7DC7BD25D6755E00FE7A61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C7DC7BB25D6755E00FE7A61 /* LaunchScreen.storyboard */; };
 		3C7DC7D225D67B5B00FE7A61 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7D125D67B5B00FE7A61 /* HomeController.swift */; };
-		3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7D425D67F0B00FE7A61 /* HomeNavigationStackView.swift */; };
+		3C7DC7D525D67F0B00FE7A61 /* NavigationButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7D425D67F0B00FE7A61 /* NavigationButtons.swift */; };
 		3C7DC7D825D6826700FE7A61 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7D725D6826700FE7A61 /* Constants.swift */; };
 		3C7DC7DB25D684A700FE7A61 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7DA25D684A700FE7A61 /* Extensions.swift */; };
 		3C7DC7DE25D688AF00FE7A61 /* BottomControlsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7DC7DD25D688AF00FE7A61 /* BottomControlsStackView.swift */; };
@@ -79,7 +79,7 @@
 		3C7DC7BC25D6755E00FE7A61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C7DC7BE25D6755E00FE7A61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C7DC7D125D67B5B00FE7A61 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
-		3C7DC7D425D67F0B00FE7A61 /* HomeNavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationStackView.swift; sourceTree = "<group>"; };
+		3C7DC7D425D67F0B00FE7A61 /* NavigationButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButtons.swift; sourceTree = "<group>"; };
 		3C7DC7D725D6826700FE7A61 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3C7DC7DA25D684A700FE7A61 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3C7DC7DD25D688AF00FE7A61 /* BottomControlsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomControlsStackView.swift; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 		3CF5B76D25EE604C007A18B7 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
-				3C7DC7D425D67F0B00FE7A61 /* HomeNavigationStackView.swift */,
+				3C7DC7D425D67F0B00FE7A61 /* NavigationButtons.swift */,
 				3C7DC7DD25D688AF00FE7A61 /* BottomControlsStackView.swift */,
 				3C7DC7E525D6C27700FE7A61 /* CardView.swift */,
 			);
@@ -493,7 +493,7 @@
 				3CF5B70925E15BA8007A18B7 /* DetailsController.swift in Sources */,
 				3C7DC7D225D67B5B00FE7A61 /* HomeController.swift in Sources */,
 				3C49BA6025DC2CA60069782B /* FilterView.swift in Sources */,
-				3C7DC7D525D67F0B00FE7A61 /* HomeNavigationStackView.swift in Sources */,
+				3C7DC7D525D67F0B00FE7A61 /* NavigationButtons.swift in Sources */,
 				3C7DC7E625D6C27700FE7A61 /* CardView.swift in Sources */,
 				3CF5B71625E40ED4007A18B7 /* DetailsView.swift in Sources */,
 				3CB20D11262B7A63006D869A /* WatchlistView.swift in Sources */,

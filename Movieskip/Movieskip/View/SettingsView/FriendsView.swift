@@ -171,7 +171,7 @@ class FriendsView: UIView {
     
     func showRegisterContent() {
         addSubview(shouldRegisterView)
-        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20, height: 200)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
     }
     
 }

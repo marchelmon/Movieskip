@@ -16,7 +16,7 @@ class MovieskipController: UIViewController {
     
     private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    private let topStack = HomeNavigationStackView()
+    private let topStack = NavigationButtons()
     
     let swipeView = SwipeView()
     let watchlistView = WatchlistView()
@@ -29,6 +29,7 @@ class MovieskipController: UIViewController {
         
         configureUI()
         
+        topStack.delegate = self
         swipeView.delegate = self
         watchlistView.delegate = self
         userView.delegate = self
@@ -41,6 +42,30 @@ class MovieskipController: UIViewController {
         if swipeView.topCardView == nil {
             swipeView.configureUserAndFetchMovies()
         }
+    }
+    
+    //MARK: - Actions
+    
+    func showSwipeView() {
+        clearView()
+        swipeView.isHidden = false
+    }
+    
+    func showWatchlistView() {
+        clearView()
+        watchlistView.isHidden = false
+    }
+    
+    func showUserView() {
+        clearView()
+        userView.isHidden = false
+        
+    }
+    
+    func clearView() {
+        swipeView.isHidden = true
+        userView.isHidden = true
+        watchlistView.isHidden = true
     }
     
     func logout() {
@@ -72,6 +97,8 @@ class MovieskipController: UIViewController {
             self.present(nav, animated: true, completion: nil)
         }
     }
+    
+    //MARK: - Helpers
     
     func configureUI() {
         view.backgroundColor = .white
@@ -164,4 +191,20 @@ extension MovieskipController: UserViewDelegate {
     func userPressedRegister() {
         presentLoginController()
     }
+}
+
+extension MovieskipController: NavigationButtonsDelegate {
+    func shouldShowSwipe() {
+        showSwipeView()
+    }
+    
+    func shouldShowWatchlist() {
+        showWatchlistView()
+    }
+    
+    func shouldShowUser() {
+        showUserView()
+    }
+    
+    
 }

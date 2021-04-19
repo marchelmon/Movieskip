@@ -72,7 +72,7 @@ class WatchlistView: UIView {
     //MARK: - Actions
     
     func fetchAndConfigureMovies() {
-        let watchlist = sceneDelegate.user != nil ? sceneDelegate.user!.watchlist : sceneDelegate.localUser!.watchlist
+        guard let watchlist = sceneDelegate.user != nil ? sceneDelegate.user?.watchlist : sceneDelegate.localUser?.watchlist else { return }
         
         if watchlist.count == sceneDelegate.userWatchlist.count {
             displayMovies()

@@ -7,16 +7,17 @@
 
 import UIKit
 
-protocol HomeNavigationStackViewDelegate: class {
+protocol NavigationButtonsDelegate: class {
+    func shouldShowSwipe()
     func shouldShowWatchlist()
-    func shouldShowSettings()
+    func shouldShowUser()
 }
 
-class HomeNavigationStackView: UIStackView {
+class NavigationButtons: UIStackView {
     
     //MARK: - Properties
     
-    weak var delegate: HomeNavigationStackViewDelegate?
+    weak var delegate: NavigationButtonsDelegate?
 
     private lazy var movieskipIcon = UIImageView(image: K.MOVIESKIP_ICON)
     private let watchListButton = UIButton(type: .system)
@@ -64,7 +65,7 @@ class HomeNavigationStackView: UIStackView {
     }
     
     @objc func handleShowSettings() {
-        delegate?.shouldShowSettings()
+        delegate?.shouldShowUser()
     }
     
 }
