@@ -50,16 +50,13 @@ class MovieskipController: UIViewController {
         clearView()
         swipeView.isHidden = false
     }
-    
     func showWatchlistView() {
         clearView()
         watchlistView.isHidden = false
     }
-    
     func showUserView() {
         clearView()
         userView.isHidden = false
-        
     }
     
     func clearView() {
