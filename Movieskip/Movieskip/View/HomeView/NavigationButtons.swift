@@ -18,12 +18,6 @@ class NavigationButtons: UIStackView {
     //MARK: - Properties
     
     weak var delegate: NavigationButtonsDelegate?
-
-    private lazy var movieskipIcon = UIImageView(image: K.MOVIESKIP_ICON)
-    private let watchListButton = UIButton(type: .system)
-    private let userButton = UIButton(type: .system)
-    
-
     
     private let watchlistImage: UIImage? = {
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
@@ -37,30 +31,40 @@ class NavigationButtons: UIStackView {
         return image
     }()
     
+    private let swipeImage: UIImage? = {
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
+        let image = UIImage(systemName: "film", withConfiguration: imageConfig)
+        return image
+    }()
+
+    private lazy var swipeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(swipeImage?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleShowSwipe), for: .touchUpInside)
+        return button
+    }()
     
+    private lazy var watchlistButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(watchlistImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleShowWatchlist), for: .touchUpInside)
+        return button
+    }()
     
-   // let watchlistImage = UIImage(systemName: "text.badge.star", withConfiguration: imageConfig)
-    //let settingsImage = UIImage(systemName: "person", withConfiguration: imageConfig)
+    private lazy var userButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(userImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleShowUser), for: .touchUpInside)
+        return button
+    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        let imageConfig = UIImage.SymbolConfiguration(pointSize: 30)
-//        let watchlistImage = UIImage(systemName: "text.badge.star", withConfiguration: imageConfig)
-//        let settingsImage = UIImage(systemName: "person", withConfiguration: imageConfig)
-        
         heightAnchor.constraint(equalToConstant: 80).isActive = true
         
-        movieskipIcon.contentMode = .scaleAspectFit
-        
-        watchListButton.setImage(watchlistImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
-        userButton.setImage(userImage?.withTintColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
-        
-        watchListButton.addTarget(self, action: #selector(handleShowWatchlist), for: .touchUpInside)
-        userButton.addTarget(self, action: #selector(handleShowUser), for: .touchUpInside)
-        
-        
-        [watchListButton, UIView(), movieskipIcon, UIView(), userButton].forEach { view in
+        [watchlistButton, UIView(), swipeButton, UIView(), userButton].forEach { view in
             addArrangedSubview(view)
         }
         
@@ -77,13 +81,20 @@ class NavigationButtons: UIStackView {
     //MARK: - Actions
     
     func clearActiveIcons() {
-        watchListButton.setImage(watchlistImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
+        watchlistButton.setImage(watchlistImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
         userButton.setImage(userImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
+        swipeButton.setImage(swipeImage?.withTintColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), renderingMode: .alwaysOriginal), for: .normal)
+    }
+    
+    @objc func handleShowSwipe() {
+        clearActiveIcons()
+        swipeButton.setImage(swipeImage?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal), for: .normal)
+        delegate?.shouldShowSwipe()
     }
     
     @objc func handleShowWatchlist() {
         clearActiveIcons()
-        watchListButton.setImage(watchlistImage?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal), for: .normal)
+        watchlistButton.setImage(watchlistImage?.withTintColor(.systemBlue, renderingMode: .alwaysOriginal), for: .normal)
         delegate?.shouldShowWatchlist()
     }
     
