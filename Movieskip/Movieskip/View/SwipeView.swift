@@ -13,6 +13,7 @@ protocol SwipeViewDelegate: class {
     func showFilter()
     func presentLoginController()
     func presentUsernameSelectionView()
+    func swipeViewAlert(text: String, alertAction: UIAlertAction?)
 }
 
 class SwipeView: UIView {
@@ -74,8 +75,7 @@ class SwipeView: UIView {
                 AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (snapshot, error) in
                     
                     if let error = error {
-                        //TODO: Alert till usern att något gick fel med hämtningen
-                        print("ERROR-login-home: \(error.localizedDescription)")
+                        self.delegate?.swipeViewAlert(text: "Error fetching user data: \(error.localizedDescription)", alertAction: nil)
                     }
                     if let snapshot = snapshot {
                         if let userData = snapshot.data() {
@@ -161,7 +161,6 @@ class SwipeView: UIView {
 
     }
     
-    
     func fetchFilterAndMovies() {
         FilterService.fetchFilter { filter in
             self.fetchMovies(filter: filter)
@@ -169,9 +168,21 @@ class SwipeView: UIView {
     }
     
     func fetchMovies(filter: Filter) {
-        if filter.page == filter.totalPages { return }  //TODO: Present message about changing filter
+        if filter.page == filter.totalPages {
+            delegate?.swipeViewAlert(text: "There are no more movies with this active filter, change genres or years to bring new content", alertAction: nil)
+            return
+        }
         
-        TmdbService.fetchMovies(completion: { movies in
+        TmdbService.fetchMovies(completion: { (movies, error) in
+            
+            if error != nil {
+                self.delegate?.swipeViewAlert(text: "The movie database (TMDB) could not be reached, try again later or restart the app", alertAction: nil)
+                return
+            }
+            guard let movies = movies else {
+                self.delegate?.swipeViewAlert(text: "A problem occured fetching movies, try changing your filter or restarting the app", alertAction: nil)
+                return
+            }
             self.moviesToDisplay.append(contentsOf: movies)
             
             if self.moviesToDisplay.count > 15 {

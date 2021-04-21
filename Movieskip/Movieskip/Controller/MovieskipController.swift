@@ -72,8 +72,7 @@ class MovieskipController: UIViewController {
             sceneDelegate.user = nil
             sceneDelegate.userFriends = []
         } catch {
-            //TODO: ALERT? nä
-            print("Failed to log user out")
+            showAlert(text: "Failed to log out. Try again after restarting the app", alertAction: nil)
         }
     }
     
@@ -93,6 +92,15 @@ class MovieskipController: UIViewController {
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         }
+    }
+    
+    func showAlert(text: String, alertAction: UIAlertAction?) {
+        
+        let action = alertAction != nil ? alertAction! : UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alert = UIAlertController(title: nil, message: text, preferredStyle: .alert)
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Helpers
@@ -140,6 +148,9 @@ extension MovieskipController: SwipeViewDelegate {
     }
     func presentLogin() {
         presentLoginController()
+    }
+    func swipeViewAlert(text: String, alertAction: UIAlertAction?) {
+        showAlert(text: text, alertAction: alertAction)
     }
 }
 

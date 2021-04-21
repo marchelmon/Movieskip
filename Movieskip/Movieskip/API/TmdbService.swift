@@ -14,7 +14,7 @@ struct TmdbService {
     
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    static func fetchMovies(completion: @escaping([Movie]) -> Void) {
+    static func fetchMovies(completion: @escaping([Movie]?, Error?) -> Void) {
         
         let urlString = "\(K.TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"
                 
@@ -32,12 +32,11 @@ struct TmdbService {
                     
                     let moviesResult = data.arrayValue.map({ Movie(data: $0) })
                     removeAlreadySwiped(allMovies: moviesResult) { newMovies in
-                        completion(newMovies)
+                        completion(newMovies, nil)
                     }
                     
                 case .failure(let error):
-                    debugPrint(error)
-                    //TODO: Skicka error om att ändra filter för att få resultat
+                    completion(nil, error)
                 }
             }
         }

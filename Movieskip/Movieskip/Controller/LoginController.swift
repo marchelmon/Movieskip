@@ -116,7 +116,7 @@ class LoginController: UIViewController {
             case .cancelled:
                 print("FB cancel")
             case .failed(_):
-                self.showAlert(text: "DEBUG ERROR: FACEBOOK LOGIN FAILED") //TODO
+                self.showAlert(text: "DEBUG ERROR: FACEBOOK LOGIN FAILED") //TODO: ändra alert?
             }
         }
     }
@@ -136,7 +136,7 @@ class LoginController: UIViewController {
     
     func handleUserLoggedIn(snapshot: DocumentSnapshot?, error: Error?) {
         if let error = error {
-            showAlert(text: "handleuserloggedIn: \(error.localizedDescription)") //TODO
+            showAlert(text: "handleuserloggedIn: \(error.localizedDescription)") //TODO: ändra alert?
         }
         if let snapshot = snapshot {
             if let userData = snapshot.data() {
