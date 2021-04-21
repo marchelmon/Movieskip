@@ -178,6 +178,7 @@ extension MovieskipController: AuthenticationDelegate {
 extension MovieskipController: WatchlistViewDelegate {
     func goToCombineWatchlist() {
         let controller = CombineWatchlistController()
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
@@ -213,6 +214,12 @@ extension MovieskipController: NavigationButtonsDelegate {
     func shouldShowUser() {
         showUserView()
     }
-    
-    
+}
+
+extension MovieskipController: CombineWatchlistDelegate {
+    func goToRegister() {
+        dismiss(animated: true) {
+            self.presentLoginController()
+        }
+    }
 }

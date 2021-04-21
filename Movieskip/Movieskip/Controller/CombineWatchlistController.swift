@@ -116,9 +116,7 @@ class CombineWatchlistController: UIViewController {
     }
     
     @objc func showFriendsView() {
-        shouldRegisterView.isHidden = true
-        matchingResultsView.isHidden = true
-        backFromResultsButton.isHidden = true
+        clearView()
         friendsView.isHidden = false
         
         friendsView.addSubview(friendsLabel)
@@ -136,9 +134,7 @@ class CombineWatchlistController: UIViewController {
     }
     
     func showRegisterContent() {
-        matchingResultsView.isHidden = true
-        backFromResultsButton.isHidden = true
-        friendsView.isHidden = true
+        clearView()
         shouldRegisterView.isHidden = false
         
         view.addSubview(shouldRegisterView)
@@ -146,8 +142,7 @@ class CombineWatchlistController: UIViewController {
     }
     
     @objc func showMatchingResults() {
-        friendsView.isHidden = true
-        shouldRegisterView.isHidden = true
+        clearView()
         matchingResultsView.isHidden = false
         backFromResultsButton.isHidden = false
         
@@ -161,6 +156,15 @@ class CombineWatchlistController: UIViewController {
         matchingResultsView.anchor(top: backFromResultsButton.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                    right: view.rightAnchor, paddingTop: 10, paddingLeft: 20, paddingBottom: 30, paddingRight: 20)
         
+    }
+    
+    //MARK: - Helpers
+    
+    func clearView() {
+        friendsView.isHidden = true
+        shouldRegisterView.isHidden = true
+        matchingResultsView.isHidden = true
+        backFromResultsButton.isHidden = true
     }
     
 }
@@ -215,7 +219,7 @@ extension CombineWatchlistController: MatchingResultsViewDelegate {
 
 extension CombineWatchlistController: ShouldRegisterDelegate {
     func goToRegister() {
-        //TODO: GO to register
+        delegate?.goToRegister()
     }
 }
 
