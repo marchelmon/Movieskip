@@ -48,7 +48,6 @@ class ShouldRegisterView: UIView {
         registerButton.centerX(inView: self)
         registerButton.anchor(top: shouldRegisterText.bottomAnchor, paddingTop: 20, width: 170)
         
-        
     }
     
     required init?(coder: NSCoder) {
@@ -59,6 +58,7 @@ class ShouldRegisterView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
+        print("PRESSED register")
         delegate?.goToRegister()
     }
     

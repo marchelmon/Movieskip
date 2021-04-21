@@ -62,16 +62,16 @@ class FriendsView: UIView {
         super.init(frame: .zero)
 
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
-        
+//        tableView.delegate = self
+//        tableView.dataSource = self
+//        tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
+                
         shouldRegisterView.delegate = self
         
-        configureAndShowFriends()
+       // configureAndShowFriends()
                 
-        Auth.auth().currentUser != nil ? showFriendsView() : showRegisterContent()
-
+       // Auth.auth().currentUser != nil ? showFriendsView() : showRegisterContent()
+showRegisterContent()
     }
     
     required init?(coder: NSCoder) {
@@ -171,7 +171,7 @@ class FriendsView: UIView {
     
     func showRegisterContent() {
         addSubview(shouldRegisterView)
-        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
     }
     
 }

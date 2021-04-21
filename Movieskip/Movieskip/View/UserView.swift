@@ -46,7 +46,6 @@ class UserView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        profileView.isHidden = true
         profileView.delegate = self
         friendsView.delegate = self
         
@@ -95,13 +94,14 @@ class UserView: UIView {
         
         addSubview(profileView)
         profileView.anchor(top: topButtonStack.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor)
+        
+        showFriends()
     }
  
 }
 
 extension UserView: ProfileDelegate {
     func handleLogout() {
-        print("Logout")
         delegate?.userPressedLogout()
     }
     
@@ -111,7 +111,6 @@ extension UserView: ProfileDelegate {
 }
 
 extension UserView: FriendsDelegate {
-    
     func friendsGoToRegister() {
         delegate?.userPressedRegister()
     }
