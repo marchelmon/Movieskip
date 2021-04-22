@@ -39,9 +39,18 @@ class SwipeView: UIView {
 
     private let deckView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemBlue
         view.layer.cornerRadius = 10
         return view
+    }()
+    
+    private let addMoviesButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Fetch new movies", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), for: .normal)
+        button.layer.borderWidth = 5
+        button.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        button.addTarget(self, action: #selector(fetchNewMovies), for: .touchUpInside)
+        return button
     }()
     
     lazy var watchlistStat = createStatIcon(statIcon: K.WATCHLIST_ICON)
@@ -64,7 +73,7 @@ class SwipeView: UIView {
     }
     
     func configureUserAndFetchMovies() {
-        
+        return
         if let user = sceneDelegate.user {
             fetchFilterAndMovies()
             if user.username == "" { delegate?.presentUsernameSelectionView() }
@@ -132,7 +141,6 @@ class SwipeView: UIView {
             deckView.addSubview(cardView)
             cardView.fillSuperview()
         }
-
         cardViews = deckView.subviews.map({ ($0 as? CardView)! })
         topCardView = cardViews.last
     }
@@ -159,6 +167,10 @@ class SwipeView: UIView {
             
         }
 
+    }
+    
+    @objc func fetchNewMovies() {
+        print("FETCHMOVIES")
     }
     
     func fetchFilterAndMovies() {
@@ -195,6 +207,9 @@ class SwipeView: UIView {
     
     func configureUI() {
         backgroundColor = .white
+        
+        addSubview(addMoviesButton)
+        addMoviesButton.centerInSuperview()
         
         let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
