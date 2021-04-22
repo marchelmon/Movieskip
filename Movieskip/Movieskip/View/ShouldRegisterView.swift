@@ -58,7 +58,6 @@ class ShouldRegisterView: UIView {
     //MARK: - Actions
     
     @objc func handleRegister() {
-        print("PRESSED register")
         delegate?.goToRegister()
     }
     

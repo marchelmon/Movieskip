@@ -43,13 +43,13 @@ class SwipeView: UIView {
         return view
     }()
     
-    private let addMoviesButton: UIButton = {
+    private let refillMoviesButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Fetch new movies", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), for: .normal)
         button.layer.borderWidth = 5
         button.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        button.addTarget(self, action: #selector(fetchNewMovies), for: .touchUpInside)
+        button.addTarget(self, action: #selector(refillMovies), for: .touchUpInside)
         return button
     }()
     
@@ -73,7 +73,6 @@ class SwipeView: UIView {
     }
     
     func configureUserAndFetchMovies() {
-        return
         if let user = sceneDelegate.user {
             fetchFilterAndMovies()
             if user.username == "" { delegate?.presentUsernameSelectionView() }
@@ -132,6 +131,7 @@ class SwipeView: UIView {
     
     
     func configureCards() {
+        refillMoviesButton.isHidden = true
         for view in deckView.subviews {
             view.removeFromSuperview()
         }
@@ -150,6 +150,8 @@ class SwipeView: UIView {
         guard !self.cardViews.isEmpty else { return }
         self.cardViews.remove(at: self.cardViews.count - 1)
         self.topCardView = self.cardViews.last
+        print(cardViews.count)
+        if cardViews.count == 0 { refillMoviesButton.isHidden = false }
     }
     
     func setStatLabels() {
@@ -169,14 +171,14 @@ class SwipeView: UIView {
 
     }
     
-    @objc func fetchNewMovies() {
-        print("FETCHMOVIES")
-    }
-    
     func fetchFilterAndMovies() {
         FilterService.fetchFilter { filter in
             self.fetchMovies(filter: filter)
         }
+    }
+    
+    @objc func refillMovies() {
+        fetchMovies(filter: FilterService.filter)
     }
     
     func fetchMovies(filter: Filter) {
@@ -208,9 +210,6 @@ class SwipeView: UIView {
     func configureUI() {
         backgroundColor = .white
         
-        addSubview(addMoviesButton)
-        addMoviesButton.centerInSuperview()
-        
         let spacer = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         let midStack = UIStackView(arrangedSubviews: [spacer, deckView, spacer])
         let statsStack = UIStackView(arrangedSubviews: [excludeStat, watchlistStat, skipStat])
@@ -235,6 +234,12 @@ class SwipeView: UIView {
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         stack.bringSubviewToFront(deckView)
+        
+        addSubview(refillMoviesButton)
+        refillMoviesButton.centerInSuperview()
+        refillMoviesButton.widthAnchor.constraint(equalToConstant: 170).isActive = true
+        refillMoviesButton.isHidden = true
+        
     }
     
     func createStatIcon(statIcon: UIImage?) -> UIButton {
@@ -256,14 +261,10 @@ extension SwipeView: CardViewDelegate {
     
     func cardView(_ view: CardView, didLikeMovie: Bool) {
         let movieId = view.movie.id
-                
         didLikeMovie ? sceneDelegate.addToSkipped(movie: movieId) : sceneDelegate.addToExcluded(movie: movieId)
         
         setStatLabels()
-        
-        view.removeFromSuperview()
-        self.cardViews.removeAll(where: { view == $0 })
-        self.topCardView = cardViews.last
+        updateCardView()
     }
     
 }
