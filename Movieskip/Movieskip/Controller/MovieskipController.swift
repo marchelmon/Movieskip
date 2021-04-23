@@ -27,6 +27,7 @@ class MovieskipController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUser()
         configureUI()
         
         topStack.delegate = self
@@ -38,13 +39,45 @@ class MovieskipController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-                
-        if swipeView.topCardView == nil {
-            swipeView.configureUserAndFetchMovies()
-        }
+        //TODO  ?
     }
     
     //MARK: - Actions
+
+    func configureUser() {
+        if let user = sceneDelegate.user {
+            swipeView.fetchFilterAndMovies()
+            if user.username == "" { presentUsernameSelectionView() }
+        } else {
+            
+            if let loggedInUser = Auth.auth().currentUser {
+            
+                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (snapshot, error) in
+                    if let error = error {
+                        self.swipeViewAlert(text: "Error fetching user data: \(error.localizedDescription)", alertAction: nil)
+                        return
+                    }
+                    if let snapshot = snapshot {
+                        if let userData = snapshot.data() {
+                            self.sceneDelegate.user = User(dictionary: userData)
+                            if self.sceneDelegate.user?.username == "" { self.presentUsernameSelectionView() }
+                            self.swipeView.fetchFilterAndMovies()
+                        }
+                    }
+                    self.userView.configureUI()
+                }
+            } else {
+                let userHasSkippedLoginPreviously = UserDefaults.standard.bool(forKey: "skippedLogin")
+                if  !userHasSkippedLoginPreviously {
+                    presentLoginController()
+                } else {
+                    if sceneDelegate.localUser == nil { sceneDelegate.fetchLocalUser() }
+                    swipeView.fetchFilterAndMovies()
+                }
+            }
+        }
+        userView.configureUI()
+    }
     
     func showSwipeView() {
         clearView()
@@ -57,6 +90,7 @@ class MovieskipController: UIViewController {
     func showUserView() {
         clearView()
         userView.isHidden = false
+        userView.configureUI()
     }
     
     func clearView() {

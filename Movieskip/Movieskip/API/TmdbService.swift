@@ -14,10 +14,11 @@ struct TmdbService {
     
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
+    
     static func fetchMovies(completion: @escaping([Movie]?, Error?) -> Void) {
         
         let urlString = "\(K.TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"
-                
+                        
         FilterService.filter.page += 1
 
         if let encoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let url = URL(string: encoded) {
@@ -29,6 +30,7 @@ struct TmdbService {
                     let data = JSON(value)["results"]
                     
                     FilterService.filter.totalPages = JSON(value)["total_pages"].int ?? 10
+                    print("PAge: \(FilterService.filter.page)")
                     
                     let moviesResult = data.arrayValue.map({ Movie(data: $0) })
                     removeAlreadySwiped(allMovies: moviesResult) { newMovies in
@@ -54,7 +56,8 @@ struct TmdbService {
         }
                      
         allMovies.forEach { movie in
-            if swipedMovies.contains(movie.id) { return }
+        
+            if swipedMovies.contains(movie.id) { print("Movie excluded: \(movie.id)"); return }
             newMovies.append(movie)
         }
         completion(newMovies)

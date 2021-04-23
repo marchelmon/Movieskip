@@ -18,6 +18,8 @@ class UserView: UIView {
             
     //MARK: - Properties
         
+    private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
+    
     weak var delegate: UserViewDelegate?
     
     private let friendsView = FriendsView()
@@ -48,9 +50,7 @@ class UserView: UIView {
         
         profileView.delegate = self
         friendsView.delegate = self
-        
-        configureUI()
-        
+                
     }
     
     required init?(coder: NSCoder) {
@@ -73,14 +73,16 @@ class UserView: UIView {
         
         profileButton.setTitleColor(K.MAIN_COLOR, for: .normal)
         friendsButton.setTitleColor(#colorLiteral(red: 0.6666666865, green: 0.6666666865, blue: 0.6666666865, alpha: 1), for: .normal)
-        
-        profileView.friendsCountLabel.text = "\(profileView.sceneDelegate.user?.friendIds.count ?? 0)"
-        
+                
     }
     
     //MARK: - Helpers
     
     func configureUI() {
+        profileView.configureUserDetails()
+        
+        sceneDelegate.user != nil ? profileView.showProfileView() : profileView.showRegisterContent()
+        sceneDelegate.user != nil ? friendsView.showFriendsView() : friendsView.showRegisterContent()
 
         let topButtonStack = UIStackView(arrangedSubviews: [UIView(), friendsButton, profileButton, UIView()])
         topButtonStack.backgroundColor = .white

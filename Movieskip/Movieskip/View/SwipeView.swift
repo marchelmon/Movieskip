@@ -11,8 +11,6 @@ import Firebase
 protocol SwipeViewDelegate: class {
     func showMovieDetails(for movie: Movie)
     func showFilter()
-    func presentLoginController()
-    func presentUsernameSelectionView()
     func swipeViewAlert(text: String, alertAction: UIAlertAction?)
 }
 
@@ -46,9 +44,11 @@ class SwipeView: UIView {
     private let refillMoviesButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Fetch new movies", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
         button.setTitleColor(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), for: .normal)
         button.layer.borderWidth = 5
         button.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(refillMovies), for: .touchUpInside)
         return button
     }()
@@ -60,59 +60,14 @@ class SwipeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        bottomStack.delegate = self
+        
         configureUI()
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func fetchMoviesAndConfigureCards() {
-        
-    }
-    
-    func configureUserAndFetchMovies() {
-        if let user = sceneDelegate.user {
-            fetchFilterAndMovies()
-            if user.username == "" { delegate?.presentUsernameSelectionView() }
-        } else {
-            
-            if let loggedInUser = Auth.auth().currentUser {
-            
-                AuthService.fetchLoggedInUser(uid: loggedInUser.uid) { (snapshot, error) in
-                    
-                    if let error = error {
-                        self.delegate?.swipeViewAlert(text: "Error fetching user data: \(error.localizedDescription)", alertAction: nil)
-                    }
-                    if let snapshot = snapshot {
-                        if let userData = snapshot.data() {
-                            self.sceneDelegate.user = User(dictionary: userData)
-                            if self.sceneDelegate.user?.username == "" { self.delegate?.presentUsernameSelectionView() }
-                            self.fetchFilterAndMovies()
-                            self.setStatLabels()
-                        }
-                    }
-                }
-            } else {
-                let userHasSkippedLoginPreviously = UserDefaults.standard.bool(forKey: "skippedLogin")
-                if  !userHasSkippedLoginPreviously {
-                    print("has skipped login: \(userHasSkippedLoginPreviously)")
-                    delegate?.presentLoginController()
-                } else {
-                    if sceneDelegate.localUser == nil { sceneDelegate.fetchLocalUser() }
-                    fetchFilterAndMovies()
-                    setStatLabels()
-                }
-            }
-        }
-    }
-    
-    func resetMovieData() {
-        topCardView = nil
-        cardViews = []
-        moviesToDisplay = []
-        movies = []
     }
     
     func performSwipeAnimation(topCard: CardView, shouldExclude: Bool) {
@@ -150,7 +105,6 @@ class SwipeView: UIView {
         guard !self.cardViews.isEmpty else { return }
         self.cardViews.remove(at: self.cardViews.count - 1)
         self.topCardView = self.cardViews.last
-        print(cardViews.count)
         if cardViews.count == 0 { refillMoviesButton.isHidden = false }
     }
     
@@ -172,12 +126,15 @@ class SwipeView: UIView {
     }
     
     func fetchFilterAndMovies() {
+        setStatLabels()
         FilterService.fetchFilter { filter in
-            self.fetchMovies(filter: filter)
+            //self.fetchMovies(filter: filter)
         }
     }
     
     @objc func refillMovies() {
+        resetMovieData()
+        print("FETCH MOVIES")
         fetchMovies(filter: FilterService.filter)
     }
     
@@ -234,12 +191,18 @@ class SwipeView: UIView {
         stack.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         stack.bringSubviewToFront(deckView)
-        
         addSubview(refillMoviesButton)
         refillMoviesButton.centerInSuperview()
-        refillMoviesButton.widthAnchor.constraint(equalToConstant: 170).isActive = true
-        refillMoviesButton.isHidden = true
+        refillMoviesButton.setDimensions(height: 60, width: 240)
+        //refillMoviesButton.isHidden = true
         
+    }
+    
+    func resetMovieData() {
+        topCardView = nil
+        cardViews = []
+        moviesToDisplay = []
+        movies = []
     }
     
     func createStatIcon(statIcon: UIImage?) -> UIButton {

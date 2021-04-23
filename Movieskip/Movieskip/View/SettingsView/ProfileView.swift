@@ -22,17 +22,15 @@ class ProfileView: UIView {
     
     weak var delegate: ProfileDelegate?
     
-    private lazy var usernameLabel: UILabel = {
+    private let usernameLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(sceneDelegate.user?.username ?? "John Doe") "
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = K.MAIN_COLOR
         return label
     } ()
     
-    private let userStatsView: UIView = {
+    private let userDetailsView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         return view
     }()
     
@@ -78,7 +76,6 @@ class ProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-        
         shouldRegisterView.delegate = self
         
         configureUI()
@@ -105,15 +102,6 @@ class ProfileView: UIView {
     
     //MARK: - Helpers
     
-    func configureUI() {
-        backgroundColor = .white
-        
-        Auth.auth().currentUser != nil ? addUserData() : showRegisterContent()
-        
-        addLogoutAndRestore()
-        addTmdbAttribution()
-    }
-    
     func createCountLabel(count: Int) -> UILabel {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
@@ -122,27 +110,46 @@ class ProfileView: UIView {
         return label
     }
     
-    func addUserData() {
-        addSubview(userStatsView)
-        userStatsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 200)
+    func configureUserDetails() {
+        usernameLabel.text = "\(sceneDelegate.user?.username ?? "John Doe") "
+        watchlistCountLabel.text = "\(sceneDelegate.user?.watchListCount ?? 0)"
+        excludedCountLabel.text = "\(sceneDelegate.user?.excludedCount ?? 0)"
+        friendsCountLabel.text = "\(sceneDelegate.user?.friendIds.count ?? 0)"
+    }
+    
+    func configureUI() {
+        addSubview(userDetailsView)
+        userDetailsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 200)
         
-        userStatsView.addSubview(usernameLabel)
-        userStatsView.addSubview(watchlistCountLabel)
-        userStatsView.addSubview(excludedCountLabel)
-        userStatsView.addSubview(friendsCountLabel)
+        userDetailsView.addSubview(usernameLabel)
+
+        userDetailsView.addSubview(watchlistCountLabel)
+        userDetailsView.addSubview(excludedCountLabel)
+        userDetailsView.addSubview(friendsCountLabel)
         
         usernameLabel.anchor(top: topAnchor, left: leftAnchor, paddingTop: 5, paddingLeft: 20)
         watchlistCountLabel.anchor(top: usernameLabel.bottomAnchor, right: rightAnchor, paddingTop: 10, paddingRight: 20)
         excludedCountLabel.anchor(top: usernameLabel.bottomAnchor, right: watchlistCountLabel.leftAnchor, paddingTop: 10, paddingRight: 80)
         friendsCountLabel.anchor(top: usernameLabel.bottomAnchor, right: excludedCountLabel.leftAnchor, paddingTop: 10, paddingRight: 80)
+        
+        addSubview(shouldRegisterView)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
+        
+        showLogoutAndRestoreButtons()
+        showTmdbAttribution()
+    }
+    
+    func showProfileView() {
+        shouldRegisterView.isHidden = true
+        userDetailsView.isHidden = false
     }
     
     func showRegisterContent() {
-        addSubview(shouldRegisterView)
-        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
+        userDetailsView.isHidden = true
+        shouldRegisterView.isHidden = false
     }
     
-    func addTmdbAttribution() {
+    func showTmdbAttribution() {
         addSubview(tmdbImage)
         tmdbImage.anchor(left: leftAnchor, bottom: restoreButton.topAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 30, paddingRight: 30)
         
@@ -155,7 +162,7 @@ class ProfileView: UIView {
         sourceLabel.anchor(left: leftAnchor, bottom: tmdbImage.topAnchor, paddingLeft: 20, paddingBottom: 10)
     }
     
-    func addLogoutAndRestore() {
+    func showLogoutAndRestoreButtons() {
         if Auth.auth().currentUser != nil {
             addSubview(logoutButton)
             logoutButton.anchor(left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingBottom: 20, height: 60)

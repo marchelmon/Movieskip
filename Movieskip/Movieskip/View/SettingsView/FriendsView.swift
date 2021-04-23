@@ -62,16 +62,14 @@ class FriendsView: UIView {
         super.init(frame: .zero)
 
         
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
                 
         shouldRegisterView.delegate = self
         
-       // configureAndShowFriends()
+        configureAndShowFriends()
                 
-       // Auth.auth().currentUser != nil ? showFriendsView() : showRegisterContent()
-showRegisterContent()
     }
     
     required init?(coder: NSCoder) {
@@ -161,17 +159,17 @@ showRegisterContent()
         tableView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 10,paddingLeft: 20, paddingBottom: 30, paddingRight: 20)
     }
     
+    func showRegisterContent() {
+        addSubview(shouldRegisterView)
+        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
+    }
+    
     func createCountLabel(count: Int) -> UILabel {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textColor = K.MAIN_COLOR
         label.text = String(count)
         return label
-    }
-    
-    func showRegisterContent() {
-        addSubview(shouldRegisterView)
-        shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
     }
     
 }
