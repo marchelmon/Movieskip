@@ -80,6 +80,7 @@ class UserView: UIView {
     
     func configureUI() {
         profileView.configureUserDetails()
+        friendsView.configureAndShowFriends()
         
         sceneDelegate.user != nil ? profileView.showProfileView() : profileView.showRegisterContent()
         sceneDelegate.user != nil ? friendsView.showFriendsView() : friendsView.showRegisterContent()
