@@ -39,7 +39,7 @@ class MovieskipController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        //TODO  ?
+        userView.configureUI()
     }
     
     //MARK: - Actions

@@ -52,6 +52,8 @@ class FriendsView: UIView {
         table.separatorStyle = .none
         return table
     }()
+    
+    private let friendsView = UIView()
    
     private let shouldRegisterView = ShouldRegisterView()
     
@@ -61,15 +63,13 @@ class FriendsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
 
+        shouldRegisterView.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(FriendCell.self, forCellReuseIdentifier: cellIdentifier)
-                
-        shouldRegisterView.delegate = self
-        
-        configureAndShowFriends()
-                
+                   
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -145,31 +145,36 @@ class FriendsView: UIView {
         tableView.reloadData()
     }
     
-    func showFriendsView() {
-        addSubview(searchTextField)
+    func configureUI() {
+        
+        addSubview(friendsView)
+        friendsView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor)
+        
+        friendsView.addSubview(searchTextField)
         searchTextField.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 10, paddingLeft: 25, paddingRight: 25, height: 40)
         
         let friendsLabel = UILabel()
         friendsLabel.text = "Friends"
         friendsLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        addSubview(friendsLabel)
+        friendsView.addSubview(friendsLabel)
         friendsLabel.anchor(top: searchTextField.bottomAnchor, left: leftAnchor, paddingTop: 20, paddingLeft: 20)
         
-        addSubview(tableView)
+        friendsView.addSubview(tableView)
         tableView.anchor(top: friendsLabel.bottomAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 10,paddingLeft: 20, paddingBottom: 30, paddingRight: 20)
-    }
-    
-    func showRegisterContent() {
+        
         addSubview(shouldRegisterView)
         shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
     }
     
-    func createCountLabel(count: Int) -> UILabel {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        label.textColor = K.MAIN_COLOR
-        label.text = String(count)
-        return label
+    
+    func showFriendsView() {
+        shouldRegisterView.isHidden = true
+        friendsView.isHidden = false
+    }
+    
+    func showRegisterContent() {
+        friendsView.isHidden = true
+        shouldRegisterView.isHidden = false
     }
     
 }

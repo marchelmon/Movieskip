@@ -135,23 +135,26 @@ class ProfileView: UIView {
         addSubview(shouldRegisterView)
         shouldRegisterView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 150, paddingLeft: 20, paddingRight: 20)
         
-        showLogoutAndRestoreButtons()
-        showTmdbAttribution()
+        showBottomStack()
     }
     
     func showProfileView() {
         shouldRegisterView.isHidden = true
         userDetailsView.isHidden = false
+        logoutButton.isHidden = false
+        restoreButton.isHidden = false
     }
     
     func showRegisterContent() {
         userDetailsView.isHidden = true
         shouldRegisterView.isHidden = false
+        logoutButton.isHidden = true
+        restoreButton.isHidden = true
     }
     
-    func showTmdbAttribution() {
+    func showBottomStack() {
         addSubview(tmdbImage)
-        tmdbImage.anchor(left: leftAnchor, bottom: restoreButton.topAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 30, paddingRight: 30)
+        tmdbImage.anchor(left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingLeft: 30, paddingBottom: 20, paddingRight: 30)
         
         let sourceLabel = UILabel()
         sourceLabel.text = "Content source"
@@ -160,21 +163,12 @@ class ProfileView: UIView {
         
         addSubview(sourceLabel)
         sourceLabel.anchor(left: leftAnchor, bottom: tmdbImage.topAnchor, paddingLeft: 20, paddingBottom: 10)
-    }
-    
-    func showLogoutAndRestoreButtons() {
-        if Auth.auth().currentUser != nil {
-            addSubview(logoutButton)
-            logoutButton.anchor(left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingBottom: 20, height: 60)
-            
-            addSubview(restoreButton)
-            restoreButton.anchor(left: leftAnchor, bottom: logoutButton.topAnchor, right: rightAnchor, paddingBottom: 10, height: 60)
-        } else {
-            backgroundColor = .white
-            restoreButton.isEnabled = false
-            addSubview(restoreButton)
-            restoreButton.anchor(left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingBottom: 20, height: 60)
-        }
+        
+        addSubview(logoutButton)
+        logoutButton.anchor(left: leftAnchor, bottom: sourceLabel.topAnchor, right: rightAnchor, paddingBottom: 20, height: 60)
+        
+        addSubview(restoreButton)
+        restoreButton.anchor(left: leftAnchor, bottom: logoutButton.topAnchor, right: rightAnchor, paddingBottom: 10, height: 60)
     }
     
 }
