@@ -27,6 +27,9 @@ class MovieskipController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        showSwipeView()
+        topStack.handleShowSwipe()
+        
         configureUser()
         configureUI()
         
@@ -47,6 +50,7 @@ class MovieskipController: UIViewController {
     func configureUser() {
         if let user = sceneDelegate.user {
             swipeView.fetchFilterAndMovies()
+            watchlistView.fetchAndConfigureMovies()
             if user.username == "" { presentUsernameSelectionView() }
         } else {
             
@@ -62,6 +66,7 @@ class MovieskipController: UIViewController {
                             self.sceneDelegate.user = User(dictionary: userData)
                             if self.sceneDelegate.user?.username == "" { self.presentUsernameSelectionView() }
                             self.swipeView.fetchFilterAndMovies()
+                            self.watchlistView.fetchAndConfigureMovies()
                         }
                     }
                     self.userView.configureUI()
@@ -141,10 +146,6 @@ class MovieskipController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        
-        userView.isHidden = false
-        watchlistView.isHidden = true
-        swipeView.isHidden = true
         
         view.addSubview(topStack)
         topStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor)

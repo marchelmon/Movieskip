@@ -58,10 +58,8 @@ class WatchlistView: UIView {
         
         movieTable.delegate = self
         movieCollection.delegate = self
-                
-        configureUI()
         
-        fetchAndConfigureMovies()
+        configureUI()
         
     }
     
