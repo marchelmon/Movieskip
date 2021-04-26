@@ -60,7 +60,6 @@ class WatchlistView: UIView {
         movieCollection.delegate = self
         
         configureUI()
-        
     }
     
     required init?(coder: NSCoder) {

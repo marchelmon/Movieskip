@@ -78,6 +78,7 @@ class MovieskipController: UIViewController {
                 } else {
                     if sceneDelegate.localUser == nil { sceneDelegate.fetchLocalUser() }
                     swipeView.fetchFilterAndMovies()
+                    watchlistView.fetchAndConfigureMovies()
                 }
             }
         }
@@ -203,6 +204,7 @@ extension MovieskipController: AuthenticationDelegate {
     func authenticationComplete() {
         dismiss(animated: true) {
             self.swipeView.setStatLabels()
+            self.watchlistView.fetchAndConfigureMovies()
             if self.sceneDelegate.user?.username == "" {
                 self.presentUsernameSelectionView()
             }

@@ -124,7 +124,7 @@ class LoginController: UIViewController {
     @objc func handleSkipLogin() {
         UserDefaults.standard.set(true, forKey: "skippedLogin")
         sceneDelegate.fetchLocalUser()
-        dismiss(animated: true, completion: nil)
+        delegate?.authenticationComplete()
     }
     
     
