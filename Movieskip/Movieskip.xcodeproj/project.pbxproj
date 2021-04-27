@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		23798C10FB2B090DDD0CF409 /* Pods_Movieskip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF766E217B3E683B234A24B0 /* Pods_Movieskip.framework */; };
-		3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */; };
 		3C37DB5225FFBC5C006A35FB /* MovieCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB5125FFBC5C006A35FB /* MovieCollection.swift */; };
 		3C37DB5825FFBC81006A35FB /* MovieTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB5725FFBC81006A35FB /* MovieTable.swift */; };
 		3C37DB5C260102A5006A35FB /* WatchlistTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C37DB5B260102A5006A35FB /* WatchlistTableCell.swift */; };
@@ -54,7 +53,6 @@
 		3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */; };
 		3CF5B73325E7FF0C007A18B7 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */; };
 		3CF5B75225E81986007A18B7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75125E81986007A18B7 /* LoginController.swift */; };
-		3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B75725E90137007A18B7 /* SettingsController.swift */; };
 		3CF5B76725EA6C29007A18B7 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B76625EA6C28007A18B7 /* FriendsView.swift */; };
 		3CF5B76A25EBFFB7007A18B7 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */; };
 		3CF5B77525EE60C3007A18B7 /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF5B77425EE60C3007A18B7 /* FriendCell.swift */; };
@@ -62,7 +60,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistController.swift; sourceTree = "<group>"; };
 		3C37DB5125FFBC5C006A35FB /* MovieCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollection.swift; sourceTree = "<group>"; };
 		3C37DB5725FFBC81006A35FB /* MovieTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTable.swift; sourceTree = "<group>"; };
 		3C37DB5B260102A5006A35FB /* WatchlistTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistTableCell.swift; sourceTree = "<group>"; };
@@ -110,7 +107,6 @@
 		3CF5B72F25E7FE3D007A18B7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3CF5B73225E7FF0C007A18B7 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		3CF5B75125E81986007A18B7 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
-		3CF5B75725E90137007A18B7 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		3CF5B76625EA6C28007A18B7 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		3CF5B76925EBFFB7007A18B7 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		3CF5B77425EE60C3007A18B7 /* FriendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
@@ -210,9 +206,7 @@
 				3CF5B70825E15BA8007A18B7 /* DetailsController.swift */,
 				3CF5B75125E81986007A18B7 /* LoginController.swift */,
 				3CB20CF3261B9D47006D869A /* EmailAuthController.swift */,
-				3CF5B75725E90137007A18B7 /* SettingsController.swift */,
 				3C66623B25F64C9900759552 /* UsernameController.swift */,
-				3C37DB4E25FFB9BF006A35FB /* WatchlistController.swift */,
 				3CB20CC026051111006D869A /* CombineWatchlistController.swift */,
 				3CB20D082628B284006D869A /* MovieskipController.swift */,
 			);
@@ -469,13 +463,11 @@
 				3CB20D092628B284006D869A /* MovieskipController.swift in Sources */,
 				3C7DC7B125D6755B00FE7A61 /* AppDelegate.swift in Sources */,
 				3C7DC81025D8336800FE7A61 /* TmdbService.swift in Sources */,
-				3C37DB4F25FFB9BF006A35FB /* WatchlistController.swift in Sources */,
 				3CB20D062626334D006D869A /* ShouldRegisterView.swift in Sources */,
 				3CB20CFE261EF241006D869A /* ResetPasswordView.swift in Sources */,
 				3CF5B73025E7FE3D007A18B7 /* CustomTextField.swift in Sources */,
 				3CB20CC826077CFC006D869A /* MatchingResultsView.swift in Sources */,
 				3CB20D14262B7AAD006D869A /* UserView.swift in Sources */,
-				3CF5B75825E90137007A18B7 /* SettingsController.swift in Sources */,
 				3C66623F25F79B0200759552 /* LocalUser.swift in Sources */,
 				3CF5B72225E6BA1A007A18B7 /* ActorCell.swift in Sources */,
 				3C66623C25F64C9900759552 /* UsernameController.swift in Sources */,
