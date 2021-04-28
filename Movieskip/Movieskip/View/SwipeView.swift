@@ -147,7 +147,7 @@ class SwipeView: UIView {
         TmdbService.fetchMovies(completion: { (movies, error) in
             
             if error != nil {
-                self.delegate?.swipeViewAlert(text: "The movie database (TMDB) could not be reached, try again later or restart the app", alertAction: nil)
+                self.delegate?.swipeViewAlert(text: "The movie database (TMDB) did not respond, try again later or restart the app", alertAction: nil)
                 return
             }
             guard let movies = movies else {
@@ -252,11 +252,11 @@ extension SwipeView: BottomControlsStackViewDelegate {
     func handleAddWatchlist() {
         guard let topCard = topCardView else { return }
         sceneDelegate.addToWatchlist(movie: topCard.movie.id)
+        sceneDelegate.userWatchlist.append(topCard.movie)
         setStatLabels()
         updateCardView()
     }
     func handleShowFilter() {
         delegate?.showFilter()
     }
-
 }

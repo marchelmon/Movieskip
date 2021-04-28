@@ -91,7 +91,9 @@ class MovieskipController: UIViewController {
     }
     func showWatchlistView() {
         clearView()
+        watchlistView.displayMovies()
         watchlistView.isHidden = false
+        
     }
     func showUserView() {
         clearView()
@@ -208,9 +210,7 @@ extension MovieskipController: AuthenticationDelegate {
             if self.sceneDelegate.user?.username == "" {
                 self.presentUsernameSelectionView()
             }
-            self.swipeView.resetMovieData()
-            self.swipeView.fetchMovies(filter: FilterService.filter)
-           // self.swipeView.fetchFilterAndMovies() TODO
+            self.swipeView.refillMovies()
         }
     }
 }
