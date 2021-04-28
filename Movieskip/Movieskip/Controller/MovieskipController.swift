@@ -208,6 +208,9 @@ extension MovieskipController: AuthenticationDelegate {
             if self.sceneDelegate.user?.username == "" {
                 self.presentUsernameSelectionView()
             }
+            self.swipeView.resetMovieData()
+            self.swipeView.fetchMovies(filter: FilterService.filter)
+           // self.swipeView.fetchFilterAndMovies() TODO
         }
     }
 }

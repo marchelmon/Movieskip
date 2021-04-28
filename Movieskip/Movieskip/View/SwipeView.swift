@@ -128,7 +128,7 @@ class SwipeView: UIView {
     func fetchFilterAndMovies() {
         setStatLabels()
         FilterService.fetchFilter { filter in
-            //self.fetchMovies(filter: filter)
+            //self.fetchMovies(filter: filter) TODO
         }
     }
     
