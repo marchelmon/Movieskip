@@ -18,24 +18,30 @@ class WatchlistTableCell: UITableViewCell {
     let movieTitle: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.textColor = K.MAIN_COLOR
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
     
-    let rating: UILabel = {
+    let rating: UIButton = {
+        let button = UIButton(type: .system)
+        let image = K.WATCHLIST_ICON?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 14))
+        button.setImage(image, for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        return button
+    }()
+    
+    let releaseYear: UILabel = {
         let label = UILabel()
-        label.textColor = K.MAIN_COLOR
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        
         return label
-    }()
-    
+    } ()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         selectionStyle = .none
-        
+                
         addSubview(poster)
         poster.anchor(top: topAnchor, left: leftAnchor, paddingTop: 5, width: 120 / 1.5, height: 120)
         

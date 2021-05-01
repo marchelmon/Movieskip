@@ -81,7 +81,7 @@ extension MovieTable: UITableViewDelegate, UITableViewDataSource {
         
         cell.poster.sd_setImage(with: movie.posterPath)
         cell.movieTitle.text = movie.title
-        cell.rating.text = String(movie.rating)
+        cell.rating.setTitle(" \(movie.rating)", for: .normal)
                 
         return cell
     }
