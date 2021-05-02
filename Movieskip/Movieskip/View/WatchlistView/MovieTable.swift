@@ -79,8 +79,11 @@ extension MovieTable: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! WatchlistTableCell
         let movie = movies[indexPath.row]
         
+        
+        
         cell.poster.sd_setImage(with: movie.posterPath)
-        cell.movieTitle.text = movie.title
+        let headerString = cell.createHeaderString(title: movie.title, releaseYear: movie.released[0...3])
+        cell.headerString.attributedText = headerString
         cell.rating.setTitle(" \(movie.rating)", for: .normal)
                 
         return cell

@@ -31,11 +31,17 @@ class WatchlistTableCell: UITableViewCell {
         return button
     }()
     
-    let releaseYear: UILabel = {
+    let headerString: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    let genres: UILabel = {
         let label = UILabel()
         
         return label
-    } ()
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -45,16 +51,39 @@ class WatchlistTableCell: UITableViewCell {
         addSubview(poster)
         poster.anchor(top: topAnchor, left: leftAnchor, paddingTop: 5, width: 120 / 1.5, height: 120)
         
-        addSubview(movieTitle)
-        movieTitle.anchor(top: topAnchor, left: poster.rightAnchor, right: rightAnchor, paddingTop: 15, paddingLeft: 20)
+        addSubview(headerString)
+        headerString.anchor(top: topAnchor, left: poster.rightAnchor, right: rightAnchor, paddingTop: 5, paddingLeft: 15)
         
         addSubview(rating)
-        rating.anchor(top: movieTitle.bottomAnchor, left: poster.rightAnchor, paddingTop: 10, paddingLeft: 20)
+        rating.anchor(top: headerString.bottomAnchor, left: poster.rightAnchor, paddingTop: 5, paddingLeft: 15)
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Helpers
+    
+    func createHeaderString(title: String, releaseYear: String) -> NSAttributedString {
+        let attributedText = NSMutableAttributedString(
+            string: "\(title)  ",
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 20),
+                .foregroundColor: UIColor.black
+            ]
+        )
+        attributedText.append(
+            NSAttributedString(
+                string: releaseYear,
+                attributes: [
+                    .font: UIFont.systemFont(ofSize: 18),
+                    .foregroundColor: UIColor.darkGray
+                ]
+            )
+        )
+        return attributedText
+    }
+    
     
 }
