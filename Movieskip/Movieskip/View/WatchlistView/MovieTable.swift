@@ -59,6 +59,7 @@ class MovieTable: UIView {
     
 }
 
+//MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension MovieTable: UITableViewDelegate, UITableViewDataSource {
     

@@ -12,6 +12,8 @@ protocol MatchingResultsViewDelegate: class {
 }
 
 class MatchingResultsView: UIView {
+    
+    //MARK: - Properties
 
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
@@ -42,6 +44,8 @@ class MatchingResultsView: UIView {
     private let watchlistResultsTable = MovieTable()
     private let excludeResultsTable = MovieTable()
 
+    //MARK: - Lifecycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -139,6 +143,8 @@ class MatchingResultsView: UIView {
     }
     
 }
+
+//MARK: - MovieTableDelegate
 
 extension MatchingResultsView: MovieTableDelegate {
     func tablePresentMovieDetails(movie: Movie) {

@@ -89,12 +89,14 @@ class MovieskipController: UIViewController {
         clearView()
         swipeView.isHidden = false
     }
+    
     func showWatchlistView() {
         clearView()
         watchlistView.displayMovies()
         watchlistView.isHidden = false
         
     }
+    
     func showUserView() {
         clearView()
         userView.isHidden = false
@@ -166,6 +168,8 @@ class MovieskipController: UIViewController {
     
 }
 
+//MARK: - SwipeViewDelegate
+
 extension MovieskipController: SwipeViewDelegate {
     func showMovieDetails(for movie: Movie) {
         let controller = DetailsController(movie: movie)
@@ -192,6 +196,8 @@ extension MovieskipController: SwipeViewDelegate {
     }
 }
 
+//MARK: - FilterControllerDelegate
+
 extension MovieskipController: FilterControllerDelegate {
     func filterController(controller: FilterController, wantsToUpdateFilter filter: Filter) {
         FilterService.filter = filter
@@ -201,6 +207,7 @@ extension MovieskipController: FilterControllerDelegate {
     }
 }
 
+//MARK: - AuthenticationDelegate
 
 extension MovieskipController: AuthenticationDelegate {
     func authenticationComplete() {
@@ -215,6 +222,8 @@ extension MovieskipController: AuthenticationDelegate {
         }
     }
 }
+
+//MARK: - WatchlistViewDelegate
 
 extension MovieskipController: WatchlistViewDelegate {
     func goToCombineWatchlist() {
@@ -233,6 +242,8 @@ extension MovieskipController: WatchlistViewDelegate {
     }
 }
 
+//MARK: - UserViewDelegate
+
 extension MovieskipController: UserViewDelegate {
     func userPressedLogout() {
         logout()
@@ -242,6 +253,8 @@ extension MovieskipController: UserViewDelegate {
         presentLoginController()
     }
 }
+
+//MARK: - NavigationButtonsDelegate
 
 extension MovieskipController: NavigationButtonsDelegate {
     func shouldShowSwipe() {
@@ -256,6 +269,8 @@ extension MovieskipController: NavigationButtonsDelegate {
         showUserView()
     }
 }
+
+//MARK: - CombineWatchlistDelegate
 
 extension MovieskipController: CombineWatchlistDelegate {
     func goToRegister() {

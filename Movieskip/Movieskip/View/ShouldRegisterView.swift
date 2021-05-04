@@ -13,6 +13,8 @@ protocol ShouldRegisterDelegate: class {
 
 class ShouldRegisterView: UIView {
     
+    //MARK: - Properties
+    
     weak var delegate: ShouldRegisterDelegate?
     
     private let shouldRegisterText: UILabel = {
@@ -35,6 +37,8 @@ class ShouldRegisterView: UIView {
         button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
         return button
     }()
+    
+    //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)

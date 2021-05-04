@@ -9,11 +9,15 @@ import UIKit
 
 class WatchlistCollectionCell: UICollectionViewCell {
     
+    //MARK: - Properties
+    
     let poster: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
+    //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)

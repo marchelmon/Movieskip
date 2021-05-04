@@ -15,11 +15,14 @@ protocol FilterControllerDelegate: class {
 
 class FilterController: UITableViewController {
         
+    //MARK: - Properties
+    
     weak var delegate: FilterControllerDelegate?
     
     private let filterView = FilterView()
     
     //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                 

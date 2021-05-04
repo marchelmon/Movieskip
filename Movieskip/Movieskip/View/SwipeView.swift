@@ -57,6 +57,8 @@ class SwipeView: UIView {
     lazy var excludeStat = createStatIcon(statIcon: K.EXCLUDE_ICON)
     lazy var skipStat = createStatIcon(statIcon: K.SKIP_ICON)
     
+    //MARK: - Lifecycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -82,47 +84,6 @@ class SwipeView: UIView {
             self.swipeAnimationReady = true
             self.updateCardView()
         }
-    }
-    
-    
-    func configureCards() {
-        refillMoviesButton.isHidden = true
-        for view in deckView.subviews {
-            view.removeFromSuperview()
-        }
-        for movie in movies {
-            let cardView = CardView(movie: movie)
-            cardView.delegate = self
-            deckView.addSubview(cardView)
-            cardView.fillSuperview()
-        }
-        cardViews = deckView.subviews.map({ ($0 as? CardView)! })
-        topCardView = cardViews.last
-    }
-    
-    func updateCardView() {
-        self.topCardView?.removeFromSuperview()
-        guard !self.cardViews.isEmpty else { return }
-        self.cardViews.remove(at: self.cardViews.count - 1)
-        self.topCardView = self.cardViews.last
-        if cardViews.count == 0 { refillMoviesButton.isHidden = false }
-    }
-    
-    func setStatLabels() {
-        if let user = sceneDelegate.user {
-            
-            self.excludeStat.setTitle(" \(user.excludedCount)", for: .normal)
-            self.watchlistStat.setTitle(" \(user.watchListCount)", for: .normal)
-            self.skipStat.setTitle(" \(user.skippedCount)", for: .normal)
-            
-        } else if let user = sceneDelegate.localUser {
-            
-            self.excludeStat.setTitle(" \(user.excluded.count)", for: .normal)
-            self.watchlistStat.setTitle(" \(user.watchlist.count)", for: .normal)
-            self.skipStat.setTitle(" \(user.skipped.count)", for: .normal)
-            
-        }
-
     }
     
     func fetchFilterAndMovies() {
@@ -162,6 +123,23 @@ class SwipeView: UIView {
                 self.fetchMovies(filter: filter)
             }
         })
+    }
+    
+    //MARK: - Helpers
+    
+    func configureCards() {
+        refillMoviesButton.isHidden = true
+        for view in deckView.subviews {
+            view.removeFromSuperview()
+        }
+        for movie in movies {
+            let cardView = CardView(movie: movie)
+            cardView.delegate = self
+            deckView.addSubview(cardView)
+            cardView.fillSuperview()
+        }
+        cardViews = deckView.subviews.map({ ($0 as? CardView)! })
+        topCardView = cardViews.last
     }
     
     func configureUI() {
@@ -215,7 +193,34 @@ class SwipeView: UIView {
         return statView
     }
     
+    func setStatLabels() {
+        if let user = sceneDelegate.user {
+            
+            self.excludeStat.setTitle(" \(user.excludedCount)", for: .normal)
+            self.watchlistStat.setTitle(" \(user.watchListCount)", for: .normal)
+            self.skipStat.setTitle(" \(user.skippedCount)", for: .normal)
+            
+        } else if let user = sceneDelegate.localUser {
+            
+            self.excludeStat.setTitle(" \(user.excluded.count)", for: .normal)
+            self.watchlistStat.setTitle(" \(user.watchlist.count)", for: .normal)
+            self.skipStat.setTitle(" \(user.skipped.count)", for: .normal)
+            
+        }
+
+    }
+    
+    func updateCardView() {
+        self.topCardView?.removeFromSuperview()
+        guard !self.cardViews.isEmpty else { return }
+        self.cardViews.remove(at: self.cardViews.count - 1)
+        self.topCardView = self.cardViews.last
+        if cardViews.count == 0 { refillMoviesButton.isHidden = false }
+    }
+    
 }
+
+//MARK: - CardViewDelegate
 
 extension SwipeView: CardViewDelegate {
     func cardView(_ view: CardView, wantsToShowDetailsFor movie: Movie) {
@@ -231,6 +236,8 @@ extension SwipeView: CardViewDelegate {
     }
     
 }
+
+//MARK: - BottomControlsStackViewDelegate
 
 extension SwipeView: BottomControlsStackViewDelegate {
     func handleSkip() {

@@ -48,6 +48,7 @@ class ResetPasswordView: UIView {
         email.anchor(left: leftAnchor, bottom: resetPasswordButton.topAnchor, right: rightAnchor, paddingBottom: 12)
         
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

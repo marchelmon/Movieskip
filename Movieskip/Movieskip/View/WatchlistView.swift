@@ -14,6 +14,8 @@ protocol WatchlistViewDelegate: class {
 
 class WatchlistView: UIView {
     
+    //MARK: - Properties
+    
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     weak var delegate: WatchlistViewDelegate?
@@ -139,20 +141,24 @@ class WatchlistView: UIView {
         toggleViewModeButton.anchor(top: topAnchor, left: matchButton.rightAnchor, right: rightAnchor, paddingLeft: 15, paddingRight: 15, width: 60)
 
         addSubview(movieTable)
-        movieTable.anchor(top: matchButton.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+        movieTable.anchor(top: matchButton.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 15, paddingRight: 10)
         
         addSubview(movieCollection)
-        movieCollection.anchor(top: matchButton.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 30, paddingRight: 30)
+        movieCollection.anchor(top: matchButton.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingRight: 20)
         
     }
     
 }
+
+//MARK: - MovieTableDelegate
 
 extension WatchlistView: MovieTableDelegate {
     func tablePresentMovieDetails(movie: Movie) {
         presentMovieDetails(movie: movie)
     }
 }
+
+//MARK: - MovieCollectionDelegate
 
 extension WatchlistView: MovieCollectionDelegate {
     func collectionPresentMovieDetails(movie: Movie) {

@@ -11,6 +11,7 @@ private let cellIdentifier = "ActorCell"
 
 class ActorCollection: UICollectionReusableView {
     
+    //MARK: - Properties
     
     var actors = [Actor]() {
         didSet { collectionView.reloadData() }
@@ -34,6 +35,8 @@ class ActorCollection: UICollectionReusableView {
         cv.register(ActorCell.self, forCellWithReuseIdentifier: cellIdentifier)
         return cv
     }()
+    
+    //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)

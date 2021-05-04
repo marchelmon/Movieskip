@@ -9,6 +9,8 @@ import UIKit
 
 class ActorCell: UICollectionViewCell {
     
+    //MARK: - Properties
+    
     var actor: Actor! {
         didSet {
             print("DID SET CELL")
@@ -42,6 +44,7 @@ class ActorCell: UICollectionViewCell {
         return label
     }()
     
+    //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)

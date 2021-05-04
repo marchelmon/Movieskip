@@ -15,6 +15,7 @@ protocol BottomControlsStackViewDelegate: class {
 }
 
 class BottomControlsStackView: UIStackView {
+    
     //MARK: - Properties
     
     weak var delegate: BottomControlsStackViewDelegate?

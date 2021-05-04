@@ -14,7 +14,6 @@ class UsernameController: UIViewController {
     
     private let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    
     private let usernameLabel: UILabel = {
         let label = UILabel()
         label.text = "Select a username to continue"
@@ -101,6 +100,8 @@ class UsernameController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    //MARK: - Helpers
     
     func usernameIsTaken(username: String?) -> Bool {
         guard let username = username else { return true }

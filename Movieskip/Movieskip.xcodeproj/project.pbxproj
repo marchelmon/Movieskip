@@ -184,6 +184,7 @@
 		3C7DC7C625D6777600FE7A61 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3CF5B76625EA6C28007A18B7 /* FriendsView.swift */,
 				3CB20CF8261EF214006D869A /* Auth */,
 				3CF5B76D25EE604C007A18B7 /* HomeView */,
 				3C49BA5F25DC2CA60069782B /* FilterView.swift */,
@@ -271,7 +272,6 @@
 		3CF5B71225E3DD21007A18B7 /* Movie */ = {
 			isa = PBXGroup;
 			children = (
-				3CF5B76625EA6C28007A18B7 /* FriendsView.swift */,
 				3C7DC80225D81EAA00FE7A61 /* Movie.swift */,
 				3CF5B6B425DD8E00007A18B7 /* Genre.swift */,
 				3CF5B70C25E16312007A18B7 /* Actor.swift */,

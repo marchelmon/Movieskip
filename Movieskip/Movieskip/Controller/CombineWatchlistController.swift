@@ -169,6 +169,8 @@ class CombineWatchlistController: UIViewController {
     
 }
 
+//MARK: - UITableViewDelegate, UITableViewDataSource
+
 extension CombineWatchlistController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -204,6 +206,8 @@ extension CombineWatchlistController: UITableViewDelegate, UITableViewDataSource
     }
     
 }
+
+//MARK: - MatchingResultsViewDelegate
 
 extension CombineWatchlistController: MatchingResultsViewDelegate {
     func tablePresentMovieDetails(movie: Movie) {

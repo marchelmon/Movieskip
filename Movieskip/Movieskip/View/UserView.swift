@@ -103,6 +103,8 @@ class UserView: UIView {
  
 }
 
+//MARK: - ProfileDelegate
+
 extension UserView: ProfileDelegate {
     func handleLogout() {
         delegate?.userPressedLogout()
@@ -112,6 +114,8 @@ extension UserView: ProfileDelegate {
         delegate?.userPressedRegister()
     }
 }
+
+//MARK: - FriendsDelegate
 
 extension UserView: FriendsDelegate {
     func friendsGoToRegister() {

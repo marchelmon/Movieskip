@@ -173,6 +173,8 @@ class ProfileView: UIView {
     
 }
 
+//MARK: - ShouldRegisterDelegate
+
 extension ProfileView: ShouldRegisterDelegate {
     func goToRegister() {
         delegate?.profileGoToRegister()

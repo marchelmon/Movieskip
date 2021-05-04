@@ -14,7 +14,6 @@ struct TmdbService {
     
     static let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
-    
     static func fetchMovies(completion: @escaping([Movie]?, Error?) -> Void) {
         
         let urlString = "\(K.TMDB_DISCOVER_BASE)\(FilterService.filter.filterUrlString)"

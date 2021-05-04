@@ -19,6 +19,8 @@ protocol EmailAuthDelegate: class {
 
 class EmailAuthController: UIViewController {
     
+    //MARK: - Properties
+    
     let sceneDelegate = UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
     
     weak var delegate: AuthenticationDelegate?
@@ -73,6 +75,7 @@ class EmailAuthController: UIViewController {
 
 }
 
+//MARK: - EmailAuthDelegate
 
 extension EmailAuthController: EmailAuthDelegate {
     

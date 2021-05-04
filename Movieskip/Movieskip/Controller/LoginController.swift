@@ -22,7 +22,6 @@ class LoginController: UIViewController {
 
     weak var delegate: AuthenticationDelegate?
     
-    
     private let googleButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white

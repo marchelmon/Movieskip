@@ -59,6 +59,8 @@ class MovieCollection: UIView {
     
 }
 
+//MARK: - UICollectionViewDelegateFlowLAyout, UICollectionViewDataSource
+
 extension MovieCollection: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count

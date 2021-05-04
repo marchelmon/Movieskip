@@ -9,6 +9,8 @@ import UIKit
 
 class WatchlistTableCell: UITableViewCell {
         
+    //MARK: - Properties
+    
     let poster: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -42,6 +44,8 @@ class WatchlistTableCell: UITableViewCell {
         
         return label
     }()
+    
+    //MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

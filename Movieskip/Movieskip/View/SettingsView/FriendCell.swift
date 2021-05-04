@@ -14,6 +14,8 @@ protocol FriendCellDelegate: class {
 
 class FriendCell: UITableViewCell {
     
+    //MARK: - Properties
+    
     weak var delegate: FriendCellDelegate?
     
     var user: User?
@@ -53,6 +55,8 @@ class FriendCell: UITableViewCell {
         let image = UIImage(systemName: "person.fill.badge.minus", withConfiguration: imageConfig)?.withTintColor(#colorLiteral(red: 0.4740568882, green: 0.04478905388, blue: 0.1060938521, alpha: 1), renderingMode: .alwaysOriginal)
         return image
     }()
+    
+    //MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -89,8 +89,6 @@ class CardView: UIView {
     
     //MARK: - Actions
     
-
-    
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {
         
         switch sender.state {

@@ -9,6 +9,8 @@ import UIKit
 
 class FilterView: UIView {
     
+    //MARK: - Properties
+    
     var filter = FilterService.filter
         
     var minYearLabel: UILabel = {
@@ -41,6 +43,8 @@ class FilterView: UIView {
         toggle.addTarget(self, action: #selector(handleTogglePopular), for: .touchUpInside)
         return toggle
     }()
+    
+    //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
